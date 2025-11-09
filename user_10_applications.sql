@@ -1,0 +1,1 @@
+id,user_id,company_id,position,status,date_applied,notes,follow_up_date,interview_date,date_added,date_accepted,reminder_notes,priority,last_contact_date,workflow_status,on_waiting_list,active_date

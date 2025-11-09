@@ -1,0 +1,270 @@
+Replit Agent Task: Implement Assistant Access Controls (Invite/Restrict/Revoke/Delete)
+Context
+
+I have an existing web app hosted on Replit with user login already working. Another person ("assistant") needs access to help operate the app, but I must be able to grant, restrict, suspend, revoke, and delete that access at any time without affecting my own account. Build a robust, auditable, role-based access control (RBAC) system and admin UI to manage this.
+
+Important: Detect the stack automatically (framework, auth method, DB). If something is missing (e.g., no DB), scaffold a minimal, production-ready solution inside the repo. Prefer type-safe libraries and simple defaults.
+
+Objectives
+
+Introduce roles & permissions with at least these roles:
+
+OWNER (full control, can manage users and app settings)
+
+ASSISTANT (scoped access; configurable)
+
+VIEWER (read-only; optional but helpful)
+
+Invite assistant by email with a time-limited invitation link and preselected role.
+
+Restrict & scope assistant permissions via a central permissions matrix (granular toggles for create/update/delete sensitive data, payouts, exports, settings, etc.).
+
+Immediate revocation: From an admin screen, the owner can suspend or revoke assistant access and force global logout of that user immediately.
+
+Deletion: Owner can fully delete an assistant account (with safety checks & data retention policy options).
+
+Audit log: Record key security events (invites, logins, role changes, suspensions, deletions, failed logins).
+
+Admin UI: A “Team & Access” page to list users, roles, status, last login; buttons to change role, suspend, revoke sessions, and delete.
+
+Security hardening: Session revocation, CSRF protection (if applicable), rate limiting for auth endpoints, secure cookie flags, input validation.
+
+Documentation: Clear README section + in-app help explaining how the owner manages access and performs emergency revocation.
+
+Tests: Unit + integration tests for auth, RBAC, invitations, revocation, and deletion.
+
+Deliverables
+
+Code changes implementing RBAC, invitations, revocation, deletion, and audit logging.
+
+Database migration(s) and seed scripts.
+
+Admin UI: “Team & Access” page.
+
+Configurable permissions matrix in code (and optional UI toggles).
+
+Tests (unit + e2e or integration depending on framework).
+
+Updated README with operations runbook (see below).
+
+Implementation Details
+1) Discover existing stack
+
+Detect if the app uses: Node/Express, Next.js, Flask/FastAPI, Django, or other.
+
+Detect auth: Replit Auth, OAuth provider, username/password, or JWT.
+
+Detect DB: SQLite (via Prisma/Drizzle/SQLAlchemy/Django ORM), Replit DB, or none.
+
+If no relational DB is present, add SQLite in-repo (persistent on Replit) using Prisma (Node) or SQLAlchemy (Python). Provide migrations.
+
+2) Data model (adjust to ORM)
+
+Create or migrate to include:
+
+User { id, email (unique), name, role, status, password_hash? or external_id, createdAt, updatedAt, lastLoginAt }
+
+role ∈ {OWNER, ASSISTANT, VIEWER}
+
+status ∈ {ACTIVE, SUSPENDED, DELETED}
+
+Session { id, userId, createdAt, expiresAt, revokedAt, userAgent, ip }
+
+Invitation { id, email, role, invitedByUserId, token (random 32+ bytes), expiresAt, acceptedAt, revokedAt }
+
+AuditLog { id, actorUserId, targetUserId?, action, meta (JSON), createdAt }
+
+If JWT is used, add TokenBlocklist { jti, userId, revokedAt, reason } and implement token invalidation.
+
+3) Permissions matrix
+
+Implement a central permissions map (code-level constant) that can be extended:
+
+OWNER: all permissions true.
+
+ASSISTANT: read all, write non-sensitive, no user management, no secrets/config changes by default. Make it easy to enable/disable:
+
+canManageUsers
+
+canManageSettings
+
+canCreate
+
+canUpdate
+
+canDelete
+
+canExport
+
+canViewPayouts
+
+canTriggerPayouts
+
+etc.
+
+VIEWER: read-only.
+
+Add helpers: requireAuth(), requireRole(roleOrHigher), requirePermission(permissionKey).
+
+4) Auth integration
+
+If using Replit Auth: map Replit user identity to User rows by external_id or email. On first login of the repo owner, set role=OWNER.
+
+If using email/password or OAuth, keep existing flow; after login, enforce status !== SUSPENDED/DELETED.
+
+Update login to create Session row with expiresAt and store a server-side session token (HTTP-only, Secure, SameSite=Lax/Strict).
+
+5) Invitations
+
+Admin UI button: “Invite assistant”. Owner inputs email + role (default ASSISTANT).
+
+Backend endpoint creates Invitation with signed token (HMAC/crypto random), expiresAt (e.g., 72h), sends email or displays link to copy.
+
+Accept invite page validates token, lets user set password (if applicable) or sign in via provider, then marks acceptedAt and creates User.
+
+Audit: INVITE_CREATED, INVITE_ACCEPTED.
+
+6) Restrict, suspend, revoke, delete
+
+Restrict (change role/permissions): Endpoint & UI to change role or toggle permissions. Audit ROLE_CHANGED.
+
+Suspend: Set status=SUSPENDED, revoke all active sessions for that user immediately. Audit USER_SUSPENDED.
+
+Revoke sessions (force logout): Server endpoint invalidates all sessions for a given user: set revokedAt=now(); if JWT, push JTI to blocklist. Audit SESSIONS_REVOKED.
+
+Delete: Two-step confirm dialog with consequences. Options:
+
+Hard delete user + sessions + block of future login, or
+
+Soft delete (status=DELETED) + anonymize personal data.
+
+Always revoke sessions first. Audit USER_DELETED.
+
+7) Admin UI: Team & Access
+
+Build a responsive page accessible only to OWNER:
+
+Table of users: name, email, role, status, last login, active sessions count.
+
+Row actions: Change Role, Restrict (toggle permissions), Suspend, Revoke Sessions, Delete.
+
+“Invite Assistant” dialog.
+
+Badges for statuses; confirmation modals for destructive actions.
+
+Accessibility: keyboard navigable, ARIA labels, color-contrast compliant.
+
+8) Security & privacy
+
+Strong session cookies, CSRF protection where needed.
+
+Rate-limit login, invite acceptance, destructive endpoints.
+
+Validate & sanitize all inputs.
+
+Store secrets in Replit Secrets (e.g., SESSION_SECRET, JWT_SECRET, INVITE_SIGNING_KEY).
+
+Log sensitive actions to AuditLog with actor and IP.
+
+Don’t leak user existence on public endpoints.
+
+9) Testing
+
+Unit tests for: permission checks, invitation token validation, session revocation, status enforcement (SUSPENDED/DELETED).
+
+Integration/e2e tests for: invite flow, role change, revoke sessions (ensure cookie becomes invalid), delete user.
+
+10) Migrations & scripts
+
+Create migration files for schema.
+
+Seed script to ensure exactly one OWNER (repo owner) exists; guards to prevent demoting the last owner.
+
+11) Documentation (README + in-app help)
+
+Add a section Team & Access Management with:
+
+How to invite an assistant.
+
+How to restrict permissions.
+
+How to suspend/revoke sessions.
+
+How to delete a user.
+
+Emergency Runbook (copy/paste commands or admin UI steps):
+
+Open “Team & Access”.
+
+Click the assistant → Suspend.
+
+Click Revoke Sessions to force logout everywhere.
+
+Optionally Delete the account.
+
+API Contract (adjust to framework)
+
+POST /api/invitations (OWNER): { email, role } → { inviteLink }
+
+POST /api/invitations/accept (public): { token, password? }
+
+GET /api/users (OWNER)
+
+PATCH /api/users/:id/role (OWNER): { role, permissions? }
+
+POST /api/users/:id/suspend (OWNER)
+
+POST /api/users/:id/revoke-sessions (OWNER)
+
+DELETE /api/users/:id (OWNER)
+
+Middleware: requireAuth, requireRole('OWNER'), requirePermission(key).
+
+UX Copy (concise, friendly)
+
+Invite: “Send an invitation to collaborate with scoped permissions. You can revoke access anytime.”
+
+Suspend confirm: “Suspending immediately blocks login and access. You can unsuspend later.”
+
+Revoke sessions confirm: “This signs the user out of all devices right now.”
+
+Delete confirm: “This permanently removes the account and session data. This cannot be undone.”
+
+Acceptance Criteria
+
+
+
+
+Notes for You (Agent)
+
+Keep changes minimal but robust; prefer established libs (Prisma/Drizzle, Zod/Valibot for validation, bcrypt/argon2 for passwords if needed).
+
+Add feature flags where helpful.
+
+Provide a short summary of what you changed in the PR description with screenshots/gifs of the admin UI.
+
+If the project already has an admin area, integrate into it; otherwise, create /admin/team.
+
+I’ve created a complete, copy-pasteable prompt for your Replit Agent that will implement invite/restrict/revoke/delete access for assistants. It’s in the canvas titled “Replit Agent Prompt — Add Assistant Access Controls.”
+
+Use it as the Agent’s instruction/task brief. If you want me to tailor it to your stack (e.g., Next.js + Prisma, Flask + SQLAlchemy, Replit Auth, etc.), tell me your tech details and I’ll update the prompt accordingly.
+
+English (US)
+English (UK)
+普通话 (中国大陆)
+中文 (台灣)
+粵語 (香港)
+Bahasa Indonesia
+Deutsch
+Español (ES)
+Français
+Italiano
+Nederlands
+Polski
+Português (BR)
+日本語
+한국어
+Pусский
+हिन्दी
+
+ChatGPT can make mistakes. Check importan

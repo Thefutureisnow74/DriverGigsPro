@@ -1,0 +1,107 @@
+// src/types/content.ts
+
+/** Root shape of app-content.json */
+export interface AppContent {
+  app_meta: AppMeta;
+  routes: Routes;
+  nav: NavItem[];
+  tabs: Tab[];
+}
+
+/** App metadata */
+export interface AppMeta {
+  name: string;
+  version: string;
+  disclaimer: string;
+}
+
+/** Route map (slugs). Keep keys as-is; add extras if you introduce new pages. */
+export interface Routes {
+  dashboard: string;
+  driver_opportunities: string;
+  driver_resources: string;
+  step_by_step: string;
+  networking_groups: string;
+  tasks: string;
+  reminders: string;
+  my_fleet: string;
+  personal_credit: string;
+  my_business: string;
+  /** Allow future routes without breaking the type */
+  [key: string]: string;
+}
+
+/** Top navigation entries */
+export interface NavItem {
+  label: string;
+  slug: string;        // must match a Tab.slug
+  subtitle?: string;
+}
+
+/** A page/tab in the app */
+export interface Tab {
+  slug: string;        // e.g., "/driver-resources"
+  title: string;       // page title
+  sections: Section[]; // content blocks for the page
+  /** Optional: only present on Step-by-Step page */
+  steps?: Step[];
+}
+
+/** A content section on a tab page */
+export interface Section {
+  id: string;          // unique within the tab
+  title: string;
+  /** Bulleted copy (use one of bullets or links, or both) */
+  bullets?: string[];
+  /** Link list (e.g., shortcuts) */
+  links?: LinkItem[];
+  /** Optional explanatory note shown in smaller style */
+  note?: string;
+  /** Primary action for this section */
+  cta?: CTA;
+  /** Optional in-page anchor to deep-link to this section */
+  anchor?: string;     // e.g., "#apps"
+}
+
+/** A checklist-like step for the Step-by-Step page */
+export interface Step {
+  id: string;          // unique across steps
+  label: string;       // e.g., "8) First Earnings — App Onboarding"
+  description?: string;
+  items: string[];     // ordered list of actionable items
+  cta?: CTA;           // primary action for the step
+}
+
+/** Button/link action */
+export interface CTA {
+  text: string;
+  href: string;        // absolute or hash link; should match your routes/anchors
+}
+
+/** Simple label+href pair */
+export interface LinkItem {
+  label: string;
+  href: string;
+}
+
+/* ===========================
+   Convenience helpers (optional)
+   =========================== */
+
+/** Narrow the tab list to a specific slug. */
+export function getTab(content: AppContent, slug: string): Tab | undefined {
+  return content.tabs.find(t => t.slug === slug);
+}
+
+/** Quick guard to ensure content has basic shape before rendering. */
+export function isValidAppContent(data: unknown): data is AppContent {
+  const d = data as Partial<AppContent>;
+  return !!(
+    d &&
+    typeof d === "object" &&
+    d.app_meta &&
+    typeof d.app_meta.name === "string" &&
+    Array.isArray(d.nav) &&
+    Array.isArray(d.tabs)
+  );
+}

@@ -1,0 +1,35 @@
+Subject: Welcome to DriverGigsPro - Your Dedicated App Instance
+
+Hi newcustomer,
+
+Welcome to DriverGigsPro! Your personal, isolated app instance is ready.
+
+🎯 Your App: https://newcustomer-drivergigspro.replit.app
+🔑 Username: newcustomer
+📧 Support: Tenant ID 21337434
+
+✨ What's Included:
+• 400+ courier companies database
+• Complete application tracking
+• Vehicle fleet management  
+• Task management system
+• AI assistant (GigBot)
+• Expense tracking
+• Learning academy
+
+🔒 Security Features:
+• Completely isolated from other users
+• Dedicated database instance
+• Secure session management
+• Data privacy guaranteed
+
+🚀 Getting Started:
+1. Visit your app URL above
+2. Create your account 
+3. Start exploring opportunities
+4. Add your vehicles and preferences
+
+Need help? Reply with your Tenant ID: 21337434
+
+Welcome aboard!
+DriverGigsPro Team

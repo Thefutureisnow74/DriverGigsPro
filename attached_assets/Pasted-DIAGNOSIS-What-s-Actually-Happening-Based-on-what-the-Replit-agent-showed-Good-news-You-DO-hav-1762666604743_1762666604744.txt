@@ -1,0 +1,120 @@
+DIAGNOSIS: What's Actually Happening
+Based on what the Replit agent showed:
+
+✅ Good news: You DO have a real, persistent database (PostgreSQL via Neon)
+✅ Your database IS working — 741 companies and 46 users are stored
+✅ The backend code is solid — Drizzle ORM + proper connection pooling
+
+❌ The problem: You have 26 different .env files for multi-tenancy:
+
+.env.tenant.* (12 files)
+.env.user.* (14 files)
+🚨 Root Cause: Environment Variable Chaos
+Here's what's happening:
+
+Your app switches DATABASE_URL based on tenant/user
+Replit might be loading the wrong .env file on restart
+You're writing data to Database A, but reading from Database B
+Or: The DATABASE_URL isn't being set at all, causing writes to fail silently
+This is why "parts don't save long term" — you're actually saving to different databases depending on which environment loads.
+
+🛠 THE FIX: Consolidate to One Persistent Database
+For a SaaS app, you should NOT use separate databases per tenant. Instead:
+
+✅ Correct Multi-Tenant Architecture:
+One database with a tenant_id or user_id column in every table
+Row-level filtering in your queries based on the logged-in user
+One DATABASE_URL that never changes
+🎯 Step-by-Step Fix Plan
+Phase 1: Stabilize to One Database (Immediate Fix)
+Pick ONE production database URL (the one with your 741 companies)
+Create a single .env file at the root with:
+bash
+Copy
+DATABASE_URL=postgresql://neondb_owner@ep-nameless-silence-adb27vlo.us-east-2.aws.neon.tech/neondb?sslmode=require
+Delete or archive all .env.tenant.* and .env.user.* files
+Restart the Replit app
+This will make all users write to the same database, which is correct for a SaaS.
+
+Phase 2: Add Proper Multi-Tenancy (Data Isolation)
+If you need to isolate data per user/company, modify your schema:
+
+In shared/schema.ts, ensure every table has:
+
+typescript
+Copy
+export const companies = pgTable("companies", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id), // ← Add this
+  name: text("name").notNull(),
+  // ... rest of columns
+});
+
+export const applications = pgTable("applications", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id), // ← Add this
+  // ... rest of columns
+});
+In server/storage.ts, filter all queries by user:
+
+typescript
+Copy
+async getCompanies(userId: number) {
+  return db.select().from(companies).where(eq(companies.userId, userId));
+}
+
+async createCompany(userId: number, data: InsertCompany) {
+  return db.insert(companies).values({ ...data, userId }).returning();
+}
+Phase 3: Run Migration to Add user_id Columns
+Create a migration file migrations/add_user_id.sql:
+
+sql
+Copy
+ALTER TABLE companies ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id);
+ALTER TABLE applications ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id);
+ALTER TABLE notes ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id);
+-- repeat for all tables that need isolation
+Run it:
+
+bash
+Copy
+psql $DATABASE_URL -f migrations/add_user_id.sql
+Or use Drizzle's migration system:
+
+bash
+Copy
+npx drizzle-kit generate:pg
+npx drizzle-kit push:pg
+📋 What You Should Do RIGHT NOW
+Immediate Action (5 minutes):
+In Replit, open the "Secrets" tab (lock icon in left sidebar)
+Set one secret:
+Key: DATABASE_URL
+Value: postgresql://neondb_owner@ep-nameless-silence-adb27vlo.us-east-2.aws.neon.tech/neondb?sslmode=require
+Delete or rename all .env.tenant.* and .env.user.* files (or move them to a backup folder)
+Create ONE .env file at the root:
+bash
+Copy
+DATABASE_URL=postgresql://neondb_owner@ep-nameless-silence-adb27vlo.us-east-2.aws.neon.tech/neondb?sslmode=require
+Stop and restart your Replit app
+Test:
+Create a new company or note
+Refresh the page
+Does it persist now?
+🔧 If You Want Me to Write the Code
+Tell me:
+
+Which tables need user isolation? (companies, applications, notes, etc.)
+Do you want me to generate the updated schema.ts with userId columns?
+Do you want me to update storage.ts to filter by user automatically?
+I can provide the exact code changes, line by line, that you copy/paste into Replit.
+
+❓ Quick Question:
+When you say "parts don't save" — which specific parts?
+
+User profile changes?
+Company notes?
+Application tracking?
+Settings?
+Let me know and I'll give you the surgical fix for that exact feature! 🚀

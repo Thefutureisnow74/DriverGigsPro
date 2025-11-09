@@ -1,0 +1,189 @@
+4) Step by Step — 16-Step Guide
+
+Strong, but tighten a few items and fill gaps:
+
+Entity & Compliance (Step 3)
+
+Gap: registered agent, operating agreement, city/county business licenses, and annual report/compliance calendar.
+
+Taxes: quarterly estimated taxes, S-Corp timing (after stable profit), payroll note for reasonable salary (educational).
+
+Banking: dedicated business debit/credit; expense policy (no commingling).
+
+Add: W-9 generator, vendor packet (EIN, COI, banking form), and document naming standard.
+
+Licenses/Certs (Step 4)
+
+Clarify DOT: USDOT generally triggers at 10,001+ lbs GVWR and interstate; most car/SUV couriers won’t need DOT/MC. Keep airport/IATA as advanced/optional.
+
+Medical privacy: add a HIPAA awareness mini-module + Business Associate Agreement (BAA) flag (some clients require a BAA or privacy addendum).
+
+Hazmat/DG: strictly define scope; most specimen work is UN3373 (not hazmat).
+
+Personal Credit (Step 5)
+
+Add business credit: D-U-N-S, Experian Biz, basic Net-30 vendors; separate from personal.
+
+Debt policy: max vehicle payment as % of monthly net profit; reserve ratio.
+
+Opportunities & Platforms (Steps 6–8)
+
+Load board clarity: DAT/Truckstop/Coyote are trucking-centric and often require MC authority. For non-CDL couriers, focus on courier brokers and local 3PLs; keep MC authority as optional/advanced for box trucks doing interstate freight.
+
+Backgrounds/Drug/MVR: track results and expiration dates.
+
+Deactivation risk: safe multi-apping policy + distracted driving rules.
+
+Task/Project (Step 9)
+
+Add templates: Application pipeline board, Vehicle PM board, AR collections board, Contract renewal board.
+
+Academy (Step 10)
+
+Include micro-courses: dock etiquette, spill response, temperature control logs, incident reporting, customer comms.
+
+Daily Ops (Step 11)
+
+Missing SOPs:
+
+Accident/incident (who to call, insurance, photos, police report, client notice).
+
+Spill/exposure (specimens): isolate, PPE, decontam, report.
+
+Late delivery decision tree (notify, revised ETA, documentation).
+
+Lost/damaged parcel handling.
+
+Device security (passcode, no PHI in photos, encrypted backups).
+
+Claims/chargebacks response pack (POD set, timestamps, route replay).
+
+Direct Contracts (Step 12)
+
+Add artifacts: downloadable rate card, one-pager, MSA/SOW templates, COI request script, pilot SLA (on-time %, POD within X minutes).
+
+Collections: AR cadence (Day 0 send, Day 7 friendly nudge, Day 15 firm reminder, Day 30 service hold), and late-fee/interest clause (if allowed).
+
+Payment options: ACH preferred; Quick Pay vs Net terms; credit-card surcharge policy (if legal).
+
+Networking (Step 13)
+
+Add: Chamber/BNI cadence, “ask for referral” script, and customer review request flow.
+
+Earnings & Analytics (Step 14)
+
+Add: target ranges for $/mile, $/stop by niche; deadhead %; stops/hr by route type; acceptance% vs profitability (don’t chase acceptance if it harms margins).
+
+Scaling, TMS & Fleet (Step 15)
+
+Right-size TMS: many tools listed are pricey for solo ops. Add solo-friendly e-POD options and routing + simple invoicing.
+
+HIPAA in TMS: confirm e-POD redaction and access controls; if handling PHI, ensure BAA or privacy addendum.
+
+Hiring drivers:
+
+Compliance pack: driver app, IC agreement (for 1099), W-9, MVR consent, proof of insurance/registration, background/drug if client requires.
+
+Worker classification awareness (1099 vs W-2 varies by jurisdiction).
+
+Driver file checklist + annual re-checks.
+
+Insurance scaling: add hired/non-owned auto if you dispatch ICs; workers’ comp (W-2) or occ acc (often requested for 1099); EPLI (employees).
+
+Fleet finance: fuel cards, maintenance fund ($2–5k/vehicle/yr), spare-vehicle or rental plan, spare keys, tire policy.
+
+Ongoing Maintenance (Step 16)
+
+Add compliance calendar: entity annual report, license renewals, COI refresh, TMS/user access audit, background/MVR re-checks, equipment inspection logs.
+
+5) Networking Groups
+
+Add: a lead score (industry fit, decision maker known, payment terms, volume) and intro → pilot → renewal milestones.
+
+6) Task Management / 7) Reminders
+
+Add: presets: “New Client Pilot”, “AR Collections”, “Driver Onboarding”, “Annual Compliance” boards with templated tasks.
+
+8) My Fleet
+
+You have: docs, maintenance, alerts, photos.
+Missing:
+
+Tires & brakes lifecycle counters, recalls log, accident history record.
+
+Safety gear checklist (PPE, high-viz vest, spill kit, cooler validation log for medical).
+
+Fuel card linkage and MPG tracking.
+
+9) Personal Credit
+
+Add: Business credit tracker (D-U-N-S, vendor tradelines, Paydex), and Debt-to-Service sanity check before adding vehicles.
+
+10) My Business
+
+You have: entity, EIN, permits, brand assets.
+Missing:
+
+Sales kit: one-pager, rate card, coverage map, references/testimonials.
+
+Policy docs: privacy policy (client-facing), data retention, incident reporting, device BYOD policy if using driver phones.
+
+Templates: invoice, statement, rate review email, termination notice.
+
+Tools
+
+Finance/Back Office: QuickBooks/Wave, mileage tracker, receipt capture, AR aging board, ACH form template.
+
+Insurance: broker contact + COI request template; track limits per client.
+
+Ops: dashcam, hands-free mount, label scanner (if needed), coolers + gel packs with temp log, spill kit.
+
+Compliance: background/MVR tracker, annual re-check reminders, driver file checklist.
+
+Sales: one-pager, pilot SLA, pricing calculator (CPM → rate).
+
+Cost/Time (typical ranges)
+
+Entity + licenses: $100–$500 initial + small annuals.
+
+Commercial auto: varies widely; $150–$450/mo (solo car/SUV), more for vans/box.
+
+Cargo/Occ Acc/GL (if required): $25–$150/mo each.
+
+Dashcam + safety kit: $100–$300 one-time.
+
+TMS/e-POD (solo): $0–$50/mo; small fleet: $20–$100/vehicle/mo.
+
+Background/MVR: $30–$100 per driver (client/vendor dependent).
+
+Accounting stack: $0–$30/mo starter.
+
+Fuel card: usually free; fees possible.
+
+Pitfalls (and fixes)
+
+Chasing trucking load boards without MC authority: Align to courier brokers/3PLs unless you’re moving into box-truck freight.
+
+No COI workflow: Build a COI request template; log client wording and limits.
+
+Thin cash reserves: set 3–6 months ops reserve + AR collections cadence.
+
+Compliance drift: annual report/license lapses, expired background/MVR, stale COIs. Use a compliance calendar.
+
+HIPAA/privacy exposure: no BAAs, POD photos with PHI, unsecured phones. Add device policy + redaction rules.
+
+Mis-classified drivers: learn local rules; keep signed IC agreements and proof of independence if using 1099s.
+
+Underpricing: price from CPM; include wait fees, after-hours, cooler handling, and fuel index.
+
+Next Actions
+
+Add the following modules/pages: COI & Insurance Center, AR & Collections, Driver Onboarding (IC/W-2) Pack, Medical Privacy & Spill SOPs, Business Credit Tracker, Compliance Calendar.
+
+Update Step 15 to separate “Courier Scaling” vs “Trucking Scaling” and gate MC authority/load-board content behind a “Box-Truck/Interstate” toggle.
+
+Drop in templates: one-pager, rate card, invoice, pilot SLA, W-9, COI request, IC agreement (educational template), AR email sequence.
+
+Add Dashboard tiles for Profit Snapshot, AR Aging, and Utilization; wire to reminders.
+
+Publish SOPs: Accident/Incident, Spill/Exposure, Late Delivery, Lost/Damaged, Claims, Non-Payment, Device Security, Driver File.

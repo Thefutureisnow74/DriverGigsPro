@@ -1,0 +1,235 @@
+Create or update the following files exactly as specified.
+
+[START FILE: client/src/pages/step-by-step.tsx]
+// Step by Step Instructions Page (localStorage progress)
+// Drop-in page for Vite + React (+ Wouter or React Router at the app level)
+
+import React, { useEffect, useMemo, useState } from "react";
+
+const BIZ_FORMATION_PDF_URL = "/resources/Step-by-Step-Biz-Formation.pdf";
+
+const steps = [
+  { id: "start", label: "1) Start Here – Readiness Check", items: [
+    "Valid license, registration, and insurance on file",
+    "Reliable vehicle + charger, mount, and dashcam",
+    "Create a ‘Driver Ops’ folder for IDs, insurance, bank, POD",
+  ]},
+  { id: "biz-formation", label: "2) My Business – Formation",
+    description: "Use your Biz Formation PDF for these tasks. Link opens your in-app resource.",
+    cta: { text: "Open Biz Formation PDF", href: BIZ_FORMATION_PDF_URL },
+    items: [
+      "Choose structure (LLC/Sole Prop) and register with your state",
+      "Get EIN and open a business bank account",
+      "Draft Operating Agreement (LLC) and set up bookkeeping",
+      "Upload formation docs to your ‘Driver Ops’ folder",
+    ],
+  },
+  { id: "vehicle-insurance", label: "3) Vehicle & Insurance", items: [
+    "Baseline maintenance: tires, brakes, oil, wipers, lights",
+    "Rideshare/courier endorsement or commercial policy as needed",
+    "Save COI/Declarations page to ‘Driver Ops’ folder",
+  ]},
+  { id: "signups", label: "4) Platform Sign-Ups",
+    description: "Start with 3–5 to avoid overwhelm. Track status, requirements, and payouts.",
+    items: [
+      "Food/Grocery: DoorDash, Uber Eats, Instacart, Shipt",
+      "Parcel/On-Demand: Amazon Flex, Roadie, Dispatch, Veho",
+      "Construction/Parts: Curri, GoShare, Frayt",
+      "Medical: USPack, Dropoff, Medifleet",
+    ],
+  },
+  { id: "onboarding", label: "5) Onboarding & Compliance", items: [
+    "Complete background check, MVR, and vehicle photos",
+    "Add bank details for payouts + complete tax forms",
+    "Review platform rules for acceptance/completion/late metrics",
+  ]},
+  { id: "pod", label: "6) Proof-of-Delivery Flow", items: [
+    "Pickup count + note any issues before leaving",
+    "Drop-off: geo-photo + 5-sec video sweep + delivery note",
+    "Use PIN when available; if none, add detailed note",
+    "Dispute playbook: timestamps, chat logs, photos",
+  ]},
+  { id: "earnings", label: "7) Earnings Strategy", items: [
+    "Map hot zones + peak hours per app",
+    "Choose primary app + backup app(s) for slow periods",
+    "Track KPIs: $/hr, $/mile, idle %, completion rate",
+    "Weekly review: cut low-pay routes, keep winners, scale winners",
+  ]},
+  { id: "daily-ops", label: "8) Daily Ops Habits", items: [
+    "Pre-trip: fuel, tires, wipes, towels, flashlight",
+    "Start/End shift log + record mileage",
+    "End-shift: upload PODs, reconcile payouts, note issues",
+  ]},
+  { id: "safety", label: "9) Safety & Risk", items: [
+    "Dashcam active; night delivery protocol (lighting, awareness)",
+    "Weather kit: covers, towels, gloves, safety vest",
+    "Incident kit: insurance, emergency contacts, report form",
+  ]},
+  { id: "marketing", label: "10) Marketing & Presence", items: [
+    "Polished LinkedIn profile + business page",
+    "Simple 1-page site or profile with services + contact",
+    "Outreach list: pharmacies, labs, florists, caterers, parts stores",
+  ]},
+  { id: "health", label: "11) Health & Longevity", items: [
+    "Hydration + healthy snacks in the vehicle",
+    "Stretch/roll routine for back, hips, neck",
+    "Sleep window protected; sensible caffeine timing",
+  ]},
+  { id: "scale", label: "12) Scale-Up Path", items: [
+    "Choose a niche: medical, parts, catering, B2B routes",
+    "Add a second vehicle/subcontractor (agreements + insurance checks)",
+    "Set route board + invoicing cadence; hold reserves for repairs",
+  ]},
+] as const;
+
+function useLocalState<T>(key: string, initial: T) {
+  const [state, setState] = useState<T>(() => {
+    if (typeof window === "undefined") return initial;
+    try {
+      const raw = window.localStorage.getItem(key);
+      return raw ? (JSON.parse(raw) as T) : initial;
+    } catch { return initial; }
+  });
+  useEffect(() => {
+    try { window.localStorage.setItem(key, JSON.stringify(state)); } catch {}
+  }, [key, state]);
+  return [state, setState] as const;
+}
+
+interface ChecklistMap { [stepId: string]: boolean[]; }
+const cx = (...xs: Array<string|false|undefined>) => xs.filter(Boolean).join(" ");
+
+function Checklist({ stepId, items, state, setState }: {
+  stepId: string; items: readonly string[];
+  state: ChecklistMap; setState: React.Dispatch<React.SetStateAction<ChecklistMap>>;
+}) {
+  const flags = useMemo(() => {
+    const current = state[stepId] || [];
+    if (current.length === items.length) return current;
+    const resized = Array.from({ length: items.length }, (_, i) => current[i] || false);
+    if (!state[stepId] || current.length !== items.length) {
+      setState(prev => ({ ...prev, [stepId]: resized }));
+    }
+    return resized;
+  }, [items.length, stepId]);
+  const toggle = (idx: number) => {
+    setState(prev => {
+      const arr = [...(prev[stepId] || [])];
+      arr[idx] = !arr[idx];
+      return { ...prev, [stepId]: arr };
+    });
+  };
+  return (
+    <ul className="space-y-3 mt-4">
+      {items.map((text, i) => (
+        <li key={i} className="flex items-start gap-3">
+          <button
+            onClick={() => toggle(i)}
+            className={cx(
+              "mt-0.5 h-5 w-5 rounded border flex items-center justify-center transition-colors",
+              flags[i] ? "bg-black border-black" : "bg-white border-gray-300"
+            )}
+            aria-pressed={flags[i]}
+            aria-label={flags[i] ? "Mark as incomplete" : "Mark as complete"}
+          >
+            {flags[i] && (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+            )}
+          </button>
+          <span className={cx("text-sm md:text-base", flags[i] && "line-through text-gray-400")}>
+            {text}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default function StepByStep() {
+  const [state, setState] = useLocalState<ChecklistMap>("driver-steps-v1", {});
+  const [activeId, setActiveId] = useState(steps[0].id);
+  const progress = useMemo(() =>
+    steps.map(s => {
+      const arr = state[s.id] || [];
+      const done = arr.filter(Boolean).length;
+      return { id: s.id, pct: s.items.length ? done / s.items.length : 0 };
+    }), [state]
+  );
+  const activeStep = steps.find(s => s.id === activeId) || steps[0];
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-[18rem_1fr] min-h-screen bg-white text-gray-900">
+      <aside className="border-r border-gray-200 bg-white">
+        <div className="p-4">
+          <h2 className="text-lg font-semibold">Step by Step Instructions</h2>
+        </div>
+        <nav>
+          {steps.map(s => {
+            const pct = Math.round((progress.find(p => p.id === s.id)?.pct || 0) * 100);
+            return (
+              <button key={s.id} onClick={() => setActiveId(s.id)}
+                className={cx("w-full text-left px-4 py-3 border-t border-gray-100 hover:bg-gray-50",
+                              activeId === s.id && "bg-gray-50")}>
+                <div className="flex items-center justify-between">
+                  <span>{s.label}</span>
+                  <span className="text-xs text-gray-500">{pct}%</span>
+                </div>
+              </button>
+            );
+          })}
+        </nav>
+      </aside>
+      <main className="p-6 md:p-8">
+        <h1 className="text-xl font-bold">{activeStep.label}</h1>
+        {activeStep.description && (
+          <p className="mt-2 text-gray-600 text-sm">{activeStep.description}</p>
+        )}
+        {activeStep.cta && (
+          <div className="mt-4">
+            <a href={activeStep.cta.href} target="_blank" rel="noreferrer"
+               className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">
+              {activeStep.cta.text}
+            </a>
+          </div>
+        )}
+        <Checklist stepId={activeStep.id} items={activeStep.items} state={state} setState={setState} />
+      </main>
+    </div>
+  );
+}
+[END FILE]
+
+Now patch routing in client/src/App.tsx.
+- If this project uses Wouter:
+  1) Ensure App.tsx imports { Route } from "wouter" already.
+  2) Insert:  import StepByStep from "@/pages/step-by-step";
+  3) Add a route element:  <Route path="/step-by-step" component={StepByStep} />
+  Place it near other <Route .../> entries.
+
+- If this project uses React Router:
+  1) Ensure App.tsx imports { Routes, Route } from "react-router-dom".
+  2) Insert:  import StepByStep from "@/pages/step-by-step";
+  3) Inside <Routes>...</Routes>, add:  <Route path="/step-by-step" element={<StepByStep/>} />
+
+Make the minimal change necessary (do not remove existing routes).
+
+Next, update the sidebar menu in client/src/components/layout/sidebar.tsx.
+1) Import the clipboard icon if icons are used in this file (e.g., from lucide-react):
+   import { ClipboardList } from "lucide-react";
+2) Add this nav item (place it after “Driver Resources” or a similar section):
+   {
+     href: "/step-by-step",
+     label: "Step by Step",
+     description: "Guided Setup",
+     icon: ClipboardList,
+     gradient: "from-amber-500 to-orange-600",
+     hoverGradient: "hover:from-amber-500 hover:to-orange-600",
+     bgColor: "bg-amber-100",
+     iconColor: "text-amber-600"
+   },
+
+If the sidebar uses a different nav structure, create a new item pointing to "/step-by-step" with label "Step by Step". Preserve the existing style system.
+
+After making these edits, run the dev server. Verify that visiting /step-by-step shows the new page and that checklist items persist after refresh (localStorage key: driver-steps-v1).

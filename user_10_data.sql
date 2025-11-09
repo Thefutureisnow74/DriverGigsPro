@@ -1,0 +1,2 @@
+id,username,password,full_name,email,profile_image,profile_completion,created_at,first_name,last_name,profile_image_url,updated_at,is_admin,phone,address,city,state,zip_code,date_of_birth,bio
+10,MsLaShunda,d2fc7d6ba0c91c22cc7c69b9a60b19f3eb73ca218469fcd75539e9c891de771fda5b316f93947f33a16df59afbfe423c50aaac6d05d8bc8ad7a12864844a3bf3.d44f9b42774029ee433432a4978b1add,LaShunda Hall,lashundahall27@yahoo.com,,0,2025-08-10 21:38:15.537609,,,,2025-08-10 21:38:15.537609,f,,,,,,,
