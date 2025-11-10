@@ -5,7 +5,6 @@ import BottomTabs from "@/components/dashboard/bottom-tabs";
 import ModernTopBar from "@/components/layout/modern-topbar";
 import ActivityFeed from "@/components/dashboard/activity-feed";
 import SiderChat from "@/components/dashboard/sider-chat";
-import GigBotAvatar from "@/components/ui/GigBotAvatar"; // Assuming GigBotAvatar is imported from here
 
 export default function Dashboard() {
   const { user } = useAuth();
