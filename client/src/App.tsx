@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth, AuthProvider } from "@/hooks/useAuth";
 import Sidebar from "@/components/layout/sidebar";
+import FloatingGigBotButton from "@/components/FloatingGigBotButton";
 import Landing from "@/pages/landing";
 import AuthPage from "@/pages/auth-page";
 
@@ -179,6 +180,7 @@ function AppLayout() {
           <main className="h-full overflow-y-auto overflow-x-hidden">
             <AuthenticatedRouter />
           </main>
+          <FloatingGigBotButton />
         </div>
       );
     }
@@ -192,6 +194,7 @@ function AppLayout() {
             <AuthenticatedRouter />
           </main>
         </div>
+        <FloatingGigBotButton />
       </div>
     );
   }
