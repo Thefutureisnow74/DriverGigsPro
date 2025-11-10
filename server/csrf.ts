@@ -23,31 +23,27 @@ declare module 'express-session' {
 // CSRF token generation and validation
 export class CSRFProtection {
   private static readonly TOKEN_LENGTH = 32;
-  private static readonly SECRET_KEY = process.env.CSRF_SECRET || crypto.randomBytes(32).toString('hex');
 
   // Generate a CSRF token
   static generateToken(): string {
     return crypto.randomBytes(this.TOKEN_LENGTH).toString('hex');
   }
 
-  // Create HMAC signature for token validation
-  static createSignature(token: string, sessionId: string): string {
-    const hmac = crypto.createHmac('sha256', this.SECRET_KEY);
-    hmac.update(token + sessionId);
-    return hmac.digest('hex');
-  }
-
-  // Validate CSRF token
-  static validateToken(token: string, signature: string, sessionId: string): boolean {
-    if (!token || !signature || !sessionId) {
+  // Validate CSRF token against stored token
+  static validateToken(token: string, storedToken: string): boolean {
+    if (!token || !storedToken) {
       return false;
     }
 
-    const expectedSignature = this.createSignature(token, sessionId);
-    return crypto.timingSafeEqual(
-      Buffer.from(signature, 'hex'),
-      Buffer.from(expectedSignature, 'hex')
-    );
+    // Use timing-safe comparison
+    try {
+      return crypto.timingSafeEqual(
+        Buffer.from(token, 'hex'),
+        Buffer.from(storedToken, 'hex')
+      );
+    } catch (e) {
+      return false;
+    }
   }
 }
 
@@ -56,13 +52,10 @@ export const csrfTokenMiddleware = (req: Request, res: Response, next: NextFunct
   // Add csrf token generator to request
   req.csrfToken = () => {
     const token = CSRFProtection.generateToken();
-    const sessionId = req.sessionID || req.session?.id || 'anonymous';
-    const signature = CSRFProtection.createSignature(token, sessionId);
     
     // Store in session for validation
     if (req.session) {
       req.session.csrfToken = token;
-      req.session.csrfSignature = signature;
     }
     
     return token;
@@ -89,10 +82,15 @@ export const csrfValidationMiddleware = (req: Request, res: Response, next: Next
   }
 
   const token = req.body._csrf || req.headers['x-csrf-token'] || req.headers['csrf-token'];
-  const sessionId = req.sessionID || req.session?.id || 'anonymous';
-  const storedSignature = req.session?.csrfSignature;
+  const storedToken = req.session?.csrfToken;
 
-  if (!CSRFProtection.validateToken(token, storedSignature, sessionId)) {
+  if (!CSRFProtection.validateToken(token, storedToken)) {
+    console.log('[CSRF VALIDATION FAILED]', {
+      hasToken: !!token,
+      hasStoredToken: !!storedToken,
+      sessionId: req.sessionID,
+      path: req.path
+    });
     return res.status(403).json({ 
       error: 'CSRF token validation failed',
       message: 'Invalid or missing CSRF token'
