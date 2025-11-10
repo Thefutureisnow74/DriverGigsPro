@@ -23,6 +23,7 @@ import {
   X,
   Minus
 } from "lucide-react";
+import { GigBotAvatar } from "@/components/ui/gig-bot-avatar";
 
 const getCurrentDay = () => {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

@@ -5,6 +5,7 @@ import BottomTabs from "@/components/dashboard/bottom-tabs";
 import ModernTopBar from "@/components/layout/modern-topbar";
 import ActivityFeed from "@/components/dashboard/activity-feed";
 import SiderChat from "@/components/dashboard/sider-chat";
+import GigBotAvatar from "@/components/ui/GigBotAvatar"; // Assuming GigBotAvatar is imported from here
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-50">
       {/* Modern Top Bar */}
       <ModernTopBar />
-      
+
       {/* Dashboard Content */}
       <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
         {/* Compact Stats Row */}
@@ -26,21 +27,32 @@ export default function Dashboard() {
           <div className="animate-slide-in-left">
             <ActivityFeed />
           </div>
-          
+
           {/* AI Assistant */}
           <div className="animate-slide-in-left" style={{ animationDelay: '0.1s' }}>
             <SiderChat />
           </div>
-          
+
           {/* Rideshare Map */}
           <div className="animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
             <RideshareMap />
           </div>
-          
+
           {/* Bottom Tabs */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <BottomTabs />
           </div>
+        </div>
+      </div>
+
+      {/* GigBot Help Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <div
+          className="cursor-pointer transition-transform hover:scale-110 active:scale-95 drop-shadow-2xl"
+          onClick={() => window.open('/enhanced-ai-assistant', '_blank')}
+          title="Chat with GigBot"
+        >
+          <GigBotAvatar size="xl" animated={true} />
         </div>
       </div>
     </div>
