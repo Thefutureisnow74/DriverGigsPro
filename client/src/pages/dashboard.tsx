@@ -43,17 +43,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-
-      {/* GigBot Help Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <div
-          className="cursor-pointer transition-transform hover:scale-110 active:scale-95 drop-shadow-2xl"
-          onClick={() => window.open('/enhanced-ai-assistant', '_blank')}
-          title="Chat with GigBot"
-        >
-          <GigBotAvatar size="xl" animated={true} />
-        </div>
-      </div>
     </div>
   );
 }
