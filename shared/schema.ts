@@ -1403,13 +1403,15 @@ export const userCompanyStatus = pgTable("user_company_status", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// AI Chat conversations for GigBot
+// AI Chat conversations for GigBot - individual message rows
 export const aiChatConversations = pgTable("ai_chat_conversations", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: varchar("user_id").notNull(), // Changed to varchar to match storage implementation
   sessionId: varchar("session_id").notNull(),
-  messages: jsonb("messages").notNull(), // Store array of messages
-  metadata: jsonb("metadata"), // Store additional context, sources, etc.
+  role: varchar("role").notNull(), // "user", "assistant", "system"
+  content: text("content").notNull(),
+  messageId: varchar("message_id"), // Optional message ID for tracking
+  toolCalls: jsonb("tool_calls"), // Store tool calls as JSONB
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

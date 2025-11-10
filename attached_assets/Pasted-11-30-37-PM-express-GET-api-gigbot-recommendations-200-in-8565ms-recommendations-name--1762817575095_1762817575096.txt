@@ -1,0 +1,52 @@
+11:30:37 PM [express] GET /api/gigbot/recommendations 200 in 8565ms :: {"recommendations":[{"name":"D…
+[GLOBAL] GET /api/auth/csrf-token
+[CSRF] Token generated and session saved { sessionId: 'tTCRBf8iRI7Z5P5Va_ijDAP1SNq01kcs', hasToken: true }
+11:32:20 PM [express] GET /api/auth/csrf-token 200 in 5017ms :: {"csrfToken":"a92f24ce0a6380064652d32…
+[GLOBAL] POST /api/gigbot/chat
+Error in processMessage: BadRequestError: 400 Missing required parameter: 'messages[1].role'.
+    at Function.generate (/home/runner/workspace/node_modules/openai/src/core/error.ts:72:14)
+    at OpenAI.makeStatusError (/home/runner/workspace/node_modules/openai/src/client.ts:453:28)
+    at OpenAI.makeRequest (/home/runner/workspace/node_modules/openai/src/client.ts:676:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async GigBotService.processMessage (/home/runner/workspace/server/services/gigbot-service.ts:670:26)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:8280:24) {
+  status: 400,
+  headers: Headers {
+    date: 'Mon, 10 Nov 2025 23:32:20 GMT',
+    'content-type': 'application/json',
+    'content-length': '197',
+    connection: 'keep-alive',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'user-kbxfruqa3xrolhfokpm6bjaq',
+    'openai-processing-ms': '13',
+    'openai-project': 'proj_4j9le3WCQVHuByqND6rDs2FS',
+    'openai-version': '2020-10-01',
+    'x-envoy-upstream-service-time': '35',
+    'x-ratelimit-limit-requests': '5000',
+    'x-ratelimit-limit-tokens': '450000',
+    'x-ratelimit-remaining-requests': '4999',
+    'x-ratelimit-remaining-tokens': '449517',
+    'x-ratelimit-reset-requests': '12ms',
+    'x-ratelimit-reset-tokens': '64ms',
+    'x-request-id': 'req_6c452520a9a04e488b5fa926850112ee',
+    'x-openai-proxy-wasm': 'v0.1',
+    'cf-cache-status': 'DYNAMIC',
+    'set-cookie': '__cf_bm=iFazC20SJWOA9KshYKTaRHsLrgKhwGWQyyjmjJ4rkHw-1762817540-1.0.1.1-RWScc8T8U2KMA0.PHM0_XuPQ5swHZkoTgWpvfJQW1RuiUHlVxoD6ICv7g8P9d.werJ3ZvhxnZR97hhDO7oq74n_csLu54Yl41Yj91hk.zp4; path=/; expires=Tue, 11-Nov-25 00:02:20 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=qZ_Vfp9CgJtbmf5q6XzHBriRdzTLfuy0l6vJeAUmOhw-1762817540761-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    server: 'cloudflare',
+    'cf-ray': '99c9593d4f2538be-ATL',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_6c452520a9a04e488b5fa926850112ee',
+  error: {
+    message: "Missing required parameter: 'messages[1].role'.",
+    type: 'invalid_request_error',
+    param: 'messages[1].role',
+    code: 'missing_required_parameter'
+  },
+  code: 'missing_required_parameter',
+  param: 'messages[1].role',
+  type: 'invalid_request_error'
+}
+11:32:20 PM [express] POST /api/gigbot/chat 200 in 308ms :: {"message":"I'm experiencing technical di…
