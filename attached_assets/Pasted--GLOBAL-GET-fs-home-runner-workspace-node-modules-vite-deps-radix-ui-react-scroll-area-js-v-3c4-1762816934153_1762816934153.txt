@@ -1,0 +1,200 @@
+[GLOBAL] GET /@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-scroll-area.js?v=3c4e6bc2
+[GLOBAL] GET /api/auth/user
+Fetching user profile for user ID: 48 Type: number
+Returning user profile for: aashir
+11:21:21 PM [express] GET /api/auth/user 304 in 113ms :: {"id":48,"username":"aashir","password":"290…
+[GLOBAL] GET /favicon.ico
+[GLOBAL] GET /api/reminders
+[GLOBAL] GET /api/user/stats
+[GLOBAL] GET /api/user/profile
+[GLOBAL] GET /api/vehicles
+[GLOBAL] GET /api/companies
+Fetching vehicles for user ID: 48 Type: number
+Found vehicles: 0
+11:21:21 PM [express] GET /api/vehicles 304 in 107ms :: []
+11:21:21 PM [express] GET /api/user/profile 304 in 110ms :: {"username":"aashir","email":"buttaash@gm…
+11:21:21 PM [express] GET /api/reminders 304 in 141ms :: []
+11:21:21 PM [express] GET /api/user/stats 200 in 192ms :: {"id":296,"userId":48,"activeJobs":0,"weekl…
+Fetching companies...
+Getting all companies
+Found companies: 741
+[GLOBAL] GET /api/company-actions
+[GLOBAL] GET /api/gigbot/recommendations
+11:21:21 PM [express] GET /api/companies 304 in 352ms :: [{"id":1267,"name":"1-800-Got-Junk?","vehicl…
+[GLOBAL] GET /api/placeholder/32/32
+11:21:21 PM [express] GET /api/company-actions 304 in 110ms :: []
+11:21:21 PM [express] GET /api/placeholder/32/32 404 in 85ms :: {"message":"API endpoint not found: G…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:30 PM [express] PUT /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","me…
+11:21:31 PM [express] GET /api/gigbot/recommendations 200 in 9662ms :: {"recommendations":[{"name":"U…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:31 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:36 PM [express] PATCH /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:37 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:37 PM [express] PATCH /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:37 PM [express] PATCH /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:37 PM [express] PATCH /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:38 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:39 PM [express] PATCH /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:39 PM [express] PATCH /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:40 PM [express] PATCH /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:42 PM [express] PATCH /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:43 PM [express] PATCH /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:45 PM [express] PATCH /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","…
+[GLOBAL] GET /api/user/profile
+11:21:47 PM [express] GET /api/user/profile 304 in 335ms :: {"username":"aashir","email":"buttaash@gm…
+[GLOBAL] GET /api/vehicles
+Fetching vehicles for user ID: 48 Type: number
+Found vehicles: 0
+11:21:47 PM [express] GET /api/vehicles 304 in 115ms :: []
+[GLOBAL] GET /api/documents
+11:21:47 PM [express] GET /api/documents 304 in 183ms :: []
+[GLOBAL] GET /api/applications
+11:21:47 PM [express] GET /api/applications 304 in 111ms :: []
+[GLOBAL] GET /api/business-entities
+Business entities endpoint hit
+Business entities - UserID: 48 Type: number
+Business entities found: 0
+11:21:48 PM [express] GET /api/business-entities 304 in 251ms :: []
+[GLOBAL] GET /api/expenses
+11:21:49 PM [express] GET /api/expenses 404 in 118ms :: {"message":"API endpoint not found: GET /","e…
+[GLOBAL] GET /api/expenses
+11:21:51 PM [express] GET /api/expenses 404 in 90ms :: {"message":"API endpoint not found: GET /","er…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:51 PM [express] PUT /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:51 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:52 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:52 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:52 PM [express] PUT /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:53 PM [express] PUT /api/user/profile 403 in 1ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:53 PM [express] PUT /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","me…
+[CSRF VALIDATION FAILED] {
+  hasToken: false,
+  hasStoredToken: false,
+  sessionId: undefined,
+  path: '/api/user/profile'
+}
+11:21:53 PM [express] PUT /api/user/profile 403 in 0ms :: {"error":"CSRF token validation failed","me…

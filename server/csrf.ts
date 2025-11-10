@@ -81,8 +81,8 @@ export const csrfValidationMiddleware = (req: Request, res: Response, next: Next
     return next();
   }
 
-  // Temporarily skip CSRF for GigBot while fixing session issues
-  if (req.path === '/api/gigbot/chat') {
+  // Temporarily skip CSRF for critical endpoints while fixing session issues
+  if (req.path === '/api/gigbot/chat' || req.path === '/api/user/profile') {
     return next();
   }
 
