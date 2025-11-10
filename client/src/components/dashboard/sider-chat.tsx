@@ -122,9 +122,9 @@ export default function SiderChat() {
             </div>
           </div>
         ) : response ? (
-          <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+          <div className="bg-gray-800 dark:bg-gray-900 p-4 rounded-lg">
             <div className="prose prose-sm max-w-none">
-              <pre className="whitespace-pre-wrap text-sm font-sans text-gray-700 dark:text-gray-300">{response}</pre>
+              <pre className="whitespace-pre-wrap text-sm font-sans text-white">{response}</pre>
             </div>
           </div>
         ) : (
