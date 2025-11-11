@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { User, Mail, Phone, MapPin, Calendar, Shield, Lock, Camera, Save, Edit3, Eye, EyeOff, Upload, Car, FileText, CheckCircle, Star, Download, Trash2, Info, X, ExternalLink, Target, GraduationCap, Check } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest, queryClient, uploadFiles } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import type { User as UserType } from "@shared/schema";
 
@@ -462,12 +462,6 @@ export default function UserProfile() {
   // Fetch user business entities
   const { data: businessEntities } = useQuery({
     queryKey: ["/api/business-entities"],
-    refetchInterval: 30000,
-  });
-
-  // Fetch user expenses
-  const { data: userExpenses } = useQuery({
-    queryKey: ["/api/expenses"],
     refetchInterval: 30000,
   });
 
@@ -1041,16 +1035,9 @@ export default function UserProfile() {
     }
 
     setUploadingTsaCert(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'tsa_certification');
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: 'tsa_certification' });
 
       if (!response.ok) {
         throw new Error('Upload failed');
@@ -1101,15 +1088,9 @@ export default function UserProfile() {
     }
 
     setUploadingDotNumber(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'dot_number_document');
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: 'dot_number_document' });
 
       if (!response.ok) {
         throw new Error('Upload failed');
@@ -1160,15 +1141,9 @@ export default function UserProfile() {
     }
 
     setUploadingMcNumber(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'mc_number_document');
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: 'mc_number_document' });
 
       if (!response.ok) {
         throw new Error('Upload failed');
@@ -1219,16 +1194,9 @@ export default function UserProfile() {
     }
 
     setUploadingMedCert(certType);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', certType);
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: certType });
 
       if (!response.ok) {
         throw new Error('Upload failed');
