@@ -216,11 +216,11 @@ function TaskListComponent({ list, cards, onAddCard, onDeleteList, onCardClick }
 
   const updateListMutation = useMutation({
     mutationFn: async (updatedData: any) => {
-      const response = await apiRequest(`/api/task-lists/${list.id}`, {
+      const { data } = await apiRequest(`/api/task-lists/${list.id}`, {
         method: "PUT",
         body: updatedData
       });
-      return response.json();
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-boards"] });
@@ -230,11 +230,11 @@ function TaskListComponent({ list, cards, onAddCard, onDeleteList, onCardClick }
 
   const addCardMutation = useMutation({
     mutationFn: async (cardData: any) => {
-      const response = await apiRequest("/api/task-cards", {
+      const { data } = await apiRequest("/api/task-cards", {
         method: "POST",
         body: cardData
       });
-      return response.json();
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-cards"] });
@@ -381,14 +381,14 @@ export default function KanbanBoard({ lists, cards, boardId, onAddList }: Kanban
 
   const moveCardMutation = useMutation({
     mutationFn: async ({ cardId, targetListId, position }: { cardId: number; targetListId: number; position: number }) => {
-      const response = await apiRequest(`/api/task-cards/${cardId}/move`, {
+      const { data } = await apiRequest(`/api/task-cards/${cardId}/move`, {
         method: "POST",
         body: {
           targetListId,
           position,
         }
       });
-      return response.json();
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-cards"] });
