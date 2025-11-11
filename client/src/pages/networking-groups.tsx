@@ -109,19 +109,32 @@ export default function NetworkingGroups() {
   const deleteGroupMutation = useMutation({
     mutationFn: (id: number) => apiRequest(`/api/networking-groups/${id}`, { method: "DELETE" }),
     retry: false,
+    onMutate: async (deletedId) => {
+      await queryClient.cancelQueries({ queryKey: ["/api/networking-groups"] });
+      const previousGroups = queryClient.getQueryData(["/api/networking-groups"]);
+      queryClient.setQueryData(["/api/networking-groups"], (old: NetworkingGroup[] | undefined) => 
+        old?.filter(group => group.id !== deletedId) || []
+      );
+      return { previousGroups };
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/networking-groups"] });
       toast({
         title: "Group Deleted",
         description: "Networking group has been deleted successfully.",
       });
     },
-    onError: (error) => {
+    onError: (error, deletedId, context) => {
+      if (context?.previousGroups) {
+        queryClient.setQueryData(["/api/networking-groups"], context.previousGroups);
+      }
       toast({
         title: "Error",
         description: "Failed to delete networking group. Please try again.",
         variant: "destructive",
       });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/networking-groups"] });
     },
   });
 
