@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import type { Company } from "@shared/schema";
 import { z } from "zod";
+import { TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 
 const formSchema = insertCompanySchema.extend({
   vehicleTypes: z.string().optional(),
@@ -124,7 +125,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Company Name *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter company name" {...field} />
+                  <Input placeholder="Enter company name" className={TOUCH_FRIENDLY.input} data-testid="input-company-name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -140,7 +141,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
                 <FormLabel>Service Vertical *</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className={TOUCH_FRIENDLY.select} data-testid="select-service-vertical">
                       <SelectValue placeholder="Select service vertical" />
                     </SelectTrigger>
                   </FormControl>
@@ -170,7 +171,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
                 <FormLabel>Contract Type *</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className={TOUCH_FRIENDLY.select} data-testid="select-contract-type">
                       <SelectValue placeholder="Select contract type" />
                     </SelectTrigger>
                   </FormControl>
@@ -193,7 +194,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Average Pay</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., $15-25/hour" {...field} />
+                  <Input placeholder="e.g., $15-25/hour" className={TOUCH_FRIENDLY.input} data-testid="input-average-pay" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -208,7 +209,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Vehicle Types Required</FormLabel>
                 <FormControl>
-                  <Input placeholder="Car, SUV, Van, Truck, Bike, Other (comma separated)" {...field} />
+                  <Input placeholder="Car, SUV, Van, Truck, Bike, Other (comma separated)" className={TOUCH_FRIENDLY.input} data-testid="input-vehicle-types" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -223,7 +224,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Areas Served</FormLabel>
                 <FormControl>
-                  <Input placeholder="City, State, National (comma separated)" {...field} />
+                  <Input placeholder="City, State, National (comma separated)" className={TOUCH_FRIENDLY.input} data-testid="input-areas-served" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -238,7 +239,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Insurance Requirements</FormLabel>
                 <FormControl>
-                  <Input placeholder="Liability, Comprehensive, etc." {...field} />
+                  <Input placeholder="Liability, Comprehensive, etc." className={TOUCH_FRIENDLY.input} data-testid="input-insurance-requirements" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -253,7 +254,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>License Requirements</FormLabel>
                 <FormControl>
-                  <Input placeholder="CDL, Regular Driver's License, etc." {...field} />
+                  <Input placeholder="CDL, Regular Driver's License, etc." className={TOUCH_FRIENDLY.input} data-testid="input-license-requirements" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -268,7 +269,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Website</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://company-website.com" {...field} />
+                  <Input placeholder="https://company-website.com" className={TOUCH_FRIENDLY.input} data-testid="input-website" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -283,7 +284,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Contact Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="contact@company.com" {...field} />
+                  <Input type="email" placeholder="contact@company.com" className={TOUCH_FRIENDLY.input} data-testid="input-contact-email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -298,7 +299,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Contact Phone</FormLabel>
                 <FormControl>
-                  <Input placeholder="+1 (555) 123-4567" {...field} />
+                  <Input placeholder="+1 (555) 123-4567" className={TOUCH_FRIENDLY.input} data-testid="input-contact-phone" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -313,7 +314,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Logo URL</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://company.com/logo.png" {...field} />
+                  <Input placeholder="https://company.com/logo.png" className={TOUCH_FRIENDLY.input} data-testid="input-logo-url" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -331,7 +332,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
               <FormItem>
                 <FormLabel>Certifications Required</FormLabel>
                 <FormControl>
-                  <Input placeholder="Food Handler, Safety Training (comma separated)" {...field} />
+                  <Input placeholder="Food Handler, Safety Training (comma separated)" className={TOUCH_FRIENDLY.input} data-testid="input-certifications" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -348,7 +349,8 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
                 <FormControl>
                   <Textarea
                     placeholder="Brief description of the company and opportunities..."
-                    className="min-h-[100px]"
+                    className={`min-h-[100px] ${TOUCH_FRIENDLY.input}`}
+                    data-testid="textarea-description"
                     {...field}
                   />
                 </FormControl>
@@ -363,7 +365,8 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
           <Button 
             type="submit" 
             disabled={isLoading}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg transition-all duration-300"
+            className={`${TOUCH_FRIENDLY.button} bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg transition-all duration-300`}
+            data-testid="button-submit-company-form"
           >
             {isLoading ? "Saving..." : company ? "Update Company" : "Create Company"}
           </Button>
