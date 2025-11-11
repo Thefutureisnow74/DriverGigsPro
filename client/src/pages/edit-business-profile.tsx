@@ -41,7 +41,7 @@ import {
   Calendar,
   Building
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, uploadFiles } from "@/lib/queryClient";
@@ -314,62 +314,60 @@ export default function EditBusinessProfile() {
     }
   }, [entityData, isSaving]);
 
+  // Use ref to persist timeouts across re-renders
+  const saveTimeoutsRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
+
   // Handle field changes with debouncing (separate timeout per field)
-  const handleFieldChange = (() => {
-    const timeouts: { [key: string]: NodeJS.Timeout } = {};
+  const handleFieldChange = (field: string, value: any) => {
+    // Update local state immediately for responsive UI
+    const updatedProfile = { ...profile, [field]: value };
+    setProfile(updatedProfile);
     
-    return (field: string, value: any) => {
-      // Update local state immediately for responsive UI
-      const updatedProfile = { ...profile, [field]: value };
-      setProfile(updatedProfile);
-      
-      // Clear previous timeout for THIS specific field only
-      if (timeouts[field]) {
-        clearTimeout(timeouts[field]);
-      }
-      
-      // Set new timeout for auto-save (only this field)
-      timeouts[field] = setTimeout(() => {
-        updateMutation.mutate({ [field]: value });
-      }, 1000); // Reduced from 2500ms to 1000ms for faster saves
-    };
-  })();
+    // Clear previous timeout for THIS specific field only
+    if (saveTimeoutsRef.current[field]) {
+      clearTimeout(saveTimeoutsRef.current[field]);
+    }
+    
+    // Set new timeout for auto-save (only this field)
+    saveTimeoutsRef.current[field] = setTimeout(() => {
+      updateMutation.mutate({ [field]: value });
+    }, 1500); // Wait 1.5 seconds after user stops typing
+  };
+
+  // Use ref to persist tradeline timeouts across re-renders
+  const tradelineTimeoutsRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
   // Handle tradeline field changes with debouncing
-  const handleTradelineChange = (() => {
-    const timeouts: { [key: string]: NodeJS.Timeout } = {};
+  const handleTradelineChange = (tradelineType: 'loan' | 'credit_card', slotNumber: number, field: string, value: any) => {
+    const key = `${tradelineType}-${slotNumber}`;
     
-    return (tradelineType: 'loan' | 'credit_card', slotNumber: number, field: string, value: any) => {
-      const key = `${tradelineType}-${slotNumber}`;
+    // Clear previous timeout for this specific tradeline
+    if (tradelineTimeoutsRef.current[key]) {
+      clearTimeout(tradelineTimeoutsRef.current[key]);
+    }
+    
+    // Set new timeout for auto-save
+    tradelineTimeoutsRef.current[key] = setTimeout(() => {
+      const tradelineData = {
+        tradelineType,
+        slotNumber,
+        [field]: value,
+      };
       
-      // Clear previous timeout for this specific tradeline
-      if (timeouts[key]) {
-        clearTimeout(timeouts[key]);
+      // Get existing tradeline data
+      const existing = tradelines.find((t: any) => 
+        t.tradelineType === tradelineType && t.slotNumber === slotNumber
+      );
+      
+      if (existing) {
+        // Merge with existing data
+        saveTradelineMutation.mutate({ ...existing, ...tradelineData });
+      } else {
+        // Create new tradeline with this field
+        saveTradelineMutation.mutate(tradelineData);
       }
-      
-      // Set new timeout for auto-save
-      timeouts[key] = setTimeout(() => {
-        const tradelineData = {
-          tradelineType,
-          slotNumber,
-          [field]: value,
-        };
-        
-        // Get existing tradeline data
-        const existing = tradelines.find((t: any) => 
-          t.tradelineType === tradelineType && t.slotNumber === slotNumber
-        );
-        
-        if (existing) {
-          // Merge with existing data
-          saveTradelineMutation.mutate({ ...existing, ...tradelineData });
-        } else {
-          // Create new tradeline with this field
-          saveTradelineMutation.mutate(tradelineData);
-        }
-      }, 2500);
-    };
-  })();
+    }, 2500); // Wait 2.5 seconds after user stops typing
+  };
 
   // Helper to get tradeline value
   const getTradelineValue = (tradelineType: 'loan' | 'credit_card', slotNumber: number, field: string) => {
