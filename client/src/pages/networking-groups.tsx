@@ -110,11 +110,11 @@ export default function NetworkingGroups() {
     mutationFn: (id: number) => apiRequest(`/api/networking-groups/${id}`, { method: "DELETE" }),
     retry: false,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/networking-groups"] });
       toast({
         title: "Group Deleted",
         description: "Networking group has been deleted successfully.",
       });
-      refetchGroups();
     },
     onError: (error) => {
       toast({
