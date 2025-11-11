@@ -346,7 +346,7 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    setMousePos({ x: event.clientX, y: event.clientY });
+    setMousePos({ x, y });
 
     // Check if hovering over any hotspot
     let foundHotspot = null;
@@ -381,8 +381,8 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
         <div 
           className="absolute bg-white rounded-lg shadow-lg border border-slate-200 p-3 pointer-events-none z-10 min-w-[200px]"
           style={{
-            left: mousePos.x - 100,
-            top: mousePos.y - 100,
+            left: mousePos.x + 15,
+            top: mousePos.y + 15,
           }}
         >
           <h4 className="font-semibold text-slate-800 mb-1">{hoveredHotspot.name}</h4>
