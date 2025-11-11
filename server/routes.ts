@@ -611,6 +611,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Placeholder image endpoint
+  app.get('/api/placeholder/:width/:height', (req: any, res) => {
+    const { width, height } = req.params;
+    const w = parseInt(width) || 100;
+    const h = parseInt(height) || 100;
+    
+    // Generate a simple SVG placeholder
+    const svg = `
+      <svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
+        <rect width="${w}" height="${h}" fill="#e2e8f0"/>
+        <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="14" fill="#64748b" text-anchor="middle" dominant-baseline="middle">
+          ${w}×${h}
+        </text>
+      </svg>
+    `.trim();
+    
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    res.send(svg);
+  });
+
   // User profile routes
   app.get('/api/user/profile', isAuthenticated, async (req: any, res) => {
     try {
