@@ -174,7 +174,7 @@ export default function MyFleetNew() {
 
   const deleteMaintenanceItemMutation = useMutation({
     mutationFn: async (itemId: number) => {
-      return await apiRequest("DELETE", `/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items/${itemId}`);
+      return await apiRequest(`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items/${itemId}`, { method: "DELETE" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items`] });
@@ -328,7 +328,7 @@ export default function MyFleetNew() {
   // Delete vehicle mutation
   const deleteVehicleMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest("DELETE", `/api/vehicles/${id}`);
+      return await apiRequest(`/api/vehicles/${id}`, { method: "DELETE" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/vehicles'] });

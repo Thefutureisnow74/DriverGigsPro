@@ -7,18 +7,18 @@ export const api = {
       return fetch(url, { credentials: 'include' }).then(res => res.json());
     },
     getById: (id: number) => fetch(`/api/companies/${id}`, { credentials: 'include' }).then(res => res.json()),
-    create: (data: any) => apiRequest('POST', '/api/companies', data).then(res => res.json()),
-    update: (id: number, data: any) => apiRequest('PUT', `/api/companies/${id}`, data).then(res => res.json()),
-    delete: (id: number) => apiRequest('DELETE', `/api/companies/${id}`).then(res => res.json()),
+    create: (data: any) => apiRequest('/api/companies', { method: 'POST', body: data }).then(res => res.json()),
+    update: (id: number, data: any) => apiRequest(`/api/companies/${id}`, { method: 'PUT', body: data }).then(res => res.json()),
+    delete: (id: number) => apiRequest(`/api/companies/${id}`, { method: 'DELETE' }).then(res => res.json()),
   },
   
 
   
   hiredJobs: {
     getAll: () => fetch('/api/hired-jobs', { credentials: 'include' }).then(res => res.json()),
-    create: (data: any) => apiRequest('POST', '/api/hired-jobs', data).then(res => res.json()),
-    update: (id: number, data: any) => apiRequest('PUT', `/api/hired-jobs/${id}`, data).then(res => res.json()),
-    delete: (id: number) => apiRequest('DELETE', `/api/hired-jobs/${id}`).then(res => res.json()),
+    create: (data: any) => apiRequest('/api/hired-jobs', { method: 'POST', body: data }).then(res => res.json()),
+    update: (id: number, data: any) => apiRequest(`/api/hired-jobs/${id}`, { method: 'PUT', body: data }).then(res => res.json()),
+    delete: (id: number) => apiRequest(`/api/hired-jobs/${id}`, { method: 'DELETE' }).then(res => res.json()),
   },
   
   courses: {
