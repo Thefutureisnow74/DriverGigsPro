@@ -25,6 +25,7 @@ import {
   X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { RESPONSIVE_GRIDS } from "@/lib/responsive-utils";
 
 // Sample events for the calendar
 const initialEvents = [
@@ -288,7 +289,7 @@ export default function InteractiveCalendar() {
                     />
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div>
                       <label className="block text-sm font-medium mb-1">Time</label>
                       <Input
@@ -314,7 +315,7 @@ export default function InteractiveCalendar() {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div>
                       <label className="block text-sm font-medium mb-1">Location</label>
                       <Input

@@ -706,7 +706,7 @@ export default function RideshareMap() {
             />
             
             {/* Map Labels */}
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-slate-600">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-slate-600">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
                 Your Location
