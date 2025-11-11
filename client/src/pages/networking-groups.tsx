@@ -59,7 +59,7 @@ export default function NetworkingGroups() {
 
   // Mutations
   const createGroupMutation = useMutation({
-    mutationFn: (data: Partial<InsertNetworkingGroup>) => apiRequest("POST", "/api/networking-groups", data),
+    mutationFn: (data: Partial<InsertNetworkingGroup>) => apiRequest("/api/networking-groups", { method: "POST", body: data }),
     onSuccess: () => {
       toast({
         title: "Group Added",
@@ -88,7 +88,7 @@ export default function NetworkingGroups() {
   });
 
   const updateGroupMutation = useMutation({
-    mutationFn: ({ id, ...data }: Partial<NetworkingGroup>) => apiRequest("PUT", `/api/networking-groups/${id}`, data),
+    mutationFn: ({ id, ...data }: Partial<NetworkingGroup>) => apiRequest(`/api/networking-groups/${id}`, { method: "PUT", body: data }),
     onSuccess: () => {
       toast({
         title: "Group Updated",

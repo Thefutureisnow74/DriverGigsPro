@@ -170,7 +170,7 @@ export default function FuelCards() {
 
   // Save fuel card mutation
   const saveFuelCardMutation = useMutation({
-    mutationFn: (cardData: any) => apiRequest("/api/user-saved-fuel-cards", "POST", cardData),
+    mutationFn: (cardData: any) => apiRequest("/api/user-saved-fuel-cards", { method: "POST", body: cardData }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user-saved-fuel-cards"] });
       toast({
@@ -190,7 +190,7 @@ export default function FuelCards() {
   // Update fuel card mutation
   const updateFuelCardMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: any }) => 
-      apiRequest(`/api/user-saved-fuel-cards/${id}`, "PUT", data),
+      apiRequest(`/api/user-saved-fuel-cards/${id}`, { method: "PUT", body: data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user-saved-fuel-cards"] });
       toast({
@@ -202,7 +202,7 @@ export default function FuelCards() {
 
   // Delete fuel card mutation
   const deleteFuelCardMutation = useMutation({
-    mutationFn: (id: number) => apiRequest(`/api/user-saved-fuel-cards/${id}`, "DELETE"),
+    mutationFn: (id: number) => apiRequest(`/api/user-saved-fuel-cards/${id}`, { method: "DELETE" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user-saved-fuel-cards"] });
       toast({
@@ -214,7 +214,7 @@ export default function FuelCards() {
 
   // Add spend record mutation
   const addSpendMutation = useMutation({
-    mutationFn: (data: any) => apiRequest("/api/fuel-card-spend-history", "POST", data),
+    mutationFn: (data: any) => apiRequest("/api/fuel-card-spend-history", { method: "POST", body: data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user-saved-fuel-cards"] });
       setIsSpendModalOpen(false);

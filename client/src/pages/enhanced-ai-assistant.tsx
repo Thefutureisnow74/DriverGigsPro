@@ -153,9 +153,12 @@ export default function EnhancedAIAssistant() {
   // Chat mutation
   const chatMutation = useMutation({
     mutationFn: async (message: string) => {
-      const response = await apiRequest('POST', '/api/gigbot/chat', {
-        message,
-        sessionId
+      const response = await apiRequest('/api/gigbot/chat', {
+        method: 'POST',
+        body: {
+          message,
+          sessionId
+        }
       });
       return await response.json();
     },

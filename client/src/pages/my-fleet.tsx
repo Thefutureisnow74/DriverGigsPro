@@ -143,7 +143,7 @@ export default function MyFleetNew() {
   // Maintenance mutations
   const createMaintenanceItemMutation = useMutation({
     mutationFn: async (itemData: any) => {
-      return await apiRequest("POST", `/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items`, itemData);
+      return await apiRequest(`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items`, { method: "POST", body: itemData });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items`] });
@@ -165,7 +165,7 @@ export default function MyFleetNew() {
 
   const updateMaintenanceItemMutation = useMutation({
     mutationFn: async ({ itemId, updates }: { itemId: number; updates: any }) => {
-      return await apiRequest("PUT", `/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items/${itemId}`, updates);
+      return await apiRequest(`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items/${itemId}`, { method: "PUT", body: updates });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items`] });
@@ -257,7 +257,7 @@ export default function MyFleetNew() {
   // Handle document deletion
   const handleDeleteDocument = async (documentId: number) => {
     try {
-      await apiRequest("DELETE", `/api/vehicles/documents/${documentId}`);
+      await apiRequest(`/api/vehicles/documents/${documentId}`, { method: "DELETE" });
       
       toast({
         title: "Success",
@@ -281,7 +281,7 @@ export default function MyFleetNew() {
   // Add vehicle mutation
   const addVehicleMutation = useMutation({
     mutationFn: async (vehicleData: InsertVehicle) => {
-      return await apiRequest("POST", "/api/vehicles", vehicleData);
+      return await apiRequest("/api/vehicles", { method: "POST", body: vehicleData });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/vehicles'] });
@@ -304,7 +304,7 @@ export default function MyFleetNew() {
   // Update vehicle mutation
   const updateVehicleMutation = useMutation({
     mutationFn: async (vehicleData: any) => {
-      return await apiRequest("PUT", `/api/vehicles/${selectedVehicle?.id}`, vehicleData);
+      return await apiRequest(`/api/vehicles/${selectedVehicle?.id}`, { method: "PUT", body: vehicleData });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/vehicles'] });

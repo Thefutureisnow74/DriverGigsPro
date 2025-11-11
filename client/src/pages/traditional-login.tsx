@@ -51,7 +51,7 @@ export default function TraditionalLogin() {
 
   const signUpMutation = useMutation({
     mutationFn: async (userData: any) => {
-      return await apiRequest("/api/auth/traditional-signup", "POST", userData);
+      return await apiRequest("/api/auth/traditional-signup", { method: "POST", body: userData });
     },
     onSuccess: () => {
       // Auto sign in after signup
