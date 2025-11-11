@@ -218,6 +218,12 @@ export default function MyFleetNew() {
     setUploadingFiles(prev => ({ ...prev, [uploadKey]: true }));
 
     try {
+      // Fetch CSRF token
+      const csrfResponse = await fetch('/api/auth/csrf-token', {
+        credentials: 'include',
+      });
+      const { csrfToken } = await csrfResponse.json();
+
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
@@ -226,6 +232,10 @@ export default function MyFleetNew() {
 
       const response = await fetch(`/api/vehicles/${vehicleId}/documents`, {
         method: 'POST',
+        credentials: 'include',
+        headers: {
+          'x-csrf-token': csrfToken,
+        },
         body: formData
       });
 
