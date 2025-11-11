@@ -250,9 +250,10 @@ export default function GigBotChat() {
         method: 'POST',
         body: { message, sessionId: 'dashboard' }
       });
-      return response;
+      // apiRequest returns the parsed JSON data, not a Response object
+      return response as any;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       // Ensure we have a valid message
       const messageContent = data?.message || data?.response || "I received your message but couldn't generate a response.";
       
