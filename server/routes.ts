@@ -3130,10 +3130,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Tradeline not found" });
       }
       
-      // Convert date strings to Date objects
+      // Convert date and timestamp strings to Date objects
       const cleanedData = { ...req.body };
-      const dateFields = ['dateOpened', 'maturityDate', 'reportDate'];
-      dateFields.forEach(field => {
+      const dateTimeFields = ['dateOpened', 'maturityDate', 'reportDate', 'createdAt', 'updatedAt'];
+      dateTimeFields.forEach(field => {
         if (cleanedData[field] && typeof cleanedData[field] === 'string' && cleanedData[field] !== '') {
           cleanedData[field] = new Date(cleanedData[field]);
         } else if (cleanedData[field] === '') {
