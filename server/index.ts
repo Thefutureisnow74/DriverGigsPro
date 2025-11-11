@@ -43,14 +43,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// Add CSRF protection middleware
-app.use(csrfTokenMiddleware);
-app.use(csrfValidationMiddleware);
-
 (async () => {
-  // CRITICAL: Import storage and add session middleware BEFORE routes for security
+  // CRITICAL: Setup authentication and sessions FIRST
+  const { setupAuth } = await import("./replitAuth");
+  await setupAuth(app);
+  
+  // Import storage and add session revocation middleware
   const { storage } = await import("./storage");
   app.use(sessionRevocationMiddleware(storage));
+  
+  // Add CSRF protection middleware AFTER session is set up
+  app.use(csrfTokenMiddleware);
+  app.use(csrfValidationMiddleware);
   
   // Ensure video_url column exists
   const { ensureVideoUrlColumn } = await import("./db");

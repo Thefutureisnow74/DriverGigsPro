@@ -408,8 +408,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // This protects against abuse across all API endpoints and should be applied before other middleware
   app.use('/api/*', rateLimiters.generalApi);
 
-  // Auth middleware - Setup OAuth authentication first (includes session setup)
-  setupAuth(app); // OAuth authentication (Replit Auth) - sets up sessions and passport
+  // NOTE: setupAuth is now called in index.ts before CSRF middleware
+  // This ensures session is available for CSRF token validation
   
   // Add traditional authentication routes without duplicate session setup
   setupTraditionalAuth(app); // Traditional username/password authentication routes
