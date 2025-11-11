@@ -1146,10 +1146,8 @@ export class DatabaseStorage implements IStorage {
 
   async getBusinessEntity(id: number): Promise<BusinessEntity | undefined> {
     try {
-      // Use raw SQL to avoid schema mismatch issues
-      const result = await db.execute(sql`SELECT * FROM business_entities WHERE id = ${id} LIMIT 1`);
-      const entity = result.rows[0] as any;
-      return entity || undefined;
+      const [entity] = await db.select().from(businessEntities).where(eq(businessEntities.id, id)).limit(1);
+      return entity;
     } catch (error) {
       console.error("Error fetching business entity:", error);
       return undefined;

@@ -2545,7 +2545,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Verify the business entity belongs to the user
-      const entity = await storage.getBusinessEntityById(id);
+      const entity = await storage.getBusinessEntity(id);
       if (!entity || entity.userId !== userId) {
         // Delete the uploaded file if entity doesn't exist or doesn't belong to user
         fs.unlinkSync(req.file.path);
@@ -2587,7 +2587,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = parseInt(req.user.id);
 
       // Verify the business entity belongs to the user
-      const entity = await storage.getBusinessEntityById(id);
+      const entity = await storage.getBusinessEntity(id);
       if (!entity || entity.userId !== userId) {
         return res.status(404).json({ message: "Business entity not found" });
       }
