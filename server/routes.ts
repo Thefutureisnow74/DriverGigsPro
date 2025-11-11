@@ -1905,7 +1905,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get the document to verify ownership and get file path
       const document = await storage.getVehicleDocument(documentId);
       
-      if (!document || document.userId !== userId) {
+      if (!document || document.userId.toString() !== userId.toString()) {
         return res.status(404).json({ message: "Document not found" });
       }
       
