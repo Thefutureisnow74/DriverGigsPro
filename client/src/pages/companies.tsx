@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import CompanyCard from "@/components/gig-workflow/company-card";
 import CompanyProfileModal from "@/components/gig-workflow/company-profile-modal";
 import AddCompanyModal from "@/components/add-company-modal";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, CONTAINER } from "@/lib/responsive-utils";
 
 
 
@@ -1279,15 +1280,16 @@ export default function Companies() {
   };
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className={`${CONTAINER.wide} py-4 md:py-6`}>
       {/* Header Section */}
-      <div className="mb-4">
+      <div className="mb-4 md:mb-6">
         {/* Top right Search Criteria button */}
         <div className="flex justify-end mb-2">
           <Link href="/search-criteria">
             <Button
-              className="bg-gray-600 hover:bg-gray-700 text-white"
+              className={`bg-gray-600 hover:bg-gray-700 text-white ${TOUCH_FRIENDLY.button}`}
               size="sm"
+              data-testid="button-search-criteria"
             >
               <Search className="w-4 h-4 mr-2" />
               Search Criteria
@@ -1295,10 +1297,10 @@ export default function Companies() {
           </Link>
         </div>
         
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-              <Building2 className="w-6 h-6 mr-2 text-blue-600" />
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center">
+              <Building2 className="w-5 h-5 md:w-6 md:h-6 mr-2 text-blue-600" />
               Driver Opportunities
             </h1>
             <div className="mt-2 flex items-center">
@@ -1311,75 +1313,84 @@ export default function Companies() {
             </div>
           </div>
           
-          <div className="flex flex-col space-y-2 lg:flex-row lg:space-y-0 lg:space-x-2">
+          <div className={RESPONSIVE_FLEX.wrap}>
             {/* Primary action buttons */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2 flex-1 sm:flex-none">
               <Button
                 onClick={() => setShowCompanyListModal(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5"
+                className={`bg-blue-600 hover:bg-blue-700 text-white ${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
                 size="sm"
+                data-testid="button-company-list"
               >
-                <Building2 className="w-3 h-3 mr-1" />
-                List of Opportunities
+                <Building2 className="w-4 h-4 mr-1" />
+                <span className="hidden sm:inline">List of Opportunities</span>
+                <span className="sm:hidden">List</span>
               </Button>
               <Button
                 onClick={() => setShowAddCompanyModal(true)}
-                className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1.5"
+                className={`bg-green-600 hover:bg-green-700 text-white ${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
                 size="sm"
+                data-testid="button-add-company"
               >
-                <Plus className="w-3 h-3 mr-1" />
-                Add Company
+                <Plus className="w-4 h-4 mr-1" />
+                <span className="hidden sm:inline">Add Company</span>
+                <span className="sm:hidden">Add</span>
               </Button>
             </div>
             
             {/* Secondary action buttons */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2 flex-1 sm:flex-none">
               <Button
                 onClick={() => setShowRecommendationCriteria(!showRecommendationCriteria)}
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white text-xs px-3 py-1.5"
+                className={`bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white ${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
                 size="sm"
+                data-testid="button-recommendation-criteria"
               >
-                📋 Recommendation Criteria
+                📋 <span className="hidden sm:inline ml-1">Criteria</span>
               </Button>
               <Button
                 onClick={handleCleanupDuplicates}
                 disabled={isCleaningDuplicates}
-                className="bg-orange-600 hover:bg-orange-700 text-white text-xs px-3 py-1.5"
+                className={`bg-orange-600 hover:bg-orange-700 text-white ${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
                 size="sm"
+                data-testid="button-cleanup-duplicates"
               >
                 {isCleaningDuplicates ? (
-                  <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                  <RefreshCw className="w-4 h-4 mr-1 animate-spin" />
                 ) : (
-                  <Trash2 className="w-3 h-3 mr-1" />
+                  <Trash2 className="w-4 h-4 mr-1" />
                 )}
-                {isCleaningDuplicates ? "Cleaning..." : "Remove Duplicates"}
+                <span className="hidden sm:inline">{isCleaningDuplicates ? "Cleaning..." : "Remove Duplicates"}</span>
+                <span className="sm:hidden">{isCleaningDuplicates ? "..." : "Clean"}</span>
               </Button>
               <Button
                 variant={showDeleted ? "default" : "outline"}
                 onClick={() => setShowDeleted(!showDeleted)}
-                className="text-xs px-3 py-1.5"
+                className={`${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
                 size="sm"
+                data-testid="button-toggle-deleted"
               >
-                {showDeleted ? "Show Active" : "Show Deleted"}
+                {showDeleted ? "Active" : "Deleted"}
               </Button>
             </div>
           </div>
         </div>
 
         {/* Search and Filters */}
-        <Card className="p-3">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-2">
+        <Card className="p-3 md:p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
             {/* Search with Auto-Suggest */}
-            <div className="lg:col-span-2">
+            <div className="sm:col-span-2 lg:col-span-2">
               <div className="relative">
-                <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
                   placeholder="Search companies, services, locations..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={() => searchTerm.length >= 1 && setShowSuggestions(true)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  className="pl-8 h-8 text-sm"
+                  className={`pl-10 ${TOUCH_FRIENDLY.input} text-sm`}
+                  data-testid="input-search-companies"
                 />
                 
                 {/* Auto-suggest dropdown */}
@@ -1428,7 +1439,7 @@ export default function Companies() {
 
             {/* Service Vertical Filter */}
             <Select value={selectedServiceVertical} onValueChange={setSelectedServiceVertical}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`} data-testid="select-service-vertical">
                 <SelectValue placeholder="Service Type" />
               </SelectTrigger>
               <SelectContent>
@@ -1500,7 +1511,7 @@ export default function Companies() {
 
             {/* State Filter */}
             <Select value={selectedState} onValueChange={setSelectedState}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`} data-testid="select-state">
                 <SelectValue placeholder="Select State" />
               </SelectTrigger>
               <SelectContent>
@@ -1514,7 +1525,7 @@ export default function Companies() {
 
             {/* Country Filter */}
             <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`} data-testid="select-country">
                 <SelectValue placeholder="Select Country" />
               </SelectTrigger>
               <SelectContent>
@@ -1527,7 +1538,7 @@ export default function Companies() {
             </Select>
 
             {/* Clear Filters */}
-            <Button variant="outline" onClick={clearFilters} className="h-8 text-sm">
+            <Button variant="outline" onClick={clearFilters} className={`${TOUCH_FRIENDLY.button} text-sm`} data-testid="button-clear-filters">
               Clear
             </Button>
           </div>
