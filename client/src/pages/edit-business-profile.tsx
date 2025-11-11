@@ -3603,11 +3603,11 @@ export default function EditBusinessProfile() {
                   <h5 className="text-lg font-semibold text-slate-700 mb-4">Revenue Model & Financials</h5>
                   <div className="grid grid-cols-1 gap-6">
                     <div>
-                      <Label htmlFor="revenueModel">Revenue Model</Label>
+                      <Label htmlFor="revenueProjections">Revenue Projections</Label>
                       <Textarea
-                        id="revenueModel"
-                        value={profile.revenueModel || profile.revenue_model || ''}
-                        onChange={(e) => handleFieldChange('revenueModel', e.target.value)}
+                        id="revenueProjections"
+                        value={profile.revenueProjections || ''}
+                        onChange={(e) => handleFieldChange('revenueProjections', e.target.value)}
                         placeholder=""
                         rows={3}
                       />
