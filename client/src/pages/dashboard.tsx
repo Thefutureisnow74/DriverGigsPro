@@ -35,9 +35,7 @@ export default function Dashboard() {
 
           {/* Rideshare Map - Responsive Height */}
           <div className="animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
-            <div className="h-64 md:h-96">
-              <RideshareMap />
-            </div>
+            <RideshareMap />
           </div>
 
           {/* Bottom Tabs */}
