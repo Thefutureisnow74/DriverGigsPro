@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Star, Zap, Crown, Infinity } from "lucide-react";
+import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 
 const plans = [
   {
@@ -77,6 +79,51 @@ const plans = [
 ];
 
 export default function Pricing() {
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+
+  const handlePlanSelect = (planName: string) => {
+    if (planName === 'Free Plan') {
+      toast({
+        title: "Free Plan Activated!",
+        description: "You now have access to all free features. Start exploring!",
+      });
+      setLocation('/dashboard');
+    } else if (planName === 'Monthly Plan') {
+      toast({
+        title: "Monthly Plan Selected",
+        description: "Redirecting you to checkout...",
+      });
+      // TODO: Integrate Stripe checkout for monthly plan
+      setTimeout(() => {
+        toast({
+          title: "Coming Soon",
+          description: "Payment integration is being set up. Please contact support.",
+        });
+      }, 1500);
+    } else if (planName === 'Lifetime Access') {
+      toast({
+        title: "Lifetime Access Selected",
+        description: "Redirecting you to checkout...",
+      });
+      // TODO: Integrate Stripe checkout for lifetime plan
+      setTimeout(() => {
+        toast({
+          title: "Coming Soon",
+          description: "Payment integration is being set up. Please contact support.",
+        });
+      }, 1500);
+    }
+  };
+
+  const handleFreeTrial = () => {
+    toast({
+      title: "Start Your Free Trial",
+      description: "Sign up to start your 14-day free trial!",
+    });
+    setLocation('/dashboard');
+  };
+
   return (
     <div>
       {/* Header */}
@@ -140,6 +187,8 @@ export default function Pricing() {
                     </ul>
                     
                     <Button 
+                      onClick={() => handlePlanSelect(plan.name)}
+                      data-testid={`button-select-${plan.name.toLowerCase().replace(/\s+/g, '-')}`}
                       className={`w-full py-4 text-lg font-semibold transition-all duration-300 ${
                         plan.popular 
                           ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-xl hover:scale-105'
@@ -199,7 +248,11 @@ export default function Pricing() {
               <CardContent className="p-12">
                 <h2 className="text-3xl font-bold mb-4">Ready to boost your gig work income?</h2>
                 <p className="text-xl mb-8 opacity-90">Join thousands of drivers already using our platform</p>
-                <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
+                <Button 
+                  onClick={handleFreeTrial}
+                  data-testid="button-start-free-trial"
+                  className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
+                >
                   Start Your Free Trial
                 </Button>
               </CardContent>
