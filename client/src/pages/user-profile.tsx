@@ -801,16 +801,9 @@ export default function UserProfile() {
     }
 
     setUploadingGovId(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'government_id');
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: 'government_id' });
 
       if (!response.ok) {
         throw new Error('Upload failed');
@@ -858,16 +851,9 @@ export default function UserProfile() {
     }
 
     setUploadingLicense(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'drivers_license');
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: 'drivers_license' });
 
       if (!response.ok) {
         throw new Error('Upload failed');
@@ -918,16 +904,9 @@ export default function UserProfile() {
     }
 
     setUploadingHipaa(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('type', 'hipaa_certification');
 
     try {
-      const response = await fetch('/api/upload-document', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
+      const response = await uploadFiles('/api/upload-document', [file], 'file', { type: 'hipaa_certification' });
 
       if (!response.ok) {
         throw new Error('Upload failed');
