@@ -311,21 +311,72 @@ export default function WeatherForecast() {
   });
 
   useEffect(() => {
-    // Simulate loading weather data
-    const timer = setTimeout(() => {
-      // Use the user's actual location from their profile
+    // Get user's actual location from browser geolocation API
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            
+            // Get city and state from coordinates using reverse geocoding
+            const response = await fetch(
+              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+            );
+            const data = await response.json();
+            
+            const city = data.city || data.locality || 'Your Location';
+            const state = data.principalSubdivision ? 
+              data.principalSubdivision.replace(/^State of /, '').substring(0, 2).toUpperCase() : 
+              '';
+            
+            const userLocation = state ? `${city}, ${state}` : city;
+            
+            setWeatherData({
+              ...mockWeatherData,
+              location: userLocation
+            });
+            setIsLoading(false);
+          } catch (error) {
+            console.error('Geocoding failed:', error);
+            // Fallback to profile location
+            const userLocation = userProfile?.city && userProfile?.state 
+              ? `${userProfile.city}, ${userProfile.state.toUpperCase()}`
+              : "Mesquite, TX";
+            
+            setWeatherData({
+              ...mockWeatherData,
+              location: userLocation
+            });
+            setIsLoading(false);
+          }
+        },
+        (error) => {
+          console.error('Geolocation failed:', error);
+          // Fallback to profile location
+          const userLocation = userProfile?.city && userProfile?.state 
+            ? `${userProfile.city}, ${userProfile.state.toUpperCase()}`
+            : "Mesquite, TX";
+          
+          setWeatherData({
+            ...mockWeatherData,
+            location: userLocation
+          });
+          setIsLoading(false);
+        }
+      );
+    } else {
+      // Fallback to profile location if geolocation not available
       const userLocation = userProfile?.city && userProfile?.state 
         ? `${userProfile.city}, ${userProfile.state.toUpperCase()}`
-        : "Mesquite, TX"; // Default to user's known location
+        : "Mesquite, TX";
       
       setWeatherData({
         ...mockWeatherData,
         location: userLocation
       });
       setIsLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    }
   }, [userProfile]);
 
   if (isLoading || !weatherData) {
