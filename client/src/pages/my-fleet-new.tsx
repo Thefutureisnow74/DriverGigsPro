@@ -2656,8 +2656,9 @@ export default function MyFleetNew() {
                         className="hidden" 
                         id="edit-vehicle-photos"
                         onChange={(e) => {
-                          if (e.target.files && selectedVehicle) {
-                            handleFileUpload(e.target.files, selectedVehicle.id, 'Vehicle Photos');
+                          if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                            const filesArray = Array.from(e.target.files);
+                            handleFileUpload(filesArray as any, selectedVehicle.id, 'Vehicle Photos');
                             e.target.value = ''; // Reset input after upload
                           }
                         }}
@@ -2738,8 +2739,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-insurance-policy"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Insurance Policy');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Insurance Policy');
                               e.target.value = '';
                             }
                           }}
@@ -2802,8 +2804,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-insurance-cards"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Insurance Cards');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Insurance Cards');
                               e.target.value = '';
                             }
                           }}
@@ -2873,8 +2876,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-registration"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Vehicle Registration');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Vehicle Registration');
                               e.target.value = '';
                             }
                           }}
@@ -2937,8 +2941,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-title"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Vehicle Title');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Vehicle Title');
                               e.target.value = '';
                             }
                           }}
@@ -3008,8 +3013,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-vehicle-warranty"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Vehicle Warranty');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Vehicle Warranty');
                               e.target.value = '';
                             }
                           }}
@@ -3072,8 +3078,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-tire-warranty"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Tire Warranty');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Tire Warranty');
                               e.target.value = '';
                             }
                           }}
@@ -3137,8 +3144,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-parts-warranty"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Parts Warranty');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Parts Warranty');
                               e.target.value = '';
                             }
                           }}
@@ -3208,8 +3216,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-maintenance-records"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Maintenance Records');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Maintenance Records');
                               e.target.value = '';
                             }
                           }}
@@ -3272,8 +3281,9 @@ export default function MyFleetNew() {
                           className="hidden" 
                           id="edit-other-documents"
                           onChange={(e) => {
-                            if (e.target.files && selectedVehicle) {
-                              handleFileUpload(e.target.files, selectedVehicle.id, 'Other Documents');
+                            if (e.target.files && selectedVehicle && e.target.files.length > 0) {
+                              const filesArray = Array.from(e.target.files);
+                              handleFileUpload(filesArray as any, selectedVehicle.id, 'Other Documents');
                               e.target.value = '';
                             }
                           }}
