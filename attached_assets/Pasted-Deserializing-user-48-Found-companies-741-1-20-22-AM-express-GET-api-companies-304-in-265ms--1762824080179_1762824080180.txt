@@ -1,0 +1,74 @@
+Deserializing user: 48
+Found companies: 741
+1:20:22 AM [express] GET /api/companies 304 in 265ms :: [{"id":1267,"name":"1-800-Got-Junk?","vehicl…
+1:20:22 AM [express] GET /api/reminders 304 in 294ms :: [{"id":53,"companyId":1271,"companyName":"AC…
+[GLOBAL] GET /favicon.ico
+Deserializing user: 48
+Deserializing user: 48
+[GLOBAL] POST /api/job-search-notes
+Deserializing user: 48
+Received reminder data: {
+  reminderDate: '2025-11-19T01:22:00.000Z',
+  reminderTime: '06:22',
+  reminderText: 'test'
+}
+Converted reminder date: 2025-11-19T01:22:00.000Z
+Error creating job search note: error: null value in column "company_id" of relation "applications" violates not-null constraint
+    at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async NeonPreparedQuery.execute (/home/runner/workspace/node_modules/src/neon-serverless/session.ts:102:18)
+    at async DatabaseStorage.createJobSearchNote (/home/runner/workspace/server/storage.ts:724:32)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:1478:20) {
+  length: 359,
+  severity: 'ERROR',
+  code: '23502',
+  detail: 'Failing row contains (70, 48, null, Driver, Interested, 2025-11-11 01:20:40.881236, null, null, null, 2025-11-11 01:20:40.881236, null, null, Medium, null, null, f, null).',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'applications',
+  column: 'company_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '2021',
+  routine: 'ExecConstraints'
+}
+1:20:40 AM [express] POST /api/job-search-notes 500 in 433ms :: {"message":"Failed to create job sea…
+Deserializing user: 48
+[GLOBAL] POST /api/job-search-notes
+Deserializing user: 48
+Received reminder data: {
+  reminderDate: '2025-11-19T01:22:00.000Z',
+  reminderTime: '06:22',
+  reminderText: 'test'
+}
+Converted reminder date: 2025-11-19T01:22:00.000Z
+Error creating job search note: error: null value in column "company_id" of relation "applications" violates not-null constraint
+    at file:///home/runner/workspace/node_modules/@neondatabase/serverless/index.mjs:1345:74
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async NeonPreparedQuery.execute (/home/runner/workspace/node_modules/src/neon-serverless/session.ts:102:18)
+    at async DatabaseStorage.createJobSearchNote (/home/runner/workspace/server/storage.ts:724:32)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:1478:20) {
+  length: 359,
+  severity: 'ERROR',
+  code: '23502',
+  detail: 'Failing row contains (71, 48, null, Driver, Interested, 2025-11-11 01:20:50.397006, null, null, null, 2025-11-11 01:20:50.397006, null, null, Medium, null, null, f, null).',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'applications',
+  column: 'company_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '2021',
+  routine: 'ExecConstraints'
+}
+1:20:50 AM [express] POST /api/job-search-notes 500 in 252ms :: {"message":"Failed to create job sea…

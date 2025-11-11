@@ -704,41 +704,43 @@ export class DatabaseStorage implements IStorage {
 
   // Job Search Notes
   async createJobSearchNote(noteData: any): Promise<any> {
-    // First, check if an application exists for this company and user
     let applicationId = null;
     
-    const existingApplication = await db
-      .select()
-      .from(applications)
-      .where(
-        and(
-          eq(applications.userId, parseInt(noteData.userId)),
-          eq(applications.companyId, noteData.companyId)
-        )
-      );
+    // Only create/find application if companyId is provided
+    if (noteData.companyId !== null && noteData.companyId !== undefined) {
+      const existingApplication = await db
+        .select()
+        .from(applications)
+        .where(
+          and(
+            eq(applications.userId, parseInt(noteData.userId)),
+            eq(applications.companyId, noteData.companyId)
+          )
+        );
 
-    if (existingApplication.length > 0) {
-      applicationId = existingApplication[0].id;
-    } else {
-      // Create a new application record
-      const [newApplication] = await db
-        .insert(applications)
-        .values({
-          userId: parseInt(noteData.userId),
-          companyId: noteData.companyId,
-          position: "Driver", // Default position
-          status: "Interested",
-        })
-        .returning();
-      applicationId = newApplication.id;
+      if (existingApplication.length > 0) {
+        applicationId = existingApplication[0].id;
+      } else {
+        // Create a new application record
+        const [newApplication] = await db
+          .insert(applications)
+          .values({
+            userId: parseInt(noteData.userId),
+            companyId: noteData.companyId,
+            position: "Driver", // Default position
+            status: "Interested",
+          })
+          .returning();
+        applicationId = newApplication.id;
+      }
     }
 
-    // Create the job search note
+    // Create the job search note (works for both company-specific and general reminders)
     const [note] = await db
       .insert(jobSearchNotes)
       .values({
         ...noteData,
-        applicationId,
+        applicationId, // Will be null for general reminders
       })
       .returning();
 
