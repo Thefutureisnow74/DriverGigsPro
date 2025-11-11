@@ -6150,22 +6150,14 @@ export default function EditBusinessProfile() {
                               onClick={async () => {
                                 if (confirm(`Are you sure you want to delete ${existingDoc.documentName}?`)) {
                                   try {
-                                    const response = await fetch(`/api/business-documents/${existingDoc.id}`, {
+                                    await apiRequest(`/api/business-documents/${existingDoc.id}`, {
                                       method: 'DELETE'
                                     });
-                                    if (response.ok) {
-                                      toast({
-                                        title: "Document deleted",
-                                        description: `${existingDoc.documentName} has been deleted`,
-                                      });
-                                      refetchDocuments();
-                                    } else {
-                                      toast({
-                                        title: "Delete failed",
-                                        description: "Could not delete document",
-                                        variant: "destructive"
-                                      });
-                                    }
+                                    toast({
+                                      title: "Document deleted",
+                                      description: `${existingDoc.documentName} has been deleted`,
+                                    });
+                                    refetchDocuments();
                                   } catch (error) {
                                     toast({
                                       title: "Delete error",
@@ -6190,19 +6182,19 @@ export default function EditBusinessProfile() {
                                 const file = e.target.files?.[0];
                                 if (!file) return;
                                 
-                                const formData = new FormData();
-                                formData.append('file', file);
-                                formData.append('documentName', documentSlot.name);
-                                formData.append('documentType', documentSlot.name);
-                                formData.append('documentCategory', documentSlot.category);
-                                formData.append('businessEntityId', profile.id.toString());
-                                formData.append('notes', `Uploaded via business profile - ${documentSlot.category}`);
-                                
                                 try {
-                                  const response = await fetch('/api/business-documents', {
-                                    method: 'POST',
-                                    body: formData,
-                                  });
+                                  const response = await uploadFiles(
+                                    '/api/business-documents',
+                                    [file],
+                                    'file',
+                                    {
+                                      documentName: documentSlot.name,
+                                      documentType: documentSlot.name,
+                                      documentCategory: documentSlot.category,
+                                      businessEntityId: profile.id.toString(),
+                                      notes: `Uploaded via business profile - ${documentSlot.category}`
+                                    }
+                                  );
                                   
                                   if (response.ok) {
                                     toast({
@@ -6226,7 +6218,6 @@ export default function EditBusinessProfile() {
                                   });
                                 }
                                 
-                                // Reset file input
                                 e.target.value = '';
                               }}
                             />
@@ -6254,19 +6245,19 @@ export default function EditBusinessProfile() {
                                 const file = e.target.files?.[0];
                                 if (!file) return;
                                 
-                                const formData = new FormData();
-                                formData.append('file', file);
-                                formData.append('documentName', documentSlot.name);
-                                formData.append('documentType', documentSlot.name);
-                                formData.append('documentCategory', documentSlot.category);
-                                formData.append('businessEntityId', profile.id.toString());
-                                formData.append('notes', `Uploaded via business profile - ${documentSlot.category}`);
-                                
                                 try {
-                                  const response = await fetch('/api/business-documents', {
-                                    method: 'POST',
-                                    body: formData,
-                                  });
+                                  const response = await uploadFiles(
+                                    '/api/business-documents',
+                                    [file],
+                                    'file',
+                                    {
+                                      documentName: documentSlot.name,
+                                      documentType: documentSlot.name,
+                                      documentCategory: documentSlot.category,
+                                      businessEntityId: profile.id.toString(),
+                                      notes: `Uploaded via business profile - ${documentSlot.category}`
+                                    }
+                                  );
                                   
                                   if (response.ok) {
                                     toast({
@@ -6290,7 +6281,6 @@ export default function EditBusinessProfile() {
                                   });
                                 }
                                 
-                                // Reset file input
                                 e.target.value = '';
                               }}
                             />
