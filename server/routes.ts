@@ -8894,7 +8894,12 @@ Business Overview:
       const userId = req.user.id;
       const tradelineData = insertPersonalCreditTradelineSchema.parse({
         ...req.body,
-        userId
+        userId,
+        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
+        currentBalance: req.body.currentBalance ? String(req.body.currentBalance) : "0",
+        minimumPayment: req.body.minimumPayment ? String(req.body.minimumPayment) : undefined,
+        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined,
+        lastPaymentAmount: req.body.lastPaymentAmount ? String(req.body.lastPaymentAmount) : undefined
       });
 
       const [newTradeline] = await db.insert(personalCreditTradelines)
@@ -8912,7 +8917,14 @@ Business Overview:
     try {
       const userId = req.user.id;
       const tradelineId = parseInt(req.params.id);
-      const updates = req.body;
+      const updates = {
+        ...req.body,
+        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
+        currentBalance: req.body.currentBalance !== undefined ? String(req.body.currentBalance) : undefined,
+        minimumPayment: req.body.minimumPayment ? String(req.body.minimumPayment) : undefined,
+        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined,
+        lastPaymentAmount: req.body.lastPaymentAmount ? String(req.body.lastPaymentAmount) : undefined
+      };
 
       const [updatedTradeline] = await db.update(personalCreditTradelines)
         .set({ ...updates, updatedAt: new Date() })
@@ -8971,7 +8983,11 @@ Business Overview:
       const userId = req.user.id;
       const cardData = insertPersonalCreditCardSchema.parse({
         ...req.body,
-        userId
+        userId,
+        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
+        balanceDue: req.body.balanceDue ? String(req.body.balanceDue) : undefined,
+        payment: req.body.payment ? String(req.body.payment) : undefined,
+        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined
       });
 
       const [newCard] = await db.insert(personalCreditCards)
@@ -8989,7 +9005,13 @@ Business Overview:
     try {
       const userId = req.user.id;
       const cardId = parseInt(req.params.id);
-      const updates = req.body;
+      const updates = {
+        ...req.body,
+        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
+        balanceDue: req.body.balanceDue !== undefined ? String(req.body.balanceDue) : undefined,
+        payment: req.body.payment ? String(req.body.payment) : undefined,
+        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined
+      };
 
       const [updatedCard] = await db.update(personalCreditCards)
         .set({ ...updates, updatedAt: new Date() })
