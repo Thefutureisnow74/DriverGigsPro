@@ -76,10 +76,7 @@ export const csrfValidationMiddleware = (req: Request, res: Response, next: Next
     return next();
   }
 
-  // Skip CSRF for file upload endpoints (they use authentication + multipart form data)
-  if (req.path === '/api/user/profile-photo' || req.path === '/api/documents' || req.path === '/api/upload-document') {
-    return next();
-  }
+  // File upload endpoints now require CSRF protection (removed skip)
 
   // Temporarily skip CSRF for critical endpoints while fixing session issues
   if (req.path === '/api/gigbot/chat' || req.path === '/api/user/profile' || req.path === '/api/sider/free-chat' || req.path === '/api/job-search-notes') {

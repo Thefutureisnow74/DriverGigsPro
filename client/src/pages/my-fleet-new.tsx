@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Plus, Car, Edit3, Trash2, ExternalLink, Upload, Download, X, Wrench, CheckCircle, Clock, AlertTriangle, Calendar, Eye } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, uploadFiles } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import type { Vehicle, InsertVehicle, VehicleDocument } from "@shared/schema";
@@ -212,36 +212,23 @@ export default function MyFleetNew() {
 
   // Handle file upload
   const handleFileUpload = async (files: FileList, vehicleId: number, documentCategory: string) => {
-    if (!files || files.length === 0) return;
+    if (!files || files.length === 0) {
+      console.warn('No files selected');
+      return;
+    }
+
+    console.log('Upload attempt:', { filesCount: files.length, vehicleId, documentCategory });
 
     const uploadKey = `${vehicleId}-${documentCategory}`;
     setUploadingFiles(prev => ({ ...prev, [uploadKey]: true }));
 
     try {
-      // Fetch CSRF token
-      const csrfResponse = await fetch('/api/auth/csrf-token', {
-        credentials: 'include',
-      });
-      const { csrfToken } = await csrfResponse.json();
-
-      const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
-      }
-      formData.append('documentCategory', documentCategory);
-
-      const response = await fetch(`/api/vehicles/${vehicleId}/documents`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'x-csrf-token': csrfToken,
-        },
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Upload failed');
-      }
+      const response = await uploadFiles(
+        `/api/vehicles/${vehicleId}/documents`,
+        files,
+        'files',
+        { documentCategory }
+      );
 
       const result = await response.json();
       
@@ -256,7 +243,7 @@ export default function MyFleetNew() {
       console.error('Upload error:', error);
       toast({
         title: "Upload Failed",
-        description: "Failed to upload files. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to upload files. Please try again.",
         variant: "destructive",
       });
     } finally {

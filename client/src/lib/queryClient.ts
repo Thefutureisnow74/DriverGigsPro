@@ -18,6 +18,46 @@ async function fetchCsrfToken(): Promise<string> {
   }
 }
 
+// Helper function for file uploads with CSRF protection
+export async function uploadFiles(
+  url: string,
+  files: FileList | File[],
+  fieldName: string = 'files',
+  additionalData?: Record<string, string>
+): Promise<Response> {
+  const csrfToken = await fetchCsrfToken();
+  const formData = new FormData();
+  
+  // Append files
+  const fileArray = Array.isArray(files) ? files : Array.from(files);
+  fileArray.forEach(file => {
+    formData.append(fieldName, file);
+  });
+  
+  // Append additional data
+  if (additionalData) {
+    Object.entries(additionalData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+  }
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'x-csrf-token': csrfToken,
+    },
+    body: formData
+  });
+  
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Upload failed' }));
+    throw new Error(error.message || 'Upload failed');
+  }
+  
+  return response;
+}
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
