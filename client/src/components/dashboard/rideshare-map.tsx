@@ -234,7 +234,7 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
     hotspots.forEach((hotspot) => {
       const pos = latLngToCanvas(hotspot.lat, hotspot.lng);
       const radius = Math.max(15, (hotspot.concentration / 100) * 40);
-      
+
       // Determine color based on concentration
       let color;
       if (hotspot.concentration >= 80) color = '#ef4444';
@@ -271,7 +271,7 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
     // Draw user location marker
     if (userLocation) {
       const userPos = latLngToCanvas(userLocation.lat, userLocation.lng);
-      
+
       // Draw user location circle
       ctx.beginPath();
       ctx.arc(userPos.x, userPos.y, 8, 0, 2 * Math.PI);
@@ -280,7 +280,7 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 3;
       ctx.stroke();
-      
+
       // Draw "You are here" text
       ctx.fillStyle = '#1e40af';
       ctx.font = 'bold 11px Inter';
@@ -292,23 +292,23 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
     ctx.strokeStyle = '#64748b';
     ctx.lineWidth = 2;
     ctx.setLineDash([5, 5]);
-    
+
     // Draw a rough highway system (main arteries)
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    
+
     // Major highway (horizontal)
     ctx.beginPath();
     ctx.moveTo(0, centerY);
     ctx.lineTo(canvas.width, centerY);
     ctx.stroke();
-    
+
     // Major highway (vertical)
     ctx.beginPath();
     ctx.moveTo(centerX, 0);
     ctx.lineTo(centerX, canvas.height);
     ctx.stroke();
-    
+
     // Beltway/Ring road around metropolitan area
     const beltRadius = Math.min(canvas.width, canvas.height) * 0.3;
     ctx.beginPath();
@@ -375,7 +375,7 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setHoveredHotspot(null)}
       />
-      
+
       {/* Tooltip for hovered hotspot */}
       {hoveredHotspot && (
         <div 
@@ -428,7 +428,7 @@ export default function RideshareMap() {
   useEffect(() => {
     // Get user's location on component mount
     getUserLocation();
-    
+
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 30000); // Update every 30 seconds
@@ -441,15 +441,15 @@ export default function RideshareMap() {
         async (position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-          
+
           try {
             // Get city name from coordinates using reverse geocoding
             const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
             const data = await response.json();
             const city = data.city || data.locality || 'Your Area';
-            
+
             setUserLocation({ lat, lng, city });
-            
+
             // Update map bounds to cover ~100 miles around user location
             const mileOffset = 1.44927; // Approximately 1 degree = 69 miles, so 100 miles ≈ 1.45 degrees
             const newBounds = {
@@ -493,7 +493,7 @@ export default function RideshareMap() {
               <p className="text-sm text-slate-500 font-medium">Real-time rideshare hotspots & events</p>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Button
               size="sm"
@@ -518,7 +518,7 @@ export default function RideshareMap() {
           </div>
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="p-6">
         {/* Interactive Map */}
         <div className="relative rounded-2xl overflow-hidden border border-slate-200 mb-6">
@@ -551,7 +551,7 @@ export default function RideshareMap() {
               </div>
             </div>
           </div>
-          
+
           {/* Interactive Heat Map */}
           <div className="p-4">
             <InteractiveHeatMap 
@@ -561,7 +561,7 @@ export default function RideshareMap() {
               mapBounds={mapBounds}
               userLocation={userLocation}
             />
-            
+
             {/* Map Labels */}
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-slate-600 max-w-full">
               <div className="flex items-center">
@@ -673,7 +673,7 @@ export default function RideshareMap() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200 min-w-0">
             <div className="flex items-center justify-between">
               <div>
@@ -688,7 +688,7 @@ export default function RideshareMap() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200 min-w-0">
             <div className="flex items-center justify-between">
               <div>
