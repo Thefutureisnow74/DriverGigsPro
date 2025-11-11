@@ -97,6 +97,15 @@ export async function apiRequest(
   const contentType = res.headers.get('content-type') || '';
   const text = await res.text();
   
+  // 204 No Content is a valid success response with no body
+  if (res.status === 204) {
+    return {
+      ...res,
+      json: async () => ({}),
+      text: async () => ''
+    } as Response;
+  }
+  
   if (!res.ok || !contentType.includes('application/json')) {
     console.error('[API ERROR]', { 
       url: fullUrl, 
