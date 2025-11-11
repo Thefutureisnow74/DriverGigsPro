@@ -517,6 +517,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     `);
   });
 
+  // Live Demand Map API - Returns real-time hotspot data
+  app.get('/api/demand', async (req: any, res) => {
+    try {
+      const { lat, lng, city } = req.query;
+      
+      // Default to user location or fallback coordinates
+      const latitude = lat ? parseFloat(lat as string) : 31.8686;  // Gojra, PU default
+      const longitude = lng ? parseFloat(lng as string) : 72.6861;
+      const cityName = city || 'Gojra';
+      
+      // Import demand service
+      const { generateDemandHotspots } = await import('./services/demandAggregator');
+      
+      // Generate real-time demand data
+      const demandData = await generateDemandHotspots(latitude, longitude, cityName as string);
+      
+      res.json(demandData);
+    } catch (error) {
+      console.error('Error fetching demand data:', error);
+      res.status(500).json({ message: 'Failed to fetch demand data' });
+    }
+  });
+
   // Auth routes - Modified to handle unauthenticated users without HTML redirects
   app.get('/api/auth/user', async (req: any, res) => {
     try {

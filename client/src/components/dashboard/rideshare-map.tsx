@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useDemandHotspots } from "@/hooks/useDemandHotspots";
+import type { HotSpot, Event } from "@shared/types/demand";
 import { 
   MapPin, 
   Users, 
@@ -13,29 +15,9 @@ import {
   Zap,
   Activity,
   RefreshCw,
-  Maximize2
+  Maximize2,
+  Loader2
 } from "lucide-react";
-
-interface HotSpot {
-  id: number;
-  name: string;
-  lat: number;
-  lng: number;
-  concentration: number;
-  type: 'high' | 'medium' | 'low';
-  estimatedEarnings: string;
-  peakHours: string;
-  events?: Event[];
-}
-
-interface Event {
-  id: number;
-  name: string;
-  venue: string;
-  time: string;
-  expectedAttendance: number;
-  type: 'concert' | 'sports' | 'convention' | 'nightlife' | 'business';
-}
 
 // Real-time hotspot data simulation (in production, this would come from APIs like Uber/Lyft demand data)
 const atlantaHotSpots: HotSpot[] = [
@@ -424,8 +406,6 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
 export default function RideshareMap() {
   const [selectedHotSpot, setSelectedHotSpot] = useState<HotSpot | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [realTimeData, setRealTimeData] = useState(atlantaHotSpots);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number, city: string} | null>(null);
   const [mapBounds, setMapBounds] = useState({
     north: 33.9,
@@ -436,14 +416,20 @@ export default function RideshareMap() {
     centerLng: -84.3880
   });
 
+  // Fetch demand data using React Query
+  const { data: demandData, isLoading, error, refresh, isRefreshing } = useDemandHotspots(
+    userLocation?.lat || null,
+    userLocation?.lng || null,
+    userLocation?.city || null,
+    { refetchInterval: 60000 } // Refetch every minute
+  );
+
   useEffect(() => {
     // Get user's location on component mount
     getUserLocation();
     
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-      // Simulate real-time data updates
-      updateRealTimeData();
     }, 30000); // Update every 30 seconds
     return () => clearInterval(timer);
   }, []);
@@ -474,159 +460,23 @@ export default function RideshareMap() {
               centerLng: lng
             };
             setMapBounds(newBounds);
-            
-            // Generate location-specific hotspots
-            generateLocalHotspots(lat, lng, city);
           } catch (error) {
             console.log('Geocoding failed, using default location');
-            setUserLocation({ lat: 33.7490, lng: -84.3880, city: 'Atlanta' });
+            setUserLocation({ lat: 31.8686, lng: 72.6861, city: 'Gojra' });
           }
         },
         (error) => {
           console.log('Geolocation failed, using default location');
-          setUserLocation({ lat: 33.7490, lng: -84.3880, city: 'Atlanta' });
+          setUserLocation({ lat: 31.8686, lng: 72.6861, city: 'Gojra' });
         }
       );
     } else {
-      setUserLocation({ lat: 33.7490, lng: -84.3880, city: 'Atlanta' });
+      setUserLocation({ lat: 31.8686, lng: 72.6861, city: 'Gojra' });
     }
   };
 
-  const generateLocalHotspots = (centerLat: number, centerLng: number, cityName: string) => {
-    // Generate hotspots within 100 miles of user location
-    const localHotspots: HotSpot[] = [
-      {
-        id: 1,
-        name: `${cityName} Downtown`,
-        lat: centerLat + 0.05,
-        lng: centerLng - 0.03,
-        concentration: Math.floor(Math.random() * 30) + 70,
-        type: 'high' as const,
-        estimatedEarnings: "$35-55/hr",
-        peakHours: "11 AM-2 PM, 6-11 PM",
-        events: [{
-          id: 1,
-          name: "Business District Rush",
-          venue: "Downtown Core",
-          time: "5:00 PM - 7:00 PM",
-          expectedAttendance: 5000,
-          type: 'business' as const
-        }]
-      },
-      {
-        id: 2,
-        name: `${cityName} Airport Area`,
-        lat: centerLat - 0.15,
-        lng: centerLng + 0.1,
-        concentration: Math.floor(Math.random() * 25) + 75,
-        type: 'high' as const,
-        estimatedEarnings: "$45-65/hr",
-        peakHours: "5-9 AM, 4-8 PM",
-        events: [{
-          id: 2,
-          name: "Flight Schedule Peak",
-          venue: "Local Airport",
-          time: "6:00 AM - 9:00 AM",
-          expectedAttendance: 8000,
-          type: 'business' as const
-        }]
-      },
-      {
-        id: 3,
-        name: "Shopping District",
-        lat: centerLat + 0.08,
-        lng: centerLng + 0.05,
-        concentration: Math.floor(Math.random() * 20) + 60,
-        type: 'medium' as const,
-        estimatedEarnings: "$25-40/hr",
-        peakHours: "10 AM-4 PM, 7-10 PM",
-      },
-      {
-        id: 4,
-        name: "Entertainment Quarter",
-        lat: centerLat - 0.05,
-        lng: centerLng - 0.08,
-        concentration: Math.floor(Math.random() * 25) + 65,
-        type: 'medium' as const,
-        estimatedEarnings: "$30-50/hr",
-        peakHours: "7 PM-2 AM Fri-Sat",
-        events: [{
-          id: 4,
-          name: "Weekend Nightlife",
-          venue: "Entertainment District",
-          time: "9:00 PM - 2:00 AM",
-          expectedAttendance: 3000,
-          type: 'nightlife' as const
-        }]
-      },
-      {
-        id: 5,
-        name: "University Campus",
-        lat: centerLat + 0.12,
-        lng: centerLng - 0.15,
-        concentration: Math.floor(Math.random() * 20) + 55,
-        type: 'medium' as const,
-        estimatedEarnings: "$20-35/hr",
-        peakHours: "8 AM-6 PM weekdays",
-      },
-      {
-        id: 6,
-        name: "Medical Center",
-        lat: centerLat - 0.08,
-        lng: centerLng + 0.12,
-        concentration: Math.floor(Math.random() * 15) + 50,
-        type: 'low' as const,
-        estimatedEarnings: "$18-30/hr",
-        peakHours: "24/7 steady",
-      },
-      {
-        id: 7,
-        name: "Suburban Mall",
-        lat: centerLat + 0.2,
-        lng: centerLng + 0.18,
-        concentration: Math.floor(Math.random() * 15) + 45,
-        type: 'low' as const,
-        estimatedEarnings: "$15-28/hr",
-        peakHours: "12-8 PM weekends",
-      },
-      {
-        id: 8,
-        name: "Sports Complex",
-        lat: centerLat - 0.12,
-        lng: centerLng - 0.2,
-        concentration: Math.floor(Math.random() * 30) + 40,
-        type: 'low' as const,
-        estimatedEarnings: "$25-45/hr",
-        peakHours: "Event dependent",
-        events: [{
-          id: 8,
-          name: "Local Sports Event",
-          venue: "Stadium",
-          time: "7:00 PM - 10:00 PM",
-          expectedAttendance: 15000,
-          type: 'sports' as const
-        }]
-      }
-    ];
-    
-    setRealTimeData(localHotspots);
-  };
-
-  const updateRealTimeData = () => {
-    setRealTimeData(prev => prev.map(spot => ({
-      ...spot,
-      concentration: Math.max(20, Math.min(100, spot.concentration + (Math.random() - 0.5) * 10))
-    })));
-  };
-
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    updateRealTimeData();
-    setIsRefreshing(false);
-  };
-
+  // Use API data or fall back to mock data if loading
+  const realTimeData = demandData?.hotspots || atlantaHotSpots;
   const sortedHotSpots = [...realTimeData].sort((a, b) => b.concentration - a.concentration);
 
   return (
@@ -647,17 +497,23 @@ export default function RideshareMap() {
             <Button
               size="sm"
               variant="outline"
-              onClick={handleRefresh}
-              disabled={isRefreshing}
+              onClick={() => refresh()}
+              disabled={isRefreshing || isLoading}
               className="border-green-200 text-green-700 hover:bg-green-50"
+              data-testid="button-refresh-demand"
             >
-              <RefreshCw className={`w-3 h-3 mr-1 ${isRefreshing ? 'animate-spin' : ''}`} />
-              {isRefreshing ? 'Updating...' : 'Refresh'}
+              <RefreshCw className={`w-3 h-3 mr-1 ${isRefreshing || isLoading ? 'animate-spin' : ''}`} />
+              {isRefreshing || isLoading ? 'Updating...' : 'Refresh'}
             </Button>
             <Badge variant="outline" className="border-green-200 text-green-700">
               <Activity className="w-3 h-3 mr-1" />
-              Live Data
+              {demandData?.dataSource === 'cached' ? 'Cached' : 'Live Data'}
             </Badge>
+            {error && (
+              <Badge variant="destructive" className="text-xs">
+                <span>Error loading data</span>
+              </Badge>
+            )}
           </div>
         </CardTitle>
       </CardHeader>
