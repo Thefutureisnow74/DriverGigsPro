@@ -73,6 +73,7 @@ function AuthenticatedRouter() {
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route path="/landing" component={Landing} />
       <Route path="/auth" component={Dashboard} />
       <Route path="/pricing" component={Pricing} />
