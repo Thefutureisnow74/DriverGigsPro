@@ -253,23 +253,27 @@ export default function GigBotChat() {
       return await response.json();
     },
     onSuccess: (data) => {
+      // Ensure we have a valid message
+      const messageContent = data?.message || data?.response || "I received your message but couldn't generate a response.";
+      
       const assistantMessage: Message = {
         id: Date.now().toString() + '_assistant',
         type: 'assistant',
-        content: data.message,
+        content: messageContent,
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, assistantMessage]);
       
       // Speak the response if text-to-speech is available
-      if ('speechSynthesis' in window) {
-        speakText(data.message);
+      if ('speechSynthesis' in window && messageContent) {
+        speakText(messageContent);
       }
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error('GigBot chat error:', error);
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
+        description: error?.message || "Failed to send message. Please try again.",
         variant: "destructive"
       });
     }
@@ -345,32 +349,39 @@ export default function GigBotChat() {
           {/* Messages Area */}
           <ScrollArea className="h-64 border rounded-lg p-3 bg-gray-50">
             <div className="space-y-3">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex gap-2 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  {message.type === 'assistant' && (
-                    <div className="w-6 h-6 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <Bot className="text-white text-xs" />
+              {messages.map((message) => {
+                try {
+                  return (
+                    <div
+                      key={message.id}
+                      className={`flex gap-2 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      {message.type === 'assistant' && (
+                        <div className="w-6 h-6 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <Bot className="text-white text-xs" />
+                        </div>
+                      )}
+                      <div
+                        className={`max-w-[80%] p-2 rounded-lg text-sm ${
+                          message.type === 'user'
+                            ? 'bg-red-500 text-white'
+                            : 'bg-white border shadow-sm text-gray-800'
+                        }`}
+                      >
+                        {message.content || 'No content'}
+                      </div>
+                      {message.type === 'user' && (
+                        <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <User className="text-white text-xs" />
+                        </div>
+                      )}
                     </div>
-                  )}
-                  <div
-                    className={`max-w-[80%] p-2 rounded-lg text-sm ${
-                      message.type === 'user'
-                        ? 'bg-red-500 text-white'
-                        : 'bg-white border shadow-sm text-gray-800'
-                    }`}
-                  >
-                    {message.content}
-                  </div>
-                  {message.type === 'user' && (
-                    <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <User className="text-white text-xs" />
-                    </div>
-                  )}
-                </div>
-              ))}
+                  );
+                } catch (error) {
+                  console.error('Error rendering message:', error, message);
+                  return null;
+                }
+              })}
               {chatMutation.isPending && (
                 <div className="flex gap-2 justify-start">
                   <div className="w-6 h-6 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
