@@ -3704,9 +3704,51 @@ export default function MyFleetNew() {
                               </div>
                             </div>
                             <div className="flex items-center space-x-1 ml-4">
-                              <Button size="sm" variant="outline">📅</Button>
-                              <Button size="sm" variant="outline">💰</Button>
-                              <Button size="sm" variant="outline">📸</Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  const newDate = prompt('Enter new due date (YYYY-MM-DD):', item.dueDate || '');
+                                  if (newDate) {
+                                    updateMaintenanceItemMutation.mutate({
+                                      itemId: item.id,
+                                      updates: { dueDate: newDate }
+                                    });
+                                  }
+                                }}
+                                title="Set Due Date"
+                              >
+                                📅
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  const newCost = prompt('Enter cost amount:', item.cost || '');
+                                  if (newCost) {
+                                    updateMaintenanceItemMutation.mutate({
+                                      itemId: item.id,
+                                      updates: { cost: newCost }
+                                    });
+                                  }
+                                }}
+                                title="Log Cost"
+                              >
+                                💰
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  toast({
+                                    title: "Photo Upload",
+                                    description: "Photo upload feature coming soon!",
+                                  });
+                                }}
+                                title="Add Photo"
+                              >
+                                📸
+                              </Button>
                               <Button
                                 size="sm"
                                 variant="destructive"
@@ -3715,6 +3757,7 @@ export default function MyFleetNew() {
                                     deleteMaintenanceItemMutation.mutate(item.id);
                                   }
                                 }}
+                                title="Delete Item"
                               >
                                 🗑️
                               </Button>
