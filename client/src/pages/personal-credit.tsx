@@ -364,44 +364,41 @@ export default function PersonalCredit() {
     return card?.[field] || '';
   };
 
-  // Handle card field changes with debouncing
-  const handleCardChange = (() => {
-    const timeouts: { [key: string]: NodeJS.Timeout } = {};
+  // Handle card field changes (immediate local state update)
+  const handleCardChange = (slotNumber: number, field: string, value: any) => {
+    const localKey = `${slotNumber}-${field}`;
+    // Update local state immediately for instant feedback
+    setLocalCardEdits(prev => ({ ...prev, [localKey]: value }));
+  };
+
+  // Handle card field blur (save to API)
+  const handleCardBlur = (slotNumber: number, field: string) => {
+    const localKey = `${slotNumber}-${field}`;
+    const value = localCardEdits[localKey];
     
-    return (slotNumber: number, field: string, value: any) => {
-      const key = `card-${slotNumber}`;
-      const localKey = `${slotNumber}-${field}`;
+    // Only save if there's a local edit
+    if (localKey in localCardEdits) {
+      const cardData = {
+        slotNumber,
+        [field]: value,
+      };
       
-      // Update local state immediately for instant feedback
-      setLocalCardEdits(prev => ({ ...prev, [localKey]: value }));
+      const existing = cards.find((c: any) => c.slotNumber === slotNumber);
       
-      if (timeouts[key]) {
-        clearTimeout(timeouts[key]);
+      if (existing) {
+        saveCardMutation.mutate({ ...existing, ...cardData });
+      } else {
+        saveCardMutation.mutate(cardData);
       }
       
-      timeouts[key] = setTimeout(() => {
-        const cardData = {
-          slotNumber,
-          [field]: value,
-        };
-        
-        const existing = cards.find((c: any) => c.slotNumber === slotNumber);
-        
-        if (existing) {
-          saveCardMutation.mutate({ ...existing, ...cardData });
-        } else {
-          saveCardMutation.mutate(cardData);
-        }
-        
-        // Clear local edit after save
-        setLocalCardEdits(prev => {
-          const newEdits = { ...prev };
-          delete newEdits[localKey];
-          return newEdits;
-        });
-      }, 500);
-    };
-  })();
+      // Clear local edit after save
+      setLocalCardEdits(prev => {
+        const newEdits = { ...prev };
+        delete newEdits[localKey];
+        return newEdits;
+      });
+    }
+  };
 
   function getScoreRange(score: number) {
     if (score >= 800) return { range: "Excellent", color: "text-green-600", bgColor: "bg-green-50" };
@@ -934,6 +931,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-issuing-company`}
                         value={getCardValue(slotNumber, 'issuingCompany')}
                         onChange={(e) => handleCardChange(slotNumber, 'issuingCompany', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'issuingCompany')}
                         placeholder="e.g., Chase, Account #12345"
                       />
                     </div>
@@ -945,6 +943,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-website`}
                         value={getCardValue(slotNumber, 'website')}
                         onChange={(e) => handleCardChange(slotNumber, 'website', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'website')}
                         placeholder="https://www.chase.com"
                       />
                     </div>
@@ -953,7 +952,10 @@ export default function PersonalCredit() {
                       <Label htmlFor={`card-${slotNumber}-cardTypeCategory`}>Type of Card</Label>
                       <Select
                         value={getCardValue(slotNumber, 'cardTypeCategory')}
-                        onValueChange={(value) => handleCardChange(slotNumber, 'cardTypeCategory', value)}
+                        onValueChange={(value) => {
+                          handleCardChange(slotNumber, 'cardTypeCategory', value);
+                          handleCardBlur(slotNumber, 'cardTypeCategory');
+                        }}
                       >
                         <SelectTrigger id={`card-${slotNumber}-cardTypeCategory`} data-testid={`select-card-${slotNumber}-card-type-category`}>
                           <SelectValue placeholder="Select type" />
@@ -972,6 +974,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-account-type`}
                         value={getCardValue(slotNumber, 'accountType')}
                         onChange={(e) => handleCardChange(slotNumber, 'accountType', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'accountType')}
                         placeholder="e.g., Chase Sapphire Preferred"
                       />
                     </div>
@@ -983,6 +986,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-account-number`}
                         value={getCardValue(slotNumber, 'accountNumber')}
                         onChange={(e) => handleCardChange(slotNumber, 'accountNumber', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'accountNumber')}
                         placeholder="1234"
                         maxLength={4}
                       />
@@ -995,6 +999,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-expiration`}
                         value={getCardValue(slotNumber, 'expiration')}
                         onChange={(e) => handleCardChange(slotNumber, 'expiration', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'expiration')}
                         placeholder="MM/YY"
                       />
                     </div>
@@ -1006,6 +1011,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-sec-code`}
                         value={getCardValue(slotNumber, 'secCode')}
                         onChange={(e) => handleCardChange(slotNumber, 'secCode', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'secCode')}
                         placeholder="123"
                         maxLength={4}
                       />
@@ -1018,6 +1024,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-monitor`}
                         value={getCardValue(slotNumber, 'monitor')}
                         onChange={(e) => handleCardChange(slotNumber, 'monitor', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'monitor')}
                         placeholder="Monitoring service"
                       />
                     </div>
@@ -1031,6 +1038,7 @@ export default function PersonalCredit() {
                         step="0.01"
                         value={getCardValue(slotNumber, 'originalAmount')}
                         onChange={(e) => handleCardChange(slotNumber, 'originalAmount', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'originalAmount')}
                         placeholder="0.00"
                       />
                     </div>
@@ -1044,6 +1052,7 @@ export default function PersonalCredit() {
                         step="0.01"
                         value={getCardValue(slotNumber, 'currentBalance')}
                         onChange={(e) => handleCardChange(slotNumber, 'currentBalance', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'currentBalance')}
                         placeholder="0.00"
                       />
                     </div>
@@ -1058,6 +1067,7 @@ export default function PersonalCredit() {
                         max="31"
                         value={getCardValue(slotNumber, 'paymentDueDate')}
                         onChange={(e) => handleCardChange(slotNumber, 'paymentDueDate', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'paymentDueDate')}
                         placeholder="Day of month (1-31)"
                       />
                     </div>
@@ -1072,6 +1082,7 @@ export default function PersonalCredit() {
                         max="31"
                         value={getCardValue(slotNumber, 'internalLateDate')}
                         onChange={(e) => handleCardChange(slotNumber, 'internalLateDate', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'internalLateDate')}
                         placeholder="Day of month (1-31)"
                       />
                     </div>
@@ -1086,6 +1097,7 @@ export default function PersonalCredit() {
                         max="31"
                         value={getCardValue(slotNumber, 'officialLateDate')}
                         onChange={(e) => handleCardChange(slotNumber, 'officialLateDate', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'officialLateDate')}
                         placeholder="Day of month (1-31)"
                       />
                     </div>
@@ -1098,6 +1110,7 @@ export default function PersonalCredit() {
                         type="date"
                         value={getCardValue(slotNumber, 'reportDate')}
                         onChange={(e) => handleCardChange(slotNumber, 'reportDate', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'reportDate')}
                       />
                     </div>
                     
@@ -1108,6 +1121,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-login`}
                         value={getCardValue(slotNumber, 'login')}
                         onChange={(e) => handleCardChange(slotNumber, 'login', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'login')}
                         placeholder="Username or email"
                       />
                     </div>
@@ -1120,6 +1134,7 @@ export default function PersonalCredit() {
                         type="password"
                         value={getCardValue(slotNumber, 'password')}
                         onChange={(e) => handleCardChange(slotNumber, 'password', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'password')}
                         placeholder="••••••••"
                       />
                     </div>
@@ -1133,6 +1148,7 @@ export default function PersonalCredit() {
                         step="0.01"
                         value={getCardValue(slotNumber, 'monthlyPayment')}
                         onChange={(e) => handleCardChange(slotNumber, 'monthlyPayment', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'monthlyPayment')}
                         placeholder="0.00"
                       />
                     </div>
@@ -1146,6 +1162,7 @@ export default function PersonalCredit() {
                         step="0.01"
                         value={getCardValue(slotNumber, 'interestRate')}
                         onChange={(e) => handleCardChange(slotNumber, 'interestRate', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'interestRate')}
                         placeholder="0.00"
                       />
                     </div>
@@ -1154,7 +1171,10 @@ export default function PersonalCredit() {
                       <Label htmlFor={`card-${slotNumber}-autoPay`}>AUTO PAY</Label>
                       <Select
                         value={getCardValue(slotNumber, 'autoPay')}
-                        onValueChange={(value) => handleCardChange(slotNumber, 'autoPay', value)}
+                        onValueChange={(value) => {
+                          handleCardChange(slotNumber, 'autoPay', value);
+                          handleCardBlur(slotNumber, 'autoPay');
+                        }}
                       >
                         <SelectTrigger id={`card-${slotNumber}-autoPay`} data-testid={`select-card-${slotNumber}-auto-pay`}>
                           <SelectValue placeholder="Select" />
@@ -1173,6 +1193,7 @@ export default function PersonalCredit() {
                         data-testid={`input-card-${slotNumber}-auto-pay-acct`}
                         value={getCardValue(slotNumber, 'autoPayAcct')}
                         onChange={(e) => handleCardChange(slotNumber, 'autoPayAcct', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'autoPayAcct')}
                         placeholder="Bank account for autopay"
                       />
                     </div>
@@ -1185,6 +1206,7 @@ export default function PersonalCredit() {
                         type="date"
                         value={getCardValue(slotNumber, 'dateOpened')}
                         onChange={(e) => handleCardChange(slotNumber, 'dateOpened', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'dateOpened')}
                       />
                     </div>
                     
@@ -1192,7 +1214,10 @@ export default function PersonalCredit() {
                       <Label htmlFor={`card-${slotNumber}-accountStatus`}>Account Status</Label>
                       <Select
                         value={getCardValue(slotNumber, 'accountStatus')}
-                        onValueChange={(value) => handleCardChange(slotNumber, 'accountStatus', value)}
+                        onValueChange={(value) => {
+                          handleCardChange(slotNumber, 'accountStatus', value);
+                          handleCardBlur(slotNumber, 'accountStatus');
+                        }}
                       >
                         <SelectTrigger id={`card-${slotNumber}-accountStatus`} data-testid={`select-card-${slotNumber}-account-status`}>
                           <SelectValue placeholder="Select status" />
@@ -1212,6 +1237,7 @@ export default function PersonalCredit() {
                         data-testid={`textarea-card-${slotNumber}-notes`}
                         value={getCardValue(slotNumber, 'notes')}
                         onChange={(e) => handleCardChange(slotNumber, 'notes', e.target.value)}
+                        onBlur={() => handleCardBlur(slotNumber, 'notes')}
                         placeholder="Additional notes about this card"
                         rows={2}
                       />
