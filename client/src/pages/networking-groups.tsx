@@ -108,6 +108,7 @@ export default function NetworkingGroups() {
 
   const deleteGroupMutation = useMutation({
     mutationFn: (id: number) => apiRequest(`/api/networking-groups/${id}`, { method: "DELETE" }),
+    retry: false,
     onSuccess: () => {
       toast({
         title: "Group Deleted",
