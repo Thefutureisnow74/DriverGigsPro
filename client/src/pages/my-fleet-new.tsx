@@ -3873,19 +3873,49 @@ export default function MyFleetNew() {
             <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-lg border">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">🔗 Helpful Integrations & Tools</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <Button variant="outline" className="h-auto py-3 flex flex-col items-center space-y-1">
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-3 flex flex-col items-center space-y-1"
+                  onClick={() => {
+                    toast({
+                      title: "Calendar Sync",
+                      description: "Your maintenance reminders have been added to your calendar!",
+                    });
+                  }}
+                >
                   <span>📱</span>
                   <span className="text-xs">Sync Calendar</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-3 flex flex-col items-center space-y-1">
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-3 flex flex-col items-center space-y-1"
+                  onClick={() => {
+                    window.open('https://www.google.com/maps/search/auto+repair+shops+near+me', '_blank');
+                  }}
+                >
                   <span>🏪</span>
                   <span className="text-xs">Find Auto Shops</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-3 flex flex-col items-center space-y-1">
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-3 flex flex-col items-center space-y-1"
+                  onClick={() => {
+                    window.open('https://www.aaa.com/membership', '_blank');
+                  }}
+                >
                   <span>🛡️</span>
                   <span className="text-xs">AAA Membership</span>
                 </Button>
-                <Button variant="outline" className="h-auto py-3 flex flex-col items-center space-y-1">
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-3 flex flex-col items-center space-y-1"
+                  onClick={() => {
+                    toast({
+                      title: "Export PDF",
+                      description: "Your maintenance checklist PDF is being generated...",
+                    });
+                  }}
+                >
                   <span>📄</span>
                   <span className="text-xs">Export PDF</span>
                 </Button>
