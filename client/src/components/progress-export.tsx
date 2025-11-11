@@ -28,6 +28,7 @@ import {
   Settings,
   Trash2
 } from "lucide-react";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, OVERFLOW } from "@/lib/responsive-utils";
 
 interface ExportData {
   id: number;
@@ -170,13 +171,13 @@ export function ProgressExport({ completionPercentage, completedSteps, businessD
         </DialogHeader>
 
         <Tabs defaultValue="create" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="create">Create New Export</TabsTrigger>
-            <TabsTrigger value="manage">Manage Exports</TabsTrigger>
+          <TabsList className={`w-full ${RESPONSIVE_GRIDS.twoCol}`}>
+            <TabsTrigger value="create" className={TOUCH_FRIENDLY.button}>Create New Export</TabsTrigger>
+            <TabsTrigger value="manage" className={TOUCH_FRIENDLY.button}>Manage Exports</TabsTrigger>
           </TabsList>
 
           <TabsContent value="create" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={RESPONSIVE_GRIDS.twoCol}>
               {/* Export Configuration */}
               <Card>
                 <CardHeader>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Building, DollarSign, MapPin, Truck, FileText, Star, Eye, Heart } from "lucide-react";
 import type { Company } from "@shared/schema";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 
 interface CompanyListProps {
   companies: Company[];
@@ -57,8 +58,8 @@ export default function CompanyList({
         {companies.map((company) => (
           <Card key={company.id} className="card-hover bg-white rounded-xl shadow-lg border border-gray-100">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
+              <div className={`${RESPONSIVE_FLEX.row} items-start sm:items-center justify-between`}>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <div className={`w-12 h-12 bg-gradient-to-r ${getVerticalGradient(Array.isArray(company.serviceVertical) ? company.serviceVertical[0] : company.serviceVertical)} rounded-xl flex items-center justify-center`}>
                     <Building className="text-white text-xl" />
                   </div>
@@ -91,12 +92,12 @@ export default function CompanyList({
                 </div>
                 
                 {showActions && (
-                  <div className="flex space-x-2">
+                  <div className={`${RESPONSIVE_FLEX.wrap} flex-shrink-0`}>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => onFavorite?.(company)}
-                      className="border-pink-500 text-pink-600 hover:bg-pink-50"
+                      className={`${TOUCH_FRIENDLY.button} border-pink-500 text-pink-600 hover:bg-pink-50`}
                     >
                       <Heart className="h-4 w-4" />
                     </Button>
@@ -104,14 +105,14 @@ export default function CompanyList({
                       size="sm"
                       variant="outline"
                       onClick={() => onViewDetails?.(company)}
-                      className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                      className={`${TOUCH_FRIENDLY.button} border-blue-500 text-blue-600 hover:bg-blue-50`}
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button
                       size="sm"
                       onClick={() => onApply?.(company)}
-                      className={`bg-gradient-to-r ${getVerticalGradient(Array.isArray(company.serviceVertical) ? company.serviceVertical[0] : company.serviceVertical)} text-white hover:shadow-lg transition-all duration-300`}
+                      className={`${TOUCH_FRIENDLY.button} bg-gradient-to-r ${getVerticalGradient(Array.isArray(company.serviceVertical) ? company.serviceVertical[0] : company.serviceVertical)} text-white hover:shadow-lg transition-all duration-300`}
                     >
                       Apply Now
                     </Button>
@@ -126,7 +127,7 @@ export default function CompanyList({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className={RESPONSIVE_GRIDS.threeCol}>
       {companies.map((company) => (
         <Card key={company.id} className="card-hover bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
           <CardHeader className="pb-3">
@@ -159,7 +160,7 @@ export default function CompanyList({
                   size="sm"
                   variant="ghost"
                   onClick={() => onFavorite?.(company)}
-                  className="text-pink-600 hover:text-pink-700 hover:bg-pink-50"
+                  className={`${TOUCH_FRIENDLY.button} text-pink-600 hover:text-pink-700 hover:bg-pink-50`}
                 >
                   <Heart className="h-4 w-4" />
                 </Button>
@@ -224,11 +225,11 @@ export default function CompanyList({
 
             {/* Actions */}
             {showActions && (
-              <div className="mt-4 flex space-x-2">
+              <div className={`mt-4 ${RESPONSIVE_FLEX.row}`}>
                 <Button 
                   size="sm" 
                   onClick={() => onApply?.(company)}
-                  className={`flex-1 bg-gradient-to-r ${getVerticalGradient(company.serviceVertical)} text-white hover:shadow-lg transition-all duration-300`}
+                  className={`${TOUCH_FRIENDLY.button} flex-1 bg-gradient-to-r ${getVerticalGradient(company.serviceVertical)} text-white hover:shadow-lg transition-all duration-300`}
                 >
                   <Star className="mr-1 h-3 w-3" />
                   Apply Now
@@ -237,7 +238,7 @@ export default function CompanyList({
                   size="sm" 
                   variant="outline" 
                   onClick={() => onViewDetails?.(company)}
-                  className="flex-1 border-blue-500 text-blue-600 hover:bg-blue-50"
+                  className={`${TOUCH_FRIENDLY.button} flex-1 border-blue-500 text-blue-600 hover:bg-blue-50`}
                 >
                   View Details
                 </Button>

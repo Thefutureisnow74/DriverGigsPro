@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import type { Company } from "@shared/schema";
 import { z } from "zod";
-import { TOUCH_FRIENDLY } from "@/lib/responsive-utils";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 
 const formSchema = insertCompanySchema.extend({
   vehicleTypes: z.string().optional(),
@@ -116,7 +116,7 @@ export default function CompanyForm({ company, onSuccess }: CompanyFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className={RESPONSIVE_GRIDS.form}>
           {/* Company Name */}
           <FormField
             control={form.control}

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Plus, X } from "lucide-react";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 
 interface AddCompanyModalProps {
   isOpen: boolean;
@@ -319,7 +320,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div className={`${RESPONSIVE_GRIDS.twoCol} mt-6`}>
           {/* Left Column - Basic Information */}
           <div className="space-y-6">
             <Card>
@@ -330,6 +331,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Company Name *</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="Enter company name"
@@ -340,7 +342,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                   <Label>Service Vertical *</Label>
                   <div className="flex space-x-2">
                     <Select value={serviceVerticalInput} onValueChange={setServiceVerticalInput}>
-                      <SelectTrigger className="flex-1">
+                      <SelectTrigger className={`flex-1 ${TOUCH_FRIENDLY.select}`}>
                         <SelectValue placeholder="Select service type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -349,7 +351,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button onClick={addServiceVertical} size="sm">
+                    <Button onClick={addServiceVertical} size="sm" className={TOUCH_FRIENDLY.button}>
                       <Plus className="w-4 h-4" />
                     </Button>
                   </div>
@@ -368,7 +370,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Contract Type</Label>
                   <Select value={formData.contractType} onValueChange={(value) => setFormData({...formData, contractType: value})}>
-                    <SelectTrigger>
+                    <SelectTrigger className={TOUCH_FRIENDLY.select}>
                       <SelectValue placeholder="Select contract type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -382,6 +384,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Average Pay</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.averagePay}
                     onChange={(e) => setFormData({...formData, averagePay: e.target.value})}
                     placeholder="e.g., $15-25/hour"
@@ -399,7 +402,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                   <Label>Vehicle Types</Label>
                   <div className="flex space-x-2">
                     <Select value={vehicleTypeInput} onValueChange={setVehicleTypeInput}>
-                      <SelectTrigger className="flex-1">
+                      <SelectTrigger className={`flex-1 ${TOUCH_FRIENDLY.select}`}>
                         <SelectValue placeholder="Select vehicle type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -408,7 +411,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button onClick={addVehicleType} size="sm">
+                    <Button onClick={addVehicleType} size="sm" className={TOUCH_FRIENDLY.button}>
                       <Plus className="w-4 h-4" />
                     </Button>
                   </div>
@@ -437,6 +440,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Areas Served</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.areasServed}
                     onChange={(e) => setFormData({...formData, areasServed: e.target.value})}
                     placeholder="e.g., Atlanta Metro, Nationwide"
@@ -446,6 +450,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Insurance Requirements</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.insuranceRequirements}
                     onChange={(e) => setFormData({...formData, insuranceRequirements: e.target.value})}
                     placeholder="e.g., Commercial Auto Insurance"
@@ -455,6 +460,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>License Requirements</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.licenseRequirements}
                     onChange={(e) => setFormData({...formData, licenseRequirements: e.target.value})}
                     placeholder="e.g., Valid Driver's License, CDL"
@@ -465,12 +471,13 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                   <Label>Certifications Required</Label>
                   <div className="flex space-x-2">
                     <Input
+                      className={TOUCH_FRIENDLY.input}
                       value={certificationInput}
                       onChange={(e) => setCertificationInput(e.target.value)}
                       placeholder="Enter certification"
                       onKeyPress={(e) => e.key === 'Enter' && addCertification()}
                     />
-                    <Button onClick={addCertification} size="sm">
+                    <Button onClick={addCertification} size="sm" className={TOUCH_FRIENDLY.button}>
                       <Plus className="w-4 h-4" />
                     </Button>
                   </div>
@@ -496,6 +503,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Website</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.website}
                     onChange={(e) => setFormData({...formData, website: e.target.value})}
                     placeholder="https://company.com"
@@ -505,6 +513,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Contact Email</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     type="email"
                     value={formData.contactEmail}
                     onChange={(e) => setFormData({...formData, contactEmail: e.target.value})}
@@ -515,6 +524,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
                 <div>
                   <Label>Contact Phone</Label>
                   <Input
+                    className={TOUCH_FRIENDLY.input}
                     value={formData.contactPhone}
                     onChange={(e) => setFormData({...formData, contactPhone: e.target.value})}
                     placeholder="(555) 123-4567"
@@ -531,10 +541,11 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
             <CardTitle>Company Information (Optional)</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className={RESPONSIVE_GRIDS.twoCol}>
               <div>
                 <Label>Year Established</Label>
                 <Input
+                  className={TOUCH_FRIENDLY.input}
                   value={formData.yearEstablished}
                   onChange={(e) => setFormData({...formData, yearEstablished: e.target.value})}
                   placeholder="2020"
@@ -544,6 +555,7 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
               <div>
                 <Label>Headquarters</Label>
                 <Input
+                  className={TOUCH_FRIENDLY.input}
                   value={formData.headquarters}
                   onChange={(e) => setFormData({...formData, headquarters: e.target.value})}
                   placeholder="San Francisco, CA"
@@ -581,13 +593,13 @@ export default function AddCompanyModal({ isOpen, onClose, section = "opportunit
         </div>
 
         <div className="flex justify-end space-x-3 mt-8">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} className={TOUCH_FRIENDLY.button}>
             Cancel
           </Button>
           <Button 
             onClick={handleSave} 
             disabled={createCompanyMutation.isPending}
-            className="bg-blue-600 hover:bg-blue-700"
+            className={`bg-blue-600 hover:bg-blue-700 ${TOUCH_FRIENDLY.button}`}
           >
             {createCompanyMutation.isPending ? "Adding..." : "Add Company"}
           </Button>

@@ -22,6 +22,7 @@ import {
   Navigation,
   Umbrella
 } from "lucide-react";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, OVERFLOW } from "@/lib/responsive-utils";
 
 interface WeatherDay {
   date: string;
@@ -460,7 +461,7 @@ export default function WeatherForecast() {
           </DialogHeader>
 
           {selectedDay && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <div className={`${RESPONSIVE_GRIDS.twoCol} mt-6`}>
               {/* Left Column - Main Weather Info */}
               <div className="space-y-6">
                 {/* Temperature Card */}
@@ -495,7 +496,7 @@ export default function WeatherForecast() {
                 </Card>
 
                 {/* Weather Details Grid */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className={RESPONSIVE_GRIDS.twoCol}>
                   <Card className="p-4">
                     <div className="flex items-center">
                       <Wind className="w-5 h-5 text-blue-500 mr-2" />
@@ -560,7 +561,7 @@ export default function WeatherForecast() {
                 {/* Sun & Moon Info */}
                 <Card className="p-6">
                   <h3 className="text-lg font-semibold mb-4">Sun & Moon</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="flex items-center">
                       <Sunrise className="w-5 h-5 text-orange-500 mr-2" />
                       <div>

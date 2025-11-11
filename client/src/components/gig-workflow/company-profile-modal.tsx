@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, OVERFLOW } from "@/lib/responsive-utils";
 
 // Simplified vehicle type categories
 const vehicleTypes = [
@@ -96,9 +97,9 @@ export default function CompanyProfileModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto w-full px-4 sm:px-6">
         <DialogHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
                 <Building2 className="text-white w-8 h-8" />
@@ -192,7 +193,7 @@ export default function CompanyProfileModal({
             </CardHeader>
             <CardContent>
               {editMode ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className={RESPONSIVE_GRIDS.twoCol}>
                   <div>
                     <Label>Year Established</Label>
                     <Input
@@ -277,7 +278,7 @@ export default function CompanyProfileModal({
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className={RESPONSIVE_GRIDS.twoCol}>
                   <div className="space-y-4">
                     <div>
                       <Label className="text-sm font-medium text-gray-700">Year Established</Label>
@@ -321,7 +322,7 @@ export default function CompanyProfileModal({
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className={RESPONSIVE_GRIDS.twoCol}>
             {/* Left Column */}
             <div className="space-y-6">
             {/* Vehicle Requirements */}

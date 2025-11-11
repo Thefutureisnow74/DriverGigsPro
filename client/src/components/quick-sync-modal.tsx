@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { 
@@ -21,6 +21,7 @@ import {
   Zap,
   Building2
 } from "lucide-react";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 
 interface QuickSyncModalProps {
   companies: any[];
@@ -58,7 +59,7 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
   });
 
   // Initialize company credentials when companies change
-  useState(() => {
+  useEffect(() => {
     const apiCompanies = companies.filter(company => 
       apiSupportedCompanies.some(supported => 
         company.name?.toLowerCase().includes(supported.name.toLowerCase())
@@ -104,7 +105,7 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
             results.push({ company: cred.companyName, success: false, error: 'API connection failed' });
           }
         } catch (error) {
-          results.push({ company: cred.companyName, success: false, error: error.message });
+          results.push({ company: cred.companyName, success: false, error: (error as Error).message });
         }
       }
       
@@ -195,7 +196,7 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto w-[95vw] sm:w-full">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold flex items-center">
             <Zap className="w-8 h-8 mr-3 text-purple-600" />
@@ -215,19 +216,21 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
               <p className="text-sm text-gray-600">Enter your account credentials once to use across all companies</p>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className={RESPONSIVE_GRIDS.threeCol}>
                 <div className="space-y-2">
                   <Label className="font-medium text-red-700">DoorDash Account</Label>
                   <Input
                     placeholder="Email..."
                     value={globalCredentials.doorDashEmail}
                     onChange={(e) => setGlobalCredentials(prev => ({...prev, doorDashEmail: e.target.value}))}
+                    className={TOUCH_FRIENDLY.input}
                   />
                   <Input
                     type="password"
                     placeholder="Password..."
                     value={globalCredentials.doorDashPassword}
                     onChange={(e) => setGlobalCredentials(prev => ({...prev, doorDashPassword: e.target.value}))}
+                    className={TOUCH_FRIENDLY.input}
                   />
                 </div>
                 <div className="space-y-2">
@@ -236,12 +239,14 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
                     placeholder="Email..."
                     value={globalCredentials.uberEmail}
                     onChange={(e) => setGlobalCredentials(prev => ({...prev, uberEmail: e.target.value}))}
+                    className={TOUCH_FRIENDLY.input}
                   />
                   <Input
                     type="password"
                     placeholder="Password..."
                     value={globalCredentials.uberPassword}
                     onChange={(e) => setGlobalCredentials(prev => ({...prev, uberPassword: e.target.value}))}
+                    className={TOUCH_FRIENDLY.input}
                   />
                 </div>
                 <div className="space-y-2">
@@ -250,12 +255,14 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
                     placeholder="Email..."
                     value={globalCredentials.amazonFlexEmail}
                     onChange={(e) => setGlobalCredentials(prev => ({...prev, amazonFlexEmail: e.target.value}))}
+                    className={TOUCH_FRIENDLY.input}
                   />
                   <Input
                     type="password"
                     placeholder="Password..."
                     value={globalCredentials.amazonFlexPassword}
                     onChange={(e) => setGlobalCredentials(prev => ({...prev, amazonFlexPassword: e.target.value}))}
+                    className={TOUCH_FRIENDLY.input}
                   />
                 </div>
               </div>
@@ -274,27 +281,30 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
               {companyCredentials.map((company) => {
                 const config = getCompanyConfig(company.companyName);
                 return (
-                  <div key={company.companyId} className="flex items-center space-x-4 p-3 border rounded-lg">
-                    <Checkbox
-                      checked={company.enabled}
-                      onCheckedChange={(checked) => 
-                        updateCredential(company.companyId, 'enabled', checked)
-                      }
-                    />
-                    
-                    <div className={`w-8 h-8 rounded-lg ${config.color} flex items-center justify-center text-white text-sm`}>
-                      {config.icon}
+                  <div key={company.companyId} className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-3 border rounded-lg">
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                      <Checkbox
+                        checked={company.enabled}
+                        onCheckedChange={(checked) => 
+                          updateCredential(company.companyId, 'enabled', checked)
+                        }
+                        className={TOUCH_FRIENDLY.button}
+                      />
+                      
+                      <div className={`w-8 h-8 flex-shrink-0 rounded-lg ${config.color} flex items-center justify-center text-white text-sm`}>
+                        {config.icon}
+                      </div>
+                      
+                      <div className="flex-1">
+                        <div className="font-medium">{company.companyName}</div>
+                        <Badge variant="outline" className="text-xs">{config.apiType}</Badge>
+                      </div>
                     </div>
                     
-                    <div className="flex-1">
-                      <div className="font-medium">{company.companyName}</div>
-                      <Badge variant="outline" className="text-xs">{config.apiType}</Badge>
-                    </div>
-                    
-                    <div className="flex space-x-2">
+                    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                       <Input
                         placeholder="Email (optional)"
-                        className="w-40"
+                        className={`w-full sm:w-40 ${TOUCH_FRIENDLY.input}`}
                         value={company.email}
                         onChange={(e) => 
                           updateCredential(company.companyId, 'email', e.target.value)
@@ -304,7 +314,7 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
                       <Input
                         type="password"
                         placeholder="Password (optional)"
-                        className="w-40"
+                        className={`w-full sm:w-40 ${TOUCH_FRIENDLY.input}`}
                         value={company.password}
                         onChange={(e) => 
                           updateCredential(company.companyId, 'password', e.target.value)
@@ -320,7 +330,7 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-between items-center pt-4 border-t">
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 border-t">
           <div className="text-sm text-gray-600">
             {syncStatus === 'syncing' && (
               <div className="flex items-center">
@@ -336,14 +346,18 @@ export default function QuickSyncModal({ companies, isOpen, onClose }: QuickSync
             )}
           </div>
           
-          <div className="flex space-x-2">
-            <Button variant="outline" onClick={onClose}>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Button 
+              variant="outline" 
+              onClick={onClose}
+              className={TOUCH_FRIENDLY.button}
+            >
               Close
             </Button>
             <Button 
               onClick={handleBulkSync}
               disabled={syncStatus === 'syncing' || companyCredentials.filter(c => c.enabled).length === 0}
-              className="bg-purple-600 hover:bg-purple-700"
+              className={`bg-purple-600 hover:bg-purple-700 ${TOUCH_FRIENDLY.button}`}
             >
               {syncStatus === 'syncing' ? (
                 <>

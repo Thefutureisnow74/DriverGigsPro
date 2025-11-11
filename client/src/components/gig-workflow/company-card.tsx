@@ -422,6 +422,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import ReminderIndicator from "@/components/reminder-indicator";
 import NotesIndicator from "@/components/notes-indicator";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, OVERFLOW } from "@/lib/responsive-utils";
 
 
 
@@ -717,7 +718,7 @@ function CompanyNotes({ companyId, companyName }: CompanyNotesProps) {
         <Button 
           variant="outline" 
           size="sm" 
-          className="w-full bg-gradient-to-r from-yellow-50 to-amber-50 hover:from-yellow-100 hover:to-amber-100 text-yellow-700 border-yellow-200/70 hover:border-yellow-300 font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+          className={`w-full ${TOUCH_FRIENDLY.button} bg-gradient-to-r from-yellow-50 to-amber-50 hover:from-yellow-100 hover:to-amber-100 text-yellow-700 border-yellow-200/70 hover:border-yellow-300 font-semibold shadow-sm hover:shadow-md transition-all duration-200`}
         >
           <StickyNote className="w-4 h-4 mr-2" />
           Notes
@@ -825,13 +826,14 @@ function CompanyNotes({ companyId, companyName }: CompanyNotesProps) {
               </div>
               <div className="space-y-2" data-reminder-id={reminderId || undefined}>
                 <Label htmlFor="reminderDate">Reminder Date & Time</Label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className={RESPONSIVE_GRIDS.twoCol}>
                   <Input
                     id="reminderDate"
                     type="date"
                     value={reminderDate}
                     onChange={(e) => setReminderDate(e.target.value)}
                     placeholder="Select date"
+                    className={TOUCH_FRIENDLY.input}
                   />
                   <Input
                     id="reminderTime"
@@ -839,6 +841,7 @@ function CompanyNotes({ companyId, companyName }: CompanyNotesProps) {
                     value={reminderTime}
                     onChange={(e) => setReminderTime(e.target.value)}
                     placeholder="Select time"
+                    className={TOUCH_FRIENDLY.input}
                   />
                 </div>
                 <div className="mt-2">
@@ -925,7 +928,7 @@ export default function CompanyCard({
 
   return (
     <Card 
-      className={`group relative rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white via-gray-50/30 to-blue-50/20 hover:from-white hover:via-blue-50/40 hover:to-indigo-50/30 overflow-hidden ${className}`}
+      className={`group relative rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white via-gray-50/30 to-blue-50/20 hover:from-white hover:via-blue-50/40 hover:to-indigo-50/30 ${OVERFLOW.preventX} overflow-hidden ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -1073,7 +1076,7 @@ export default function CompanyCard({
         </div>
 
         {/* Company Tags - Enhanced with better spacing and design */}
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className={`${RESPONSIVE_FLEX.wrap} ${OVERFLOW.preventX} mt-3`}>
           {company.averagePay && (
             <Badge className="bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 font-semibold text-xs px-3 py-1 rounded-full border border-green-200/50 shadow-sm hover:shadow-md transition-shadow duration-200">
               <DollarSign className="w-3 h-3 mr-1" />
@@ -1108,7 +1111,7 @@ export default function CompanyCard({
             </h4>
             
             {/* Earnings Row - Compact */}
-            <div className="grid grid-cols-4 gap-1.5 text-xs mb-2">
+            <div className={`${RESPONSIVE_GRIDS.fourCol} text-xs mb-2`}>
               <div className="text-center bg-white/80 rounded-md p-1.5">
                 <div className="font-semibold text-blue-700 text-xs">${syncData.earnings.daily}</div>
                 <div className="text-blue-600 text-xs">Daily</div>
@@ -1128,7 +1131,7 @@ export default function CompanyCard({
             </div>
 
             {/* Performance Metrics - Compact */}
-            <div className="grid grid-cols-2 gap-1.5 text-xs mb-2">
+            <div className={`${RESPONSIVE_GRIDS.twoCol} text-xs mb-2`}>
               <div className="bg-white/80 rounded-md p-1.5">
                 <div className="font-medium text-gray-700 text-xs">Rating</div>
                 <div className="text-blue-700 font-semibold text-xs">{syncData.performance.rating}/5.0</div>
@@ -1140,7 +1143,7 @@ export default function CompanyCard({
             </div>
 
             {/* Performance Percentages */}
-            <div className="grid grid-cols-3 gap-2 text-xs mb-2">
+            <div className={`${RESPONSIVE_GRIDS.threeCol} text-xs mb-2`}>
               <div className="text-center">
                 <div className="font-semibold text-blue-700">{syncData.performance.acceptanceRate}%</div>
                 <div className="text-blue-600">Acceptance</div>
@@ -1163,7 +1166,7 @@ export default function CompanyCard({
         )}
 
         {/* Company Information Grid */}
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className={`${RESPONSIVE_GRIDS.twoCol} text-sm`}>
           {/* Active Duration - prominently displayed for Active Companies */}
           {activeDuration && (
             <div className="flex items-center space-x-2 text-gray-600">
@@ -1203,7 +1206,7 @@ export default function CompanyCard({
               onClick={onViewProfile}
               variant="outline" 
               size="sm" 
-              className="w-full bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 text-blue-700 border-blue-200/70 hover:border-blue-300 font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+              className={`w-full ${TOUCH_FRIENDLY.button} bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 text-blue-700 border-blue-200/70 hover:border-blue-300 font-semibold shadow-sm hover:shadow-md transition-all duration-200`}
             >
               <Building2 className="w-4 h-4 mr-2" />
               Company Profile
@@ -1214,7 +1217,7 @@ export default function CompanyCard({
           <CompanyNotes companyId={company.id} companyName={company.name} />
 
           {(onSync || onEdit) && (
-            <div className="flex space-x-3">
+            <div className={RESPONSIVE_FLEX.row}>
               {onSync && (
                 <Button 
                   onClick={onSync}

@@ -13,6 +13,7 @@ import { TaskCard, TaskList } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, OVERFLOW } from "@/lib/responsive-utils";
 
 interface CardModalProps {
   card: TaskCard;
@@ -202,9 +203,9 @@ export default function CardModal({ card, lists, isOpen, onClose }: CardModalPro
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className={`${RESPONSIVE_GRIDS.threeCol} lg:grid-cols-3`}>
           {/* Main Content */}
-          <div className="col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             {/* Description */}
             <div>
               <Label className="text-sm font-medium flex items-center gap-2 mb-2">
@@ -256,7 +257,7 @@ export default function CardModal({ card, lists, isOpen, onClose }: CardModalPro
                     placeholder="Add checklist item"
                     onKeyPress={(e) => e.key === "Enter" && addChecklistItem()}
                   />
-                  <Button onClick={addChecklistItem} size="sm">
+                  <Button onClick={addChecklistItem} size="sm" className={TOUCH_FRIENDLY.button}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
@@ -286,7 +287,7 @@ export default function CardModal({ card, lists, isOpen, onClose }: CardModalPro
                     placeholder="Write a comment..."
                     className="min-h-[60px]"
                   />
-                  <Button onClick={addComment} size="sm" className="self-end">
+                  <Button onClick={addComment} size="sm" className={`self-end ${TOUCH_FRIENDLY.button}`}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
@@ -382,7 +383,7 @@ export default function CardModal({ card, lists, isOpen, onClose }: CardModalPro
                   placeholder="Add label"
                   onKeyPress={(e) => e.key === "Enter" && addLabel()}
                 />
-                <Button onClick={addLabel} size="sm">
+                <Button onClick={addLabel} size="sm" className={TOUCH_FRIENDLY.button}>
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>

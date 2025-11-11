@@ -28,6 +28,7 @@ import {
   Shield,
   Key
 } from "lucide-react";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, OVERFLOW } from "@/lib/responsive-utils";
 
 interface CompanySyncModalProps {
   company: any;
@@ -204,7 +205,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className={`max-w-4xl max-h-[90vh] overflow-y-auto ${OVERFLOW.preventX}`}>
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold flex items-center">
             <div className={`w-10 h-10 rounded-lg ${config.color} flex items-center justify-center text-white text-xl mr-3`}>
@@ -215,22 +216,25 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="connect" className="flex items-center">
-              <Key className="w-4 h-4 mr-2" />
-              Connect
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
+            <TabsTrigger value="connect" className="flex items-center text-xs sm:text-sm">
+              <Key className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Connect</span>
+              <span className="sm:hidden">Link</span>
             </TabsTrigger>
-            <TabsTrigger value="data" className="flex items-center">
-              <BarChart3 className="w-4 h-4 mr-2" />
+            <TabsTrigger value="data" className="flex items-center text-xs sm:text-sm">
+              <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               Data
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
+            <TabsTrigger value="settings" className="flex items-center text-xs sm:text-sm">
+              <Settings className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Settings</span>
+              <span className="sm:hidden">Config</span>
             </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center">
-              <Shield className="w-4 h-4 mr-2" />
-              Security
+            <TabsTrigger value="security" className="flex items-center text-xs sm:text-sm">
+              <Shield className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Security</span>
+              <span className="sm:hidden">Secure</span>
             </TabsTrigger>
           </TabsList>
 
@@ -245,7 +249,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                 <p className="text-gray-600">{config.description}</p>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className={RESPONSIVE_GRIDS.form}>
                   <div>
                     <Label htmlFor="email">Email Address</Label>
                     <Input
@@ -254,6 +258,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                       placeholder="your@email.com"
                       value={credentials.email}
                       onChange={(e) => setCredentials({...credentials, email: e.target.value})}
+                      className={TOUCH_FRIENDLY.input}
                     />
                   </div>
                   
@@ -265,6 +270,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                       placeholder="••••••••"
                       value={credentials.password}
                       onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                      className={TOUCH_FRIENDLY.input}
                     />
                   </div>
                 </div>
@@ -277,6 +283,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                       placeholder="Enter API key for enhanced sync"
                       value={credentials.apiKey}
                       onChange={(e) => setCredentials({...credentials, apiKey: e.target.value})}
+                      className={TOUCH_FRIENDLY.input}
                     />
                     <p className="text-sm text-gray-500 mt-1">
                       API key provides more detailed sync and faster updates
@@ -284,11 +291,12 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                   </div>
                 )}
 
-                <div className="flex space-x-3">
+                <div className={RESPONSIVE_FLEX.row}>
                   <Button 
                     onClick={handleTestConnection}
                     variant="outline"
                     disabled={syncStatus === 'syncing'}
+                    className={TOUCH_FRIENDLY.button}
                   >
                     {syncStatus === 'syncing' ? (
                       <>
@@ -306,7 +314,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                   <Button 
                     onClick={handleSync}
                     disabled={syncStatus === 'syncing'}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className={`bg-blue-600 hover:bg-blue-700 ${TOUCH_FRIENDLY.button}`}
                   >
                     {syncStatus === 'syncing' ? (
                       <>
@@ -342,7 +350,7 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
           {/* Data Tab */}
           <TabsContent value="data" className="space-y-6">
             {syncData ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className={RESPONSIVE_GRIDS.threeCol}>
                 {/* Earnings Card */}
                 <Card>
                   <CardHeader>
@@ -441,28 +449,28 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                 <CardTitle>Sync Settings</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex-1">
                     <h4 className="font-semibold">Auto Sync</h4>
                     <p className="text-sm text-gray-600">Automatically sync data every hour</p>
                   </div>
-                  <Button variant="outline" size="sm">Enable</Button>
+                  <Button variant="outline" size="sm" className={TOUCH_FRIENDLY.button}>Enable</Button>
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex-1">
                     <h4 className="font-semibold">Data Retention</h4>
                     <p className="text-sm text-gray-600">Keep data for 90 days</p>
                   </div>
-                  <Button variant="outline" size="sm">Configure</Button>
+                  <Button variant="outline" size="sm" className={TOUCH_FRIENDLY.button}>Configure</Button>
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex-1">
                     <h4 className="font-semibold">Export Data</h4>
                     <p className="text-sm text-gray-600">Download your sync history</p>
                   </div>
-                  <Button variant="outline" size="sm">Export</Button>
+                  <Button variant="outline" size="sm" className={TOUCH_FRIENDLY.button}>Export</Button>
                 </div>
               </CardContent>
             </Card>
@@ -489,12 +497,12 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
                 </div>
                 
                 <div className="space-y-3">
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className={`w-full ${TOUCH_FRIENDLY.button}`}>
                     <Key className="w-4 h-4 mr-2" />
                     Update Credentials
                   </Button>
                   
-                  <Button variant="outline" size="sm" className="w-full text-red-600 border-red-300">
+                  <Button variant="outline" size="sm" className={`w-full text-red-600 border-red-300 ${TOUCH_FRIENDLY.button}`}>
                     Disconnect Account
                   </Button>
                 </div>
@@ -503,20 +511,21 @@ export default function CompanySyncModal({ company, isOpen, onClose }: CompanySy
           </TabsContent>
         </Tabs>
 
-        <div className="flex justify-between items-center pt-4 border-t">
-          <Badge variant="outline" className="flex items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-4 border-t">
+          <Badge variant="outline" className="flex items-center text-xs">
             <Calendar className="w-3 h-3 mr-1" />
-            Last sync: {syncData ? syncData.lastSync.toLocaleDateString() : 'Never'}
+            <span className="hidden sm:inline">Last sync: {syncData ? syncData.lastSync.toLocaleDateString() : 'Never'}</span>
+            <span className="sm:hidden">{syncData ? syncData.lastSync.toLocaleDateString() : 'Never synced'}</span>
           </Badge>
           
-          <div className="flex space-x-2">
-            <Button variant="outline" onClick={onClose}>
+          <div className={`${RESPONSIVE_FLEX.row} w-full sm:w-auto`}>
+            <Button variant="outline" onClick={onClose} className={`${TOUCH_FRIENDLY.button} flex-1 sm:flex-initial`}>
               Close
             </Button>
             <Button 
               onClick={handleSync}
               disabled={syncStatus === 'syncing'}
-              className="bg-blue-600 hover:bg-blue-700"
+              className={`bg-blue-600 hover:bg-blue-700 ${TOUCH_FRIENDLY.button} flex-1 sm:flex-initial`}
             >
               <RefreshCw className="w-4 h-4 mr-2" />
               Sync Now
