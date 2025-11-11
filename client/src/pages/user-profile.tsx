@@ -739,14 +739,7 @@ export default function UserProfile() {
     setUploadingPhoto(true);
 
     try {
-      const formData = new FormData();
-      formData.append('profilePhoto', file);
-
-      const response = await fetch('/api/user/profile-photo', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
+      const response = await uploadFiles('/api/user/profile-photo', [file], 'profilePhoto');
 
       if (!response.ok) {
         throw new Error('Failed to upload photo');
