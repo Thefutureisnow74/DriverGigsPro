@@ -14,6 +14,7 @@ import { apiRequest, uploadFiles } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import type { Vehicle, InsertVehicle, VehicleDocument } from "@shared/schema";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, CONTAINER } from "@/lib/responsive-utils";
 
 // Empty vehicle template - no pre-filled data
 const VEHICLE_TEMPLATE = {
@@ -599,16 +600,17 @@ export default function MyFleetNew() {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">My Fleet</h1>
-          <p className="text-muted-foreground">Manage your vehicles and track their details</p>
+          <h1 className="text-2xl md:text-3xl font-bold">My Fleet</h1>
+          <p className="text-muted-foreground text-sm md:text-base">Manage your vehicles and track their details</p>
         </div>
-        <div className="flex gap-2">
+        <div className={`${RESPONSIVE_FLEX.row} w-full lg:w-auto`}>
           <Button 
             onClick={() => window.open('https://www.cargurus.com', '_blank')}
             variant="outline"
-            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white border-purple-500 hover:from-purple-600 hover:to-purple-700"
+            className={`bg-gradient-to-r from-purple-500 to-purple-600 text-white border-purple-500 hover:from-purple-600 hover:to-purple-700 ${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
+            data-testid="button-buy-vehicle"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Where to Buy a Vehicle
@@ -616,26 +618,27 @@ export default function MyFleetNew() {
           <Button 
             onClick={() => window.open('/car-rentals', '_blank')}
             variant="outline"
-            className="bg-gradient-to-r from-green-500 to-green-600 text-white border-green-500 hover:from-green-600 hover:to-green-700"
+            className={`bg-gradient-to-r from-green-500 to-green-600 text-white border-green-500 hover:from-green-600 hover:to-green-700 ${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`}
+            data-testid="button-rent-vehicle"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Where to Rent A Vehicle
           </Button>
           <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className={`${TOUCH_FRIENDLY.button} flex-1 sm:flex-none`} data-testid="button-add-vehicle">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Vehicle
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto px-4 sm:px-6">
+              <DialogHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0 pb-3">
                 <DialogTitle>Add New Vehicle</DialogTitle>
-                <div className="flex gap-2">
-                  <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)}>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <Button type="button" variant="outline" onClick={() => setShowAddDialog(false)} className="min-h-[44px] flex-1 sm:flex-none">
                     Cancel
                   </Button>
-                  <Button type="submit" form="add-vehicle-form" disabled={addVehicleMutation.isPending}>
+                  <Button type="submit" form="add-vehicle-form" disabled={addVehicleMutation.isPending} className="min-h-[44px] flex-1 sm:flex-none">
                     {addVehicleMutation.isPending ? 'Adding...' : 'Add Vehicle'}
                   </Button>
                 </div>
@@ -644,7 +647,7 @@ export default function MyFleetNew() {
                 e.preventDefault();
                 handleAddVehicle(new FormData(e.currentTarget));
               }} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="nickname">Vehicle Nickname *</Label>
                     <Input id="nickname" name="nickname" defaultValue={VEHICLE_TEMPLATE.nickname} required />
@@ -1623,20 +1626,22 @@ export default function MyFleetNew() {
       </div>
 
       {/* Vehicle Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className={RESPONSIVE_GRIDS.cols3}>
         {vehicles.map((vehicle: Vehicle) => (
-          <Card key={vehicle.id} className="hover:shadow-lg transition-shadow min-h-[400px] flex flex-col">
+          <Card key={vehicle.id} className="hover:shadow-lg transition-shadow min-h-[400px] flex flex-col" data-testid={`card-vehicle-${vehicle.id}`}>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Car className="w-5 h-5 text-blue-500" />
-                  <CardTitle className="text-lg">{vehicle.nickname || 'Untitled Vehicle'}</CardTitle>
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <Car className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                  <CardTitle className="text-base md:text-lg truncate">{vehicle.nickname || 'Untitled Vehicle'}</CardTitle>
                 </div>
                 <div className="flex gap-1">
                   <Button 
                     size="sm" 
                     variant="ghost"
                     onClick={() => openEditDialog(vehicle)}
+                    className="min-h-[40px] min-w-[40px] p-2"
+                    data-testid={`button-edit-vehicle-${vehicle.id}`}
                   >
                     <Edit3 className="w-4 h-4" />
                   </Button>
@@ -1644,7 +1649,8 @@ export default function MyFleetNew() {
                     size="sm" 
                     variant="ghost"
                     onClick={() => handleDeleteVehicle(vehicle.id)}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-500 hover:text-red-700 min-h-[40px] min-w-[40px] p-2"
+                    data-testid={`button-delete-vehicle-${vehicle.id}`}
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>

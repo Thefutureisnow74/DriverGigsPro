@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth, AuthProvider } from "@/hooks/useAuth";
-import Sidebar from "@/components/layout/sidebar";
+import Sidebar, { MobileMenuTrigger } from "@/components/layout/sidebar";
 import Landing from "@/pages/landing";
 import AuthPage from "@/pages/auth-page";
 
@@ -188,6 +188,19 @@ function AppLayout() {
       <div className="flex h-screen overflow-hidden relative">
         <Sidebar />
         <div className="flex-1 flex flex-col">
+          {/* Mobile Header */}
+          <header className="lg:hidden sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
+            <MobileMenuTrigger />
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+              </div>
+              <span className="text-lg font-bold text-gray-800">DriverGigsPro</span>
+            </div>
+          </header>
+
           <main className="flex-1 overflow-y-auto overflow-x-hidden">
             <AuthenticatedRouter />
           </main>

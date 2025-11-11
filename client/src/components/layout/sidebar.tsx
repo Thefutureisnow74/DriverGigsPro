@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { ReminderCount } from "@/components/reminder-count";
+import { useState, useEffect } from "react";
 import { 
   PieChart, 
   DollarSign, 
@@ -21,9 +22,11 @@ import {
   Wrench,
   CheckSquare,
   UserCircle,
-  CreditCard
-
+  CreditCard,
+  Menu,
+  X
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 
 const coreNavigationItems = [
@@ -152,39 +155,109 @@ const addOnServices = [
   },
 ];
 
-export default function Sidebar() {
+// Reusable navigation content component
+function NavigationContent({ onItemClick }: { onItemClick?: () => void }) {
   const [location] = useLocation();
 
   return (
-    <nav className="w-60 bg-white shadow-2xl border-r border-gray-200 overflow-y-auto sidebar-gradient flex-shrink-0 z-10 relative">
-      <div className="p-6">
-        {/* Logo Section */}
-        <div className="mb-8">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center animate-float">
-              <Truck className="text-white text-xl" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-800">DriverGigsPro</h1>
-              <p className="text-sm text-gray-500">Software Platform</p>
-            </div>
+    <div className="p-6">
+      {/* Logo Section */}
+      <div className="mb-8">
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center animate-float">
+            <Truck className="text-white text-xl" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-gray-800">DriverGigsPro</h1>
+            <p className="text-sm text-gray-500">Software Platform</p>
           </div>
         </div>
+      </div>
 
-        {/* Core Navigation Menu */}
+      {/* Core Navigation Menu */}
+      <div className="space-y-2">
+        {coreNavigationItems.map((item) => {
+          const isActive = location === item.href;
+          const Icon = item.icon;
+
+          return (
+            <Link key={item.href} href={item.href}>
+              <div 
+                onClick={onItemClick}
+                className={cn(
+                  "nav-item flex items-center space-x-3 p-3 md:p-4 rounded-xl transition-all duration-300 group cursor-pointer hover:scale-105 hover:shadow-xl min-h-[44px]",
+                  isActive 
+                    ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg scale-105`
+                    : `${item.hoverGradient} hover:text-gray-800 hover:shadow-2xl hover:shadow-blue-500/25`
+                )}
+                data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                <div className={cn(
+                  "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3",
+                  isActive 
+                    ? "bg-white bg-opacity-20 scale-110"
+                    : `${item.bgColor} group-hover:bg-white group-hover:bg-opacity-30 group-hover:shadow-lg`
+                )}>
+                  <Icon className={cn(
+                    "text-lg transition-all duration-300 group-hover:drop-shadow-lg",
+                    isActive 
+                      ? "text-white"
+                      : `${item.iconColor} group-hover:text-gray-700 group-hover:scale-125`
+                  )} />
+                </div>
+                <div className="flex-1">
+                  <span className={cn(
+                    "font-semibold transition-all duration-300 group-hover:drop-shadow-md text-base",
+                    isActive 
+                      ? "text-white"
+                      : "text-gray-700 group-hover:text-gray-800 group-hover:scale-105"
+                  )}>
+                    {item.label}
+                  </span>
+                  <p className={cn(
+                    "text-xs transition-all duration-300 group-hover:drop-shadow-sm",
+                    isActive 
+                      ? "text-blue-100"
+                      : "text-gray-500 group-hover:text-gray-600 group-hover:opacity-90 group-hover:scale-105"
+                  )}>
+                    {item.description}
+                  </p>
+                </div>
+                {item.href === "/reminders" && (
+                  <ReminderCount className="ml-auto" />
+                )}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* Add-On Services Section */}
+      <div className="mt-8">
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide px-4">
+            Add-On Services
+          </h3>
+          <div className="h-px bg-gradient-to-r from-gray-300 to-transparent mt-2"></div>
+        </div>
+        
         <div className="space-y-2">
-          {coreNavigationItems.map((item) => {
+          {addOnServices.map((item) => {
             const isActive = location === item.href;
             const Icon = item.icon;
 
             return (
               <Link key={item.href} href={item.href}>
-                <div className={cn(
-                  "nav-item flex items-center space-x-3 p-4 rounded-xl transition-all duration-300 group cursor-pointer hover:scale-105 hover:shadow-xl",
-                  isActive 
-                    ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg scale-105`
-                    : `${item.hoverGradient} hover:text-gray-800 hover:shadow-2xl hover:shadow-blue-500/25`
-                )}>
+                <div 
+                  onClick={onItemClick}
+                  className={cn(
+                    "nav-item flex items-center space-x-3 p-3 md:p-4 rounded-xl transition-all duration-300 group cursor-pointer hover:scale-105 hover:shadow-xl min-h-[44px]",
+                    isActive 
+                      ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg scale-105`
+                      : `${item.hoverGradient} hover:text-gray-800 hover:shadow-2xl hover:shadow-blue-500/25`
+                  )}
+                  data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
                   <div className={cn(
                     "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3",
                     isActive 
@@ -200,7 +273,7 @@ export default function Sidebar() {
                   </div>
                   <div>
                     <span className={cn(
-                      "font-semibold transition-all duration-300 group-hover:drop-shadow-md",
+                      "font-semibold transition-all duration-300 group-hover:drop-shadow-md text-base",
                       isActive 
                         ? "text-white"
                         : "text-gray-700 group-hover:text-gray-800 group-hover:scale-105"
@@ -216,77 +289,43 @@ export default function Sidebar() {
                       {item.description}
                     </p>
                   </div>
-                  {item.href === "/reminders" && (
-                    <ReminderCount className="ml-auto" />
-                  )}
                 </div>
               </Link>
             );
           })}
         </div>
-
-        {/* Add-On Services Section */}
-        <div className="mt-8">
-          <div className="mb-4">
-            <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide px-4">
-              Add-On Services
-            </h3>
-            <div className="h-px bg-gradient-to-r from-gray-300 to-transparent mt-2"></div>
-          </div>
-          
-          <div className="space-y-2">
-            {addOnServices.map((item) => {
-              const isActive = location === item.href;
-              const Icon = item.icon;
-
-              return (
-                <Link key={item.href} href={item.href}>
-                  <div className={cn(
-                    "nav-item flex items-center space-x-3 p-4 rounded-xl transition-all duration-300 group cursor-pointer hover:scale-105 hover:shadow-xl",
-                    isActive 
-                      ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg scale-105`
-                      : `${item.hoverGradient} hover:text-gray-800 hover:shadow-2xl hover:shadow-blue-500/25`
-                  )}>
-                    <div className={cn(
-                      "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3",
-                      isActive 
-                        ? "bg-white bg-opacity-20 scale-110"
-                        : `${item.bgColor} group-hover:bg-white group-hover:bg-opacity-30 group-hover:shadow-lg`
-                    )}>
-                      <Icon className={cn(
-                        "text-lg transition-all duration-300 group-hover:drop-shadow-lg",
-                        isActive 
-                          ? "text-white"
-                          : `${item.iconColor} group-hover:text-gray-700 group-hover:scale-125`
-                      )} />
-                    </div>
-                    <div>
-                      <span className={cn(
-                        "font-semibold transition-all duration-300 group-hover:drop-shadow-md",
-                        isActive 
-                          ? "text-white"
-                          : "text-gray-700 group-hover:text-gray-800 group-hover:scale-105"
-                      )}>
-                        {item.label}
-                      </span>
-                      <p className={cn(
-                        "text-xs transition-all duration-300 group-hover:drop-shadow-sm",
-                        isActive 
-                          ? "text-blue-100"
-                          : "text-gray-500 group-hover:text-gray-600 group-hover:opacity-90 group-hover:scale-105"
-                      )}>
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-
       </div>
+    </div>
+  );
+}
+
+// Desktop Sidebar (hidden on mobile/tablet, visible on lg+)
+export default function Sidebar() {
+  return (
+    <nav className="hidden lg:block w-60 bg-white shadow-2xl border-r border-gray-200 overflow-y-auto sidebar-gradient flex-shrink-0 z-10 relative">
+      <NavigationContent />
     </nav>
+  );
+}
+
+// Mobile Menu Trigger Button (visible on mobile/tablet, hidden on lg+)
+export function MobileMenuTrigger() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <button 
+          className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          data-testid="mobile-menu-trigger"
+          aria-label="Open navigation menu"
+        >
+          <Menu className="h-6 w-6 text-gray-700" />
+        </button>
+      </SheetTrigger>
+      <SheetContent side="left" className="p-0 w-72 sm:w-80">
+        <NavigationContent onItemClick={() => setOpen(false)} />
+      </SheetContent>
+    </Sheet>
   );
 }
