@@ -706,7 +706,7 @@ export default function RideshareMap() {
             />
             
             {/* Map Labels */}
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-slate-600">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-slate-600 max-w-full">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
                 Your Location
@@ -745,8 +745,8 @@ export default function RideshareMap() {
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4 max-w-full">
+              <div className="bg-white rounded-lg p-3 border border-blue-100 min-w-0">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-slate-600">Demand Level</span>
                   <Badge className={getConcentrationColor(selectedHotSpot.concentration)}>
@@ -754,13 +754,13 @@ export default function RideshareMap() {
                   </Badge>
                 </div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-blue-100">
+              <div className="bg-white rounded-lg p-3 border border-blue-100 min-w-0">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-slate-600">Estimated Earnings</span>
                   <span className="font-semibold text-green-600">{selectedHotSpot.estimatedEarnings}</span>
                 </div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-blue-100">
+              <div className="bg-white rounded-lg p-3 border border-blue-100 min-w-0">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-slate-600">Peak Hours</span>
                   <span className="font-medium text-slate-800 text-sm">{selectedHotSpot.peakHours}</span>
@@ -803,8 +803,8 @@ export default function RideshareMap() {
         )}
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-6 max-w-full">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 min-w-0">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-semibold text-slate-800">Your Area</h4>
@@ -817,7 +817,7 @@ export default function RideshareMap() {
             </div>
           </div>
           
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200 min-w-0">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-semibold text-slate-800">Active Events</h4>
@@ -832,7 +832,7 @@ export default function RideshareMap() {
             </div>
           </div>
           
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200 min-w-0">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-semibold text-slate-800">Avg. Earnings</h4>

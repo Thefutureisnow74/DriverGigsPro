@@ -1546,8 +1546,8 @@ export default function Companies() {
 
         {/* Action Filter Tabs */}
         <Card className="p-2 mb-3">
-          <div className="flex items-center space-x-1 overflow-x-auto pb-2 scrollbar-hide">
-            <span className="text-xs font-medium text-gray-700 mr-2 whitespace-nowrap shrink-0">Status:</span>
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
+            <span className="text-xs font-medium text-gray-700 whitespace-nowrap shrink-0">Status:</span>
             {[
               { key: "all", label: "All", icon: Building2, color: "blue" },
               { key: "research", label: "Researching", icon: RefreshCw, color: "yellow" },
@@ -1618,7 +1618,7 @@ export default function Companies() {
                 variant="outline"
                 size="sm"
                 onClick={() => setActiveTab(tab.key)}
-                className={`whitespace-nowrap h-7 px-2 text-xs ${
+                className={`whitespace-nowrap h-7 px-2 text-xs shrink-0 snap-start ${
                   activeTab === tab.key
                     ? getActiveStyles()
                     : `bg-white border-gray-300 text-gray-700 ${getInactiveHoverStyles()}`

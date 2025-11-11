@@ -19,6 +19,7 @@ import {
   ChevronDown
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 
 const tabs = [
   {
@@ -86,7 +87,7 @@ export default function BottomTabs() {
       {/* Tab Links */}
       <Card className="border border-slate-200 shadow-sm bg-white">
         <CardContent className="p-4">
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex overflow-x-auto gap-2 pb-2 snap-x snap-mandatory scrollbar-hide">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isExpanded = expandedTab === tab.id;
@@ -95,7 +96,7 @@ export default function BottomTabs() {
                 <button
                   key={tab.id}
                   onClick={() => handleTabClick(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 whitespace-nowrap shrink-0 snap-start ${
                     isExpanded 
                       ? `bg-gradient-to-r ${tab.gradient} text-white shadow-lg` 
                       : `${tab.textColor} hover:bg-slate-50 border border-slate-200`
@@ -158,7 +159,7 @@ export default function BottomTabs() {
 
               {expandedTabData.id === 2 && (
                 <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                       <h4 className="font-bold text-green-800 mb-2">💰 Tax Savings</h4>
                       <p className="text-sm text-green-600">Average $2,400/year in deductions</p>
