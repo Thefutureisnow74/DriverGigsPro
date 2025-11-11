@@ -8893,14 +8893,21 @@ Business Overview:
   app.post("/api/personal-credit/tradelines", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.id;
+      
+      // Helper to convert decimal fields, filtering out null/empty values
+      const toDecimal = (val: any) => {
+        if (val === null || val === undefined || val === '' || val === 'null') return undefined;
+        return String(val);
+      };
+      
       const tradelineData = insertPersonalCreditTradelineSchema.parse({
         ...req.body,
         userId,
-        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
-        currentBalance: req.body.currentBalance ? String(req.body.currentBalance) : "0",
-        minimumPayment: req.body.minimumPayment ? String(req.body.minimumPayment) : undefined,
-        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined,
-        lastPaymentAmount: req.body.lastPaymentAmount ? String(req.body.lastPaymentAmount) : undefined,
+        creditLimit: toDecimal(req.body.creditLimit),
+        currentBalance: toDecimal(req.body.currentBalance) || "0",
+        minimumPayment: toDecimal(req.body.minimumPayment),
+        interestRate: toDecimal(req.body.interestRate),
+        lastPaymentAmount: toDecimal(req.body.lastPaymentAmount),
         openDate: req.body.openDate ? new Date(req.body.openDate) : undefined,
         lastPaymentDate: req.body.lastPaymentDate ? new Date(req.body.lastPaymentDate) : undefined
       });
@@ -8921,13 +8928,20 @@ Business Overview:
       const userId = req.user.id;
       const tradelineId = parseInt(req.params.id);
       const { createdAt, updatedAt, userId: _, id: __, ...bodyData } = req.body;
+      
+      // Helper to convert decimal fields, filtering out null/empty values
+      const toDecimal = (val: any) => {
+        if (val === null || val === undefined || val === '' || val === 'null') return undefined;
+        return String(val);
+      };
+      
       const updates = {
         ...bodyData,
-        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
-        currentBalance: req.body.currentBalance !== undefined ? String(req.body.currentBalance) : undefined,
-        minimumPayment: req.body.minimumPayment ? String(req.body.minimumPayment) : undefined,
-        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined,
-        lastPaymentAmount: req.body.lastPaymentAmount ? String(req.body.lastPaymentAmount) : undefined,
+        creditLimit: toDecimal(req.body.creditLimit),
+        currentBalance: toDecimal(req.body.currentBalance),
+        minimumPayment: toDecimal(req.body.minimumPayment),
+        interestRate: toDecimal(req.body.interestRate),
+        lastPaymentAmount: toDecimal(req.body.lastPaymentAmount),
         openDate: req.body.openDate ? new Date(req.body.openDate) : undefined,
         lastPaymentDate: req.body.lastPaymentDate ? new Date(req.body.lastPaymentDate) : undefined
       };
@@ -8987,13 +9001,20 @@ Business Overview:
   app.post("/api/personal-credit/cards", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.id;
+      
+      // Helper to convert decimal fields, filtering out null/empty values
+      const toDecimal = (val: any) => {
+        if (val === null || val === undefined || val === '' || val === 'null') return undefined;
+        return String(val);
+      };
+      
       const cardData = insertPersonalCreditCardSchema.parse({
         ...req.body,
         userId,
-        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
-        balanceDue: req.body.balanceDue ? String(req.body.balanceDue) : undefined,
-        payment: req.body.payment ? String(req.body.payment) : undefined,
-        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined,
+        creditLimit: toDecimal(req.body.creditLimit),
+        balanceDue: toDecimal(req.body.balanceDue),
+        payment: toDecimal(req.body.payment),
+        interestRate: toDecimal(req.body.interestRate),
         reportDate: req.body.reportDate ? new Date(req.body.reportDate) : undefined,
         dateOpened: req.body.dateOpened ? new Date(req.body.dateOpened) : undefined
       });
@@ -9014,12 +9035,19 @@ Business Overview:
       const userId = req.user.id;
       const cardId = parseInt(req.params.id);
       const { createdAt, updatedAt, userId: _, id: __, ...bodyData } = req.body;
+      
+      // Helper to convert decimal fields, filtering out null/empty values
+      const toDecimal = (val: any) => {
+        if (val === null || val === undefined || val === '' || val === 'null') return undefined;
+        return String(val);
+      };
+      
       const updates = {
         ...bodyData,
-        creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
-        balanceDue: req.body.balanceDue !== undefined ? String(req.body.balanceDue) : undefined,
-        payment: req.body.payment ? String(req.body.payment) : undefined,
-        interestRate: req.body.interestRate ? String(req.body.interestRate) : undefined,
+        creditLimit: toDecimal(req.body.creditLimit),
+        balanceDue: toDecimal(req.body.balanceDue),
+        payment: toDecimal(req.body.payment),
+        interestRate: toDecimal(req.body.interestRate),
         reportDate: req.body.reportDate ? new Date(req.body.reportDate) : undefined,
         dateOpened: req.body.dateOpened ? new Date(req.body.dateOpened) : undefined
       };
