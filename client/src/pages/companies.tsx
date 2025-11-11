@@ -1378,9 +1378,9 @@ export default function Companies() {
 
         {/* Search and Filters */}
         <Card className="p-3 md:p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {/* Search with Auto-Suggest */}
-            <div className="sm:col-span-2 lg:col-span-2">
+            <div className="md:col-span-2 lg:col-span-3 xl:col-span-2">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
@@ -1456,7 +1456,7 @@ export default function Companies() {
 
             {/* Vehicle Type Filter */}
             <Select value={selectedVehicleType} onValueChange={setSelectedVehicleType}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`}>
                 <SelectValue placeholder="Vehicle Type" />
               </SelectTrigger>
               <SelectContent>
@@ -1470,7 +1470,7 @@ export default function Companies() {
 
             {/* Employment Type Filter */}
             <Select value={selectedEmploymentType} onValueChange={setSelectedEmploymentType}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`}>
                 <SelectValue placeholder="Employment Type" />
               </SelectTrigger>
               <SelectContent>
@@ -1484,7 +1484,7 @@ export default function Companies() {
 
             {/* Contract Type Filter */}
             <Select value={selectedContractType} onValueChange={setSelectedContractType}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`}>
                 <SelectValue placeholder="Contract Type" />
               </SelectTrigger>
               <SelectContent>
@@ -1501,7 +1501,7 @@ export default function Companies() {
 
             {/* Sort Filter */}
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="h-8 text-sm min-w-0">
+              <SelectTrigger className={`${TOUCH_FRIENDLY.select} text-sm min-w-0`}>
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
@@ -1546,8 +1546,8 @@ export default function Companies() {
 
         {/* Action Filter Tabs */}
         <Card className="p-2 mb-3">
-          <div className="flex items-center space-x-1 overflow-x-auto">
-            <span className="text-xs font-medium text-gray-700 mr-2 whitespace-nowrap">Status:</span>
+          <div className="flex items-center space-x-1 overflow-x-auto pb-2 scrollbar-hide">
+            <span className="text-xs font-medium text-gray-700 mr-2 whitespace-nowrap shrink-0">Status:</span>
             {[
               { key: "all", label: "All", icon: Building2, color: "blue" },
               { key: "research", label: "Researching", icon: RefreshCw, color: "yellow" },
