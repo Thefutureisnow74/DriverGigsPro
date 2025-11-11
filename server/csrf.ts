@@ -77,7 +77,7 @@ export const csrfValidationMiddleware = (req: Request, res: Response, next: Next
   }
 
   // Skip CSRF for file upload endpoints (they use authentication + multipart form data)
-  if (req.path === '/api/user/profile-photo' || req.path === '/api/documents') {
+  if (req.path === '/api/user/profile-photo' || req.path === '/api/documents' || req.path === '/api/upload-document') {
     return next();
   }
 
