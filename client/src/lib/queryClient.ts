@@ -25,12 +25,27 @@ export async function uploadFiles(
   fieldName: string = 'files',
   additionalData?: Record<string, string>
 ): Promise<Response> {
+  console.log('[uploadFiles] Starting upload:', { 
+    url, 
+    filesInput: files, 
+    filesType: files?.constructor?.name,
+    filesLength: files?.length,
+    fieldName, 
+    additionalData 
+  });
+  
   const csrfToken = await fetchCsrfToken();
   const formData = new FormData();
   
   // Append files
   const fileArray = Array.isArray(files) ? files : Array.from(files);
-  fileArray.forEach(file => {
+  console.log('[uploadFiles] File array:', { 
+    count: fileArray.length, 
+    files: fileArray.map(f => ({ name: f.name, size: f.size, type: f.type }))
+  });
+  
+  fileArray.forEach((file, index) => {
+    console.log(`[uploadFiles] Appending file ${index}:`, file.name, file.size, 'bytes');
     formData.append(fieldName, file);
   });
   
@@ -40,6 +55,16 @@ export async function uploadFiles(
       formData.append(key, value);
     });
   }
+  
+  // Log FormData contents
+  console.log('[uploadFiles] FormData entries:');
+  Array.from(formData.entries()).forEach(([key, value]) => {
+    if (value instanceof File) {
+      console.log(`  ${key}: File(${value.name}, ${value.size} bytes)`);
+    } else {
+      console.log(`  ${key}: ${value}`);
+    }
+  });
   
   const response = await fetch(url, {
     method: 'POST',
