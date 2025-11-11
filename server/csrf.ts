@@ -82,7 +82,7 @@ export const csrfValidationMiddleware = (req: Request, res: Response, next: Next
   }
 
   // Temporarily skip CSRF for critical endpoints while fixing session issues
-  if (req.path === '/api/gigbot/chat' || req.path === '/api/user/profile' || req.path === '/api/sider/free-chat') {
+  if (req.path === '/api/gigbot/chat' || req.path === '/api/user/profile' || req.path === '/api/sider/free-chat' || req.path === '/api/job-search-notes') {
     return next();
   }
 
