@@ -369,7 +369,8 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
         ref={canvasRef}
         width={800}
         height={500}
-        className="w-full h-auto border border-slate-200 rounded-lg cursor-pointer bg-gradient-to-br from-slate-50 to-blue-50"
+        className="w-full border border-slate-200 rounded-lg cursor-pointer bg-gradient-to-br from-slate-50 to-blue-50"
+        style={{ height: '500px', maxHeight: '500px' }}
         onClick={handleCanvasClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setHoveredHotspot(null)}
