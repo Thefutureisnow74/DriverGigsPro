@@ -314,6 +314,9 @@ export default function EditBusinessProfile() {
     }
   }, [entityData, isSaving]);
 
+  // Local state for tradeline edits (for immediate UI updates)
+  const [localTradelineEdits, setLocalTradelineEdits] = useState<Record<string, any>>({});
+
   // Use ref to persist timeouts across re-renders
   const saveTimeoutsRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
@@ -340,6 +343,15 @@ export default function EditBusinessProfile() {
   // Handle tradeline field changes with debouncing
   const handleTradelineChange = (tradelineType: 'loan' | 'credit_card', slotNumber: number, field: string, value: any) => {
     const key = `${tradelineType}-${slotNumber}`;
+    
+    // Update local state immediately for responsive UI
+    setLocalTradelineEdits(prev => ({
+      ...prev,
+      [key]: {
+        ...(prev[key] || {}),
+        [field]: value,
+      }
+    }));
     
     // Clear previous timeout for this specific tradeline
     if (tradelineTimeoutsRef.current[key]) {
@@ -371,6 +383,14 @@ export default function EditBusinessProfile() {
 
   // Helper to get tradeline value
   const getTradelineValue = (tradelineType: 'loan' | 'credit_card', slotNumber: number, field: string) => {
+    const key = `${tradelineType}-${slotNumber}`;
+    
+    // Check local edits first (immediate updates)
+    if (localTradelineEdits[key]?.[field] !== undefined) {
+      return localTradelineEdits[key][field];
+    }
+    
+    // Fallback to fetched data
     const tradeline = tradelines.find((t: any) => 
       t.tradelineType === tradelineType && t.slotNumber === slotNumber
     );
