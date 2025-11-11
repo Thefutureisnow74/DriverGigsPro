@@ -275,7 +275,11 @@ export default function GigBotChat() {
     }
   });
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
+    
     if (!inputMessage.trim() || chatMutation.isPending) return;
     
     const userMessage: Message = {
@@ -288,13 +292,6 @@ export default function GigBotChat() {
     setMessages(prev => [...prev, userMessage]);
     chatMutation.mutate(inputMessage);
     setInputMessage("");
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
   };
 
   if (!isExpanded) {
@@ -393,13 +390,12 @@ export default function GigBotChat() {
           </ScrollArea>
 
           {/* Input Area */}
-          <div className="flex gap-2">
+          <form onSubmit={handleSendMessage} className="flex gap-2">
             <div className="flex-1">
               <Input
                 placeholder="Ask GigBot anything..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
                 disabled={chatMutation.isPending}
                 className="text-sm"
               />
@@ -407,6 +403,7 @@ export default function GigBotChat() {
             
             {/* Voice Controls */}
             <Button
+              type="button"
               variant="outline"
               size="sm"
               onClick={isListening ? stopListening : startListening}
@@ -418,6 +415,7 @@ export default function GigBotChat() {
             
             {/* Speech Control */}
             <Button
+              type="button"
               variant="outline"
               size="sm"
               onClick={isSpeaking ? stopSpeaking : () => {}}
@@ -429,13 +427,13 @@ export default function GigBotChat() {
             
             {/* Send Button */}
             <Button
-              onClick={handleSendMessage}
+              type="submit"
               disabled={!inputMessage.trim() || chatMutation.isPending}
               size="sm"
             >
               <Send className="w-4 h-4" />
             </Button>
-          </div>
+          </form>
         </div>
       </CardContent>
     </Card>
