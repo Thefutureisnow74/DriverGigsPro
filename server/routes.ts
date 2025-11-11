@@ -8812,7 +8812,8 @@ Business Overview:
       const userId = req.user.id;
       const goalData = insertPersonalCreditGoalSchema.parse({
         ...req.body,
-        userId
+        userId,
+        targetDate: req.body.targetDate ? new Date(req.body.targetDate) : null
       });
 
       const [newGoal] = await db.insert(personalCreditGoals)
@@ -8830,7 +8831,11 @@ Business Overview:
     try {
       const userId = req.user.id;
       const goalId = parseInt(req.params.id);
-      const updates = req.body;
+      const updates = {
+        ...req.body,
+        targetDate: req.body.targetDate ? new Date(req.body.targetDate) : undefined,
+        completedAt: req.body.completedAt ? new Date(req.body.completedAt) : undefined
+      };
 
       const [updatedGoal] = await db.update(personalCreditGoals)
         .set({ ...updates, updatedAt: new Date() })
