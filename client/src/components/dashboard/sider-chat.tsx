@@ -28,14 +28,13 @@ export default function SiderChat() {
     setUsage(null);
 
     try {
-      const response = await apiRequest('/api/sider/free-chat', {
+      const { data } = await apiRequest('/api/sider/free-chat', {
         method: 'POST',
         body: { message }
       });
-      const result = await response.json();
 
-      setResponse(result.response);
-      setUsage(result.usage);
+      setResponse(data.response);
+      setUsage(data.usage);
     } catch (error: any) {
       setResponse(`Error: ${error.message || 'Failed to get response'}`);
     } finally {

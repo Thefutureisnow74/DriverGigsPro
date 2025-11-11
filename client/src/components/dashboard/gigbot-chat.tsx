@@ -246,12 +246,11 @@ export default function GigBotChat() {
   // Chat mutation
   const chatMutation = useMutation({
     mutationFn: async (message: string) => {
-      const response = await apiRequest(`/api/gigbot/chat`, { 
+      const { data } = await apiRequest(`/api/gigbot/chat`, { 
         method: 'POST',
         body: { message, sessionId: 'dashboard' }
       });
-      // apiRequest returns the parsed JSON data, not a Response object
-      return response as any;
+      return data;
     },
     onSuccess: (data: any) => {
       // Ensure we have a valid message
