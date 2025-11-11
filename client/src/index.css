@@ -203,12 +203,23 @@
   }
 
   .modern-card {
-    @apply bg-white/70 backdrop-blur-md border border-slate-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply bg-white/70 backdrop-blur-md border border-slate-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 max-w-full;
   }
 
   .stat-card {
-    @apply modern-card p-6 hover:scale-105 cursor-pointer;
+    @apply modern-card p-3 sm:p-6 hover:scale-105 cursor-pointer max-w-full;
     background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%);
+  }
+
+  /* Mobile-first responsive utilities */
+  @media (max-width: 640px) {
+    .modern-card {
+      @apply rounded-lg;
+    }
+    
+    .stat-card {
+      @apply p-4;
+    }
   }
   
   .stat-card.group {

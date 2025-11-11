@@ -100,13 +100,13 @@ export default function MyFleetNew() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  
+
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [vehicleDocuments, setVehicleDocuments] = useState<VehicleDocument[]>([]);
   const [uploadingFiles, setUploadingFiles] = useState<Record<string, boolean>>({});
-  
+
   // Maintenance checklist state
   const [showMaintenanceDialog, setShowMaintenanceDialog] = useState(false);
   const [selectedVehicleForMaintenance, setSelectedVehicleForMaintenance] = useState<number | null>(null);
@@ -125,7 +125,7 @@ export default function MyFleetNew() {
     reminderEnabled: false,
     reminderDays: 7
   });
-  
+
   // Fetch vehicles with forced refresh
   const { data: vehicles = [], isLoading, refetch } = useQuery<Vehicle[]>({
     queryKey: ['/api/vehicles'],
@@ -232,7 +232,7 @@ export default function MyFleetNew() {
       );
 
       const result = await response.json();
-      
+
       toast({
         title: "Success",
         description: result.message,
@@ -256,7 +256,7 @@ export default function MyFleetNew() {
   const handleDeleteDocument = async (documentId: number) => {
     try {
       await apiRequest(`/api/vehicles/documents/${documentId}`, { method: "DELETE" });
-      
+
       toast({
         title: "Success",
         description: "Document deleted successfully",
@@ -347,7 +347,7 @@ export default function MyFleetNew() {
 
   const handleAddVehicle = (formData: FormData) => {
     if (!user?.id) return;
-    
+
     const vehicleData: InsertVehicle = {
       userId: user.id.toString(),
       nickname: formData.get('nickname') as string,
@@ -456,13 +456,13 @@ export default function MyFleetNew() {
       fullTermPremium: formData.get('fullTermPremium') as string,
       notes: formData.get('notes') as string,
     };
-    
+
     addVehicleMutation.mutate(vehicleData);
   };
 
   const handleUpdateVehicle = (formData: FormData) => {
     if (!selectedVehicle) return;
-    
+
     // Prepare vehicle data for API - use raw form values and let backend handle conversion
     const vehicleData = {
       nickname: formData.get('nickname') as string,
@@ -571,7 +571,7 @@ export default function MyFleetNew() {
       fullTermPremium: formData.get('fullTermPremium') as string || selectedVehicle.fullTermPremium,
       notes: formData.get('notes') as string || selectedVehicle.notes,
     };
-    
+
     console.log('Updating vehicle with data:', vehicleData);
     updateVehicleMutation.mutate(vehicleData);
   };
@@ -744,7 +744,7 @@ export default function MyFleetNew() {
                     <Input id="purchaseLocation" name="purchaseLocation" defaultValue={VEHICLE_TEMPLATE.purchaseLocation} />
                   </div>
                 </div>
-                
+
                 {/* Financial Information */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-blue-600">Financial Information</h3>
@@ -952,7 +952,7 @@ export default function MyFleetNew() {
                   <h3 className="text-lg font-semibold text-blue-600 flex items-center gap-2">
                     🛡️ Insurance Information
                   </h3>
-                  
+
                   {/* Row 1: Company and Type */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -1105,7 +1105,7 @@ export default function MyFleetNew() {
                   {/* DETAILED INSURANCE COVERAGE INFORMATION */}
                   <div className="mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-lg">
                     <h4 className="text-lg font-semibold text-blue-800 mb-4">Detailed Coverage Information</h4>
-                    
+
                     {/* Bodily Injury Coverage */}
                     <div className="mb-6">
                       <h5 className="text-md font-medium text-gray-800 mb-3">Bodily Injury</h5>
@@ -1401,7 +1401,7 @@ export default function MyFleetNew() {
                 {/* Document and Photo Upload */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-purple-600">Documents & Photos</h3>
-                  
+
                   {/* Vehicle Photos */}
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-700">Vehicle Photos</h4>
@@ -1626,7 +1626,7 @@ export default function MyFleetNew() {
       </div>
 
       {/* Vehicle Grid */}
-      <div className={RESPONSIVE_GRIDS.cols3}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 max-w-full overflow-hidden px-2 sm:px-0">
         {vehicles.map((vehicle: Vehicle) => (
           <Card key={vehicle.id} className="hover:shadow-lg transition-shadow min-h-[400px] flex flex-col" data-testid={`card-vehicle-${vehicle.id}`}>
             <CardHeader className="pb-3">
@@ -1712,7 +1712,7 @@ export default function MyFleetNew() {
               <div className="text-sm text-muted-foreground min-h-[20px]">
                 <span className="font-medium">Notes:</span> {vehicle.notes || 'No notes added'}
               </div>
-              
+
               {/* Vehicle Maintenance & Accessory Checklist Button */}
               <div className="mt-3 pt-3 border-t border-gray-200">
                 <Button
@@ -1858,7 +1858,7 @@ export default function MyFleetNew() {
                   <Input id="edit-mpg" name="mpg" type="number" defaultValue={selectedVehicle.mpg || 0} />
                 </div>
               </div>
-              
+
               {/* Financial Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-blue-600">Financial Information</h3>
@@ -2184,7 +2184,7 @@ export default function MyFleetNew() {
                 <h3 className="text-lg font-semibold text-blue-600 flex items-center gap-2">
                   🛡️ Insurance Information
                 </h3>
-                
+
                 {/* Row 1: Company and Type */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -2344,7 +2344,7 @@ export default function MyFleetNew() {
                 {/* DETAILED INSURANCE COVERAGE INFORMATION - EDIT MODE */}
                 <div className="mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-lg">
                   <h4 className="text-lg font-semibold text-blue-800 mb-4">Detailed Coverage Information</h4>
-                  
+
                   {/* Bodily Injury Coverage */}
                   <div className="mb-6">
                     <h5 className="text-md font-medium text-gray-800 mb-3">Bodily Injury</h5>
@@ -2640,7 +2640,7 @@ export default function MyFleetNew() {
               {/* Document and Photo Upload - Edit Mode */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-purple-600">Documents & Photos</h3>
-                
+
                 {/* Vehicle Photos */}
                 <div className="space-y-3">
                   <h4 className="font-medium text-gray-700">Vehicle Photos</h4>
@@ -2682,7 +2682,7 @@ export default function MyFleetNew() {
                           </>
                         )}
                       </label>
-                      
+
                       {/* Display uploaded photos */}
                       {vehicleDocuments && Array.isArray(vehicleDocuments) && vehicleDocuments.filter(doc => doc.documentCategory === 'Vehicle Photos').length > 0 && (
                         <div className="mt-2 space-y-1">
@@ -3659,7 +3659,7 @@ export default function MyFleetNew() {
                         </Select>
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="text-sm font-medium text-gray-700">Description</label>
                       <Input
@@ -3668,7 +3668,7 @@ export default function MyFleetNew() {
                         placeholder="Brief description"
                       />
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className="text-sm font-medium text-gray-700">Due Date</label>
@@ -3734,7 +3734,7 @@ export default function MyFleetNew() {
                         rows={2}
                       />
                     </div>
-                    
+
                     <div className="flex justify-end space-x-3">
                       <Button
                         variant="outline"

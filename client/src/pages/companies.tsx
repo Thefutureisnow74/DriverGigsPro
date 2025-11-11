@@ -25,7 +25,7 @@ import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, CONTAINER } from "@/
 export default function Companies() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   // Force invalidate cache on mount to ensure fresh data
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["/api/companies"] });
@@ -36,7 +36,7 @@ export default function Companies() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const filterParam = urlParams.get('filter');
-    
+
     if (filterParam) {
       switch (filterParam) {
         case 'research':
@@ -59,7 +59,7 @@ export default function Companies() {
       }
     }
   }, []);
-  
+
   // State management
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCompany, setSelectedCompany] = useState<any>(null);
@@ -76,12 +76,12 @@ export default function Companies() {
   const [companyToDelete, setCompanyToDelete] = useState<any>(null);
   const [isCleaningDuplicates, setIsCleaningDuplicates] = useState(false);
   const [showRecommendationCriteria, setShowRecommendationCriteria] = useState(false);
-  
+
   // Auto-suggest functionality
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<any[]>([]);
 
-  
+
 
 
   // Filter states
@@ -95,10 +95,10 @@ export default function Companies() {
   const [showLocationSuggestions, setShowLocationSuggestions] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-  
+
   // Sort state
   const [sortBy, setSortBy] = useState<string>("");
-  
+
   // Tab state for filtering by action selections
   const [activeTab, setActiveTab] = useState<string>("all");
 
@@ -351,12 +351,12 @@ export default function Companies() {
   // FIXED FILTERING - Separate search from dropdown filters
   const filteredCompanies = (companies || []).filter((company: any) => {
     const searchLower = searchTerm.toLowerCase().trim();
-    
+
     // STEP 1: Apply search filter (if any)
     let matchesSearch = true;
     if (searchLower) {
       matchesSearch = false;
-      
+
       // Name/vertical matches
       if (company.name?.toLowerCase().includes(searchLower) || 
           (Array.isArray(company.serviceVertical) ? 
@@ -364,13 +364,13 @@ export default function Companies() {
             company.serviceVertical?.toLowerCase().includes(searchLower))) {
         matchesSearch = true;
       }
-      
+
       // State searches
       const usStates = ['alabama','alaska','arizona','arkansas','california','colorado','connecticut','delaware','florida','georgia','hawaii','idaho','illinois','indiana','iowa','kansas','kentucky','louisiana','maine','maryland','massachusetts','michigan','minnesota','mississippi','missouri','montana','nebraska','nevada','new hampshire','new jersey','new mexico','new york','north carolina','north dakota','ohio','oklahoma','oregon','pennsylvania','rhode island','south carolina','south dakota','tennessee','texas','utah','vermont','virginia','washington','west virginia','wisconsin','wyoming'];
-      
+
       if (usStates.includes(searchLower)) {
         const areas = String(company.areasServed || '').toLowerCase();
-        
+
         if (areas.includes(searchLower) || 
             (searchLower === 'texas' && areas.includes('tx')) ||
             (searchLower === 'california' && areas.includes('ca')) ||
@@ -391,13 +391,13 @@ export default function Companies() {
         }
       }
     }
-    
+
     if (!matchesSearch) return false;
-    
+
     // STEP 2: Apply dropdown filters
     if (selectedServiceVertical) {
       const serviceVerticals = Array.isArray(company.serviceVertical) ? company.serviceVertical : [company.serviceVertical];
-      
+
       // Special handling for rideshare - include both "Rideshare" and "Taxi/Rideshare"
       if (selectedServiceVertical === 'Rideshare') {
         const isRideshareMatch = serviceVerticals.includes('Rideshare') || 
@@ -406,8 +406,8 @@ export default function Companies() {
                                 company.name?.toLowerCase().includes('uber') ||
                                 company.name?.toLowerCase().includes('lyft') ||
                                 company.name?.toLowerCase().includes('rideshare');
-        
-        
+
+
         if (!isRideshareMatch) return false;
       } 
       // Special handling for luggage delivery - include companies with primary service or those offering it as secondary service
@@ -431,14 +431,14 @@ export default function Companies() {
                                 company.name?.toLowerCase().includes('uber') ||
                                 company.name?.toLowerCase().includes('lyft') ||
                                 company.name?.toLowerCase().includes('rideshare');
-      
+
       const assumeCommonVehicles = isRideshareCompany && ['Car', 'SUV'].includes(selectedVehicleType);
-      
-      
+
+
       if (!assumeCommonVehicles) return false;
     }
     if (selectedContractType && company.contractType !== selectedContractType) return false;
-    
+
     // Employment type filtering - handle missing contractType for rideshare companies
     if (selectedEmploymentType && selectedEmploymentType !== "Both") {
       // For rideshare companies, assume Independent Contractor if contractType is missing
@@ -446,19 +446,19 @@ export default function Companies() {
                                 company.name?.toLowerCase().includes('uber') ||
                                 company.name?.toLowerCase().includes('lyft') ||
                                 company.name?.toLowerCase().includes('rideshare');
-      
+
       const effectiveContractType = company.contractType || (isRideshareCompany ? 'Independent Contractor' : null);
-      
-      
+
+
       if (effectiveContractType !== selectedEmploymentType) return false;
     }
     if (selectedLocation && company.areasServed && !JSON.stringify(company.areasServed).includes(selectedLocation)) return false;
-    
+
     // State filtering - check if company serves the selected state
     if (selectedState) {
       const stateLabel = usStates.find(s => s.value === selectedState)?.label;
       const areasServedStr = JSON.stringify(company.areasServed).toLowerCase();
-      
+
       const hasStateMatch = company.areasServed && (
         // Direct state code or name match
         JSON.stringify(company.areasServed).includes(selectedState) ||
@@ -478,7 +478,7 @@ export default function Companies() {
           areasServedStr.includes("united states")
         ))
       );
-      
+
       if (company.name === 'Uber') {
         console.log('UBER - State Filtering Check:');
         console.log('  selectedState:', selectedState);
@@ -486,10 +486,10 @@ export default function Companies() {
         console.log('  areasServedStr:', areasServedStr);
         console.log('  hasStateMatch:', hasStateMatch);
       }
-      
+
       if (!hasStateMatch) return false;
     }
-    
+
     // Country filtering - check if company operates in selected country
     if (selectedCountry) {
       const countryLabel = countries.find(c => c.value === selectedCountry)?.label;
@@ -504,7 +504,7 @@ export default function Companies() {
       );
       if (!hasCountryMatch) return false;
     }
-    
+
     // STEP 3: Apply action tab filter
     if (activeTab !== "all") {
       const companyAction = companyActionsState[company.id];
@@ -515,7 +515,7 @@ export default function Companies() {
       if (activeTab === "other" && companyAction !== "other") return false;
       if (activeTab === "no-action" && companyAction) return false;
     }
-    
+
     return true;
   });
 
@@ -529,38 +529,38 @@ export default function Companies() {
         ? serviceVertical.join(' ').toLowerCase() 
         : (serviceVertical?.toLowerCase() || '');
       const companyName = company.name?.toLowerCase() || '';
-      
+
       // High-paying categories (score 90-100)
       if (serviceType.includes('freight') || serviceType.includes('medical') || 
           companyName.includes('fedex') || companyName.includes('ups') || 
           companyName.includes('amazon logistics') || companyName.includes('dhl')) {
         return 95;
       }
-      
+
       // Medium-high paying (score 70-89)
       if (serviceType.includes('air transport') || serviceType.includes('vehicle transport') ||
           companyName.includes('roadie') || companyName.includes('deliverr') || 
           companyName.includes('gopuff') || companyName.includes('instacart')) {
         return 80;
       }
-      
+
       // Medium paying (score 50-69)
       if (serviceType.includes('package delivery') || serviceType.includes('rideshare') ||
           companyName.includes('uber') || companyName.includes('lyft') || 
           companyName.includes('doordash') || companyName.includes('grubhub')) {
         return 60;
       }
-      
+
       // Lower paying (score 30-49)
       if (serviceType.includes('food') || serviceType.includes('pet transport') ||
           companyName.includes('postmates') || companyName.includes('caviar')) {
         return 40;
       }
-      
+
       // Default/unknown (score 25)
       return 25;
     };
-    
+
     sortedAndFilteredCompanies.sort((a, b) => getPayRanking(b) - getPayRanking(a));
   }
 
@@ -599,14 +599,14 @@ export default function Companies() {
   // Calculate counts for each service vertical
   const getServiceVerticalCounts = () => {
     const counts: Record<string, number> = {};
-    
+
     serviceVerticals.forEach(vertical => {
       counts[vertical] = companies.filter(company => {
         if (!company.isActive) return false;
-        
+
         // Handle array format from database
         const serviceVerticals = Array.isArray(company.serviceVertical) ? company.serviceVertical : [company.serviceVertical];
-        
+
         if (vertical === 'Rideshare') {
           return serviceVerticals.includes('Rideshare') || serviceVerticals.includes('Taxi/Rideshare');
         } else if (vertical === 'Luggage Delivery') {
@@ -622,12 +622,12 @@ export default function Companies() {
         }
       }).length;
     });
-    
+
     return counts;
   };
 
   const serviceVerticalCounts = getServiceVerticalCounts();
-  
+
   // Simplified vehicle type categories - 6 main categories with descriptions
   const vehicleTypes = [
     { value: "Car", label: "Car (includes Car, Sedan, Prius, EV, Hybrid)" },
@@ -715,7 +715,7 @@ export default function Companies() {
     if (searchTerm.length >= 1 && companies.length > 0) {
       const searchLower = searchTerm.toLowerCase();
       const suggestionSet = new Set<string>();
-      
+
       // Company name suggestions - prioritize companies that start with the search term
       const companiesStartingWith = companies.filter(company => 
         company.name.toLowerCase().startsWith(searchLower)
@@ -724,17 +724,17 @@ export default function Companies() {
         company.name.toLowerCase().includes(searchLower) && 
         !company.name.toLowerCase().startsWith(searchLower)
       );
-      
+
       // Add companies that start with search term first
       companiesStartingWith.forEach(company => {
         suggestionSet.add(company.name);
       });
-      
+
       // Then add companies that contain the search term
       companiesContaining.slice(0, 5).forEach(company => {
         suggestionSet.add(company.name);
       });
-      
+
       // Service vertical suggestions
       const allServiceVerticals = new Set<string>();
       companies.forEach(company => {
@@ -744,37 +744,37 @@ export default function Companies() {
           allServiceVerticals.add(company.serviceVertical);
         }
       });
-      
+
       allServiceVerticals.forEach(vertical => {
         if (vertical.toLowerCase().includes(searchLower)) {
           suggestionSet.add(vertical);
         }
       });
-      
+
       // Location suggestions (states and major areas)
       const locationSuggestions = [
         'Texas', 'California', 'Florida', 'New York', 'Illinois', 'Pennsylvania', 
         'Ohio', 'Georgia', 'North Carolina', 'Michigan', 'Nationwide', 'United States'
       ];
-      
+
       locationSuggestions.forEach(location => {
         if (location.toLowerCase().includes(searchLower)) {
           suggestionSet.add(location);
         }
       });
-      
+
       // Popular search terms
       const popularTerms = [
         'Amazon', 'Uber', 'DoorDash', 'Instacart', 'Lyft', 'Grubhub', 'UberEats', 
         'Shipt', 'Postmates', 'Food delivery', 'Package delivery', 'Rideshare', 'Medical'
       ];
-      
+
       popularTerms.forEach(term => {
         if (term.toLowerCase().includes(searchLower)) {
           suggestionSet.add(term);
         }
       });
-      
+
       const sortedSuggestions = Array.from(suggestionSet)
         .slice(0, 8) // Limit to 8 suggestions
         .map(suggestion => ({
@@ -786,20 +786,20 @@ export default function Companies() {
           // Sort companies that start with search term first
           const aStartsWith = a.text.toLowerCase().startsWith(searchLower);
           const bStartsWith = b.text.toLowerCase().startsWith(searchLower);
-          
+
           if (aStartsWith && !bStartsWith) return -1;
           if (!aStartsWith && bStartsWith) return 1;
-          
+
           // Then sort by type priority: company > service > location
           const typeOrder: { [key: string]: number } = { company: 0, service: 1, location: 2 };
           if (typeOrder[a.type] !== typeOrder[b.type]) {
             return typeOrder[a.type] - typeOrder[b.type];
           }
-          
+
           // Finally sort alphabetically
           return a.text.localeCompare(b.text);
         });
-      
+
       setSuggestions(sortedSuggestions);
       setShowSuggestions(true);
     } else {
@@ -812,11 +812,11 @@ export default function Companies() {
   useEffect(() => {
     const scrollToCompanyId = localStorage.getItem('scrollToCompanyId');
     const highlightReminderId = localStorage.getItem('highlightReminderId');
-    
+
     if (scrollToCompanyId && companies.length > 0) {
       const companyId = parseInt(scrollToCompanyId);
       const companyElement = document.getElementById(`company-${companyId}`);
-      
+
       if (companyElement) {
         setTimeout(() => {
           if (highlightReminderId) {
@@ -825,7 +825,7 @@ export default function Companies() {
               behavior: 'smooth', 
               block: 'center' 
             });
-            
+
             // Try to find and highlight the reminder element on the main page first
             const findAndHighlightReminder = () => {
               const reminderElement = document.querySelector(`[data-reminder-id="${highlightReminderId}"]`);
@@ -848,7 +848,7 @@ export default function Companies() {
               }
               return false;
             };
-            
+
             // Try to find reminder immediately
             if (!findAndHighlightReminder()) {
               // If not found on main page, try opening the company modal
@@ -874,7 +874,7 @@ export default function Companies() {
           }
         }, 100);
       }
-      
+
       localStorage.removeItem('scrollToCompanyId');
       localStorage.removeItem('highlightReminderId');
     }
@@ -1137,14 +1137,14 @@ export default function Companies() {
   // AI Assistant Search function
   const handleAIAssistantSearch = async () => {
     setIsAISearching(true);
-    
+
     // Show initial message explaining what the AI is doing
     toast({
       title: "AI Research Started", 
       description: "AI Assistant is researching legitimate gig companies and will show you found companies for approval.",
       duration: 5000,
     });
-    
+
     try {
       const response = await fetch('/api/ai-assistant/search-companies', {
         method: 'POST',
@@ -1159,12 +1159,12 @@ export default function Companies() {
       }
 
       const result = await response.json();
-      
+
       if (result.success && result.foundCompanies && result.foundCompanies.length > 0) {
         setFoundCompanies(result.foundCompanies);
         setSelectedFoundCompanies(result.foundCompanies); // Select all by default
         setShowFoundCompaniesModal(true);
-        
+
         toast({
           title: "Companies Found",
           description: `AI found ${result.foundCompanies.length} new companies. Review and approve to add them.`,
@@ -1175,7 +1175,7 @@ export default function Companies() {
           description: "AI didn't find any new companies that aren't already in your database.",
         });
       }
-      
+
     } catch (error) {
       console.error('AI search error:', error);
       toast({
@@ -1213,20 +1213,20 @@ export default function Companies() {
       }
 
       const result = await response.json();
-      
+
       // Refresh companies list to show new additions
       queryClient.invalidateQueries({ queryKey: ["/api/companies"] });
-      
+
       // Close modal and reset state
       setShowFoundCompaniesModal(false);
       setFoundCompanies([]);
       setSelectedFoundCompanies([]);
-      
+
       toast({
         title: "Companies Added",
         description: `Successfully added ${result.companiesAdded} companies: ${result.addedCompanies?.join(', ')}`,
       });
-      
+
     } catch (error) {
       console.error('Add companies error:', error);
       toast({
@@ -1240,13 +1240,13 @@ export default function Companies() {
   // Handle duplicate cleanup
   const handleCleanupDuplicates = async () => {
     setIsCleaningDuplicates(true);
-    
+
     toast({
       title: "Starting Cleanup",
       description: "Analyzing database for duplicate companies...",
       duration: 3000,
     });
-    
+
     try {
       const response = await fetch('/api/companies/cleanup-duplicates', {
         method: 'POST',
@@ -1258,15 +1258,15 @@ export default function Companies() {
       }
 
       const result = await response.json();
-      
+
       // Refresh companies list to show changes
       queryClient.invalidateQueries({ queryKey: ["/api/companies"] });
-      
+
       toast({
         title: "Cleanup Complete",
         description: `${result.mergedGroups} duplicate groups cleaned up, ${result.deletedCompanies} companies removed`,
       });
-      
+
     } catch (error) {
       console.error('Cleanup error:', error);
       toast({
@@ -1296,7 +1296,7 @@ export default function Companies() {
             </Button>
           </Link>
         </div>
-        
+
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center">
@@ -1312,7 +1312,7 @@ export default function Companies() {
               </div>
             </div>
           </div>
-          
+
           <div className={RESPONSIVE_FLEX.wrap}>
             {/* Primary action buttons */}
             <div className="flex items-center gap-2 flex-1 sm:flex-none">
@@ -1337,7 +1337,7 @@ export default function Companies() {
                 <span className="sm:hidden">Add</span>
               </Button>
             </div>
-            
+
             {/* Secondary action buttons */}
             <div className="flex items-center gap-2 flex-1 sm:flex-none">
               <Button
@@ -1392,7 +1392,7 @@ export default function Companies() {
                   className={`pl-10 ${TOUCH_FRIENDLY.input} text-sm`}
                   data-testid="input-search-companies"
                 />
-                
+
                 {/* Auto-suggest dropdown */}
                 {showSuggestions && suggestions.length > 0 && (
                   <div className="absolute top-full left-0 right-0 z-50 bg-white border border-gray-200 rounded-md shadow-lg mt-1">
@@ -1404,7 +1404,7 @@ export default function Companies() {
                           onClick={() => {
                             setSearchTerm(suggestion.text);
                             setShowSuggestions(false);
-                            
+
                             // If it's a company suggestion, find and select the company
                             if (suggestion.type === 'company') {
                               const company = companies.find(c => c.name === suggestion.text);
@@ -1669,14 +1669,14 @@ export default function Companies() {
           </p>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6 max-w-full overflow-hidden px-2 sm:px-0">
           {sortedAndFilteredCompanies.map((company: any) => {
             // Add current action state to company
             const companyWithAction = {
               ...company,
               currentAction: companyActionsState[company.id] || null
             };
-            
+
             return (
               <div key={company.id} id={`company-${company.id}`}>
                 <CompanyCard
@@ -1734,7 +1734,7 @@ export default function Companies() {
               Review the companies found by AI and select which ones to add to your database.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             {/* Select All/None Controls */}
             <div className="flex items-center justify-between border-b pb-4">
@@ -1788,7 +1788,7 @@ export default function Companies() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-3 ml-6">
                     {/* Basic Company Info */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
@@ -1933,7 +1933,7 @@ export default function Companies() {
               </Button>
             </div>
           </DialogHeader>
-          
+
           <div className="overflow-y-auto max-h-[70vh] space-y-6">
             {sortedServiceTypes.map(serviceType => (
               <div key={serviceType} className="border rounded-lg p-4">
@@ -1946,7 +1946,7 @@ export default function Companies() {
                     {groupedCompanies[serviceType].length} companies
                   </Badge>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {groupedCompanies[serviceType].map((company: Company) => (
                     <div
@@ -2061,7 +2061,7 @@ export default function Companies() {
                 You are about to <strong>permanently delete</strong> "{companyToDelete?.name}" from the entire system. 
                 This action cannot be undone.
               </p>
-              
+
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                 <p className="text-sm text-yellow-800 font-medium">
                   💡 Consider instead: 
@@ -2069,7 +2069,7 @@ export default function Companies() {
                   <br />• Use "Whitelist" if this company is fake/fraudulent (prevents future re-entry)
                 </p>
               </div>
-              
+
               <p className="text-sm text-gray-600 bg-white">
                 What would you like to do?
               </p>
