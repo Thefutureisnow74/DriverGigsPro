@@ -799,7 +799,7 @@ export class DatabaseStorage implements IStorage {
 
   // Reminders operations
   async getActiveReminders(userId: string): Promise<any[]> {
-    // Get company reminders
+    // Get company reminders (including general reminders with no company)
     const companyReminders = await db
       .select({
         id: jobSearchNotes.id,
@@ -812,13 +812,13 @@ export class DatabaseStorage implements IStorage {
         emailAddress: jobSearchNotes.emailAddress,
         notes: jobSearchNotes.notes,
         createdAt: jobSearchNotes.createdAt,
-        type: sql<string>`'company'`,
+        type: sql<string>`CASE WHEN ${jobSearchNotes.companyId} IS NULL THEN 'general' ELSE 'company' END`,
         cardId: sql<number | null>`NULL`,
         cardTitle: sql<string | null>`NULL`,
         dueDate: sql<Date | null>`NULL`,
       })
       .from(jobSearchNotes)
-      .innerJoin(companies, eq(jobSearchNotes.companyId, companies.id))
+      .leftJoin(companies, eq(jobSearchNotes.companyId, companies.id))
       .where(
         and(
           eq(jobSearchNotes.userId, userId),

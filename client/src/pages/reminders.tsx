@@ -48,7 +48,7 @@ interface Reminder {
   emailAddress?: string;
   notes?: string;
   createdAt: string;
-  type: 'company' | 'task';
+  type: 'company' | 'task' | 'general';
   cardId?: number | null;
   cardTitle?: string | null;
   dueDate?: string | null;
