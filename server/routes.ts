@@ -1587,7 +1587,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const validatedData = insertNetworkingGroupSchema.parse({
         ...req.body,
-        userId
+        userId,
+        joinedDate: req.body.joinedDate ? new Date(req.body.joinedDate) : undefined
       });
       
       const [group] = await db.insert(networkingGroups)
@@ -1608,7 +1609,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const groupId = parseInt(req.params.id);
       const userId = req.user.id;
-      const validatedData = insertNetworkingGroupSchema.partial().parse(req.body);
+      const validatedData = insertNetworkingGroupSchema.partial().parse({
+        ...req.body,
+        joinedDate: req.body.joinedDate ? new Date(req.body.joinedDate) : undefined
+      });
       
       const [updatedGroup] = await db.update(networkingGroups)
         .set({
