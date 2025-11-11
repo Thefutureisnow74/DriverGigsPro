@@ -3444,8 +3444,56 @@ export default function MyFleetNew() {
                               </div>
                             </div>
                             <div className="flex items-center space-x-2">
-                              <Button size="sm" variant="outline">📅 Set Due Date</Button>
-                              <Button size="sm" variant="outline">💰 Log Cost</Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  setNewMaintenanceItem({
+                                    itemName: task.name,
+                                    category: 'maintenance',
+                                    description: task.notes,
+                                    notes: '',
+                                    dueDate: '',
+                                    priority: 'medium',
+                                    cost: task.cost.toString(),
+                                    serviceProvider: '',
+                                    reminderEnabled: true,
+                                    reminderDays: 7
+                                  });
+                                  setIsAddMaintenanceItemOpen(true);
+                                  setTimeout(() => {
+                                    const dueDateInput = document.querySelector('input[type="date"]') as HTMLInputElement;
+                                    dueDateInput?.focus();
+                                  }, 100);
+                                }}
+                              >
+                                📅 Set Due Date
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  setNewMaintenanceItem({
+                                    itemName: task.name,
+                                    category: 'maintenance',
+                                    description: task.notes,
+                                    notes: '',
+                                    dueDate: '',
+                                    priority: 'medium',
+                                    cost: task.cost.toString(),
+                                    serviceProvider: '',
+                                    reminderEnabled: true,
+                                    reminderDays: 7
+                                  });
+                                  setIsAddMaintenanceItemOpen(true);
+                                  setTimeout(() => {
+                                    const costInput = document.querySelector('input[placeholder*="cost"]') as HTMLInputElement;
+                                    costInput?.focus();
+                                  }, 100);
+                                }}
+                              >
+                                💰 Log Cost
+                              </Button>
                               <Button 
                                 size="sm" 
                                 variant="outline"
@@ -3507,8 +3555,56 @@ export default function MyFleetNew() {
                               </div>
                             </div>
                             <div className="flex items-center space-x-2">
-                              <Button size="sm" variant="outline">📅 Set Reminder</Button>
-                              <Button size="sm" variant="outline">💰 Log Cost</Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  setNewMaintenanceItem({
+                                    itemName: item.name,
+                                    category: 'accessory',
+                                    description: item.notes,
+                                    notes: '',
+                                    dueDate: '',
+                                    priority: 'medium',
+                                    cost: item.cost.toString(),
+                                    serviceProvider: '',
+                                    reminderEnabled: true,
+                                    reminderDays: 7
+                                  });
+                                  setIsAddMaintenanceItemOpen(true);
+                                  setTimeout(() => {
+                                    const dueDateInput = document.querySelector('input[type="date"]') as HTMLInputElement;
+                                    dueDateInput?.focus();
+                                  }, 100);
+                                }}
+                              >
+                                📅 Set Reminder
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  setNewMaintenanceItem({
+                                    itemName: item.name,
+                                    category: 'accessory',
+                                    description: item.notes,
+                                    notes: '',
+                                    dueDate: '',
+                                    priority: 'medium',
+                                    cost: item.cost.toString(),
+                                    serviceProvider: '',
+                                    reminderEnabled: true,
+                                    reminderDays: 7
+                                  });
+                                  setIsAddMaintenanceItemOpen(true);
+                                  setTimeout(() => {
+                                    const costInput = document.querySelector('input[placeholder*="cost"]') as HTMLInputElement;
+                                    costInput?.focus();
+                                  }, 100);
+                                }}
+                              >
+                                💰 Log Cost
+                              </Button>
                               <Button 
                                 size="sm" 
                                 variant="outline"
