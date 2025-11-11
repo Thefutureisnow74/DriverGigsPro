@@ -122,6 +122,12 @@
 
 
 @layer base {
+  /* Global overflow prevention - prevents horizontal scrolling app-wide */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+  
   * {
     @apply border-border;
   }
