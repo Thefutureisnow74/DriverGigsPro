@@ -112,6 +112,9 @@ export default function PersonalCredit() {
   const [editingGoal, setEditingGoal] = useState<CreditGoal | null>(null);
   const [editingTradeline, setEditingTradeline] = useState<Tradeline | null>(null);
   
+  // Local state for card edits (immediate feedback)
+  const [localCardEdits, setLocalCardEdits] = useState<{[key: string]: any}>({});
+  
   // Score input states
   const [experianScoreInput, setExperianScoreInput] = useState('');
   const [transUnionScoreInput, setTransUnionScoreInput] = useState('');
@@ -351,8 +354,12 @@ export default function PersonalCredit() {
     }
   };
 
-  // Helper to get card value
+  // Helper to get card value (local state first, then API data)
   const getCardValue = (slotNumber: number, field: string) => {
+    const localKey = `${slotNumber}-${field}`;
+    if (localKey in localCardEdits) {
+      return localCardEdits[localKey];
+    }
     const card = cards.find((c: any) => c.slotNumber === slotNumber);
     return card?.[field] || '';
   };
@@ -363,6 +370,10 @@ export default function PersonalCredit() {
     
     return (slotNumber: number, field: string, value: any) => {
       const key = `card-${slotNumber}`;
+      const localKey = `${slotNumber}-${field}`;
+      
+      // Update local state immediately for instant feedback
+      setLocalCardEdits(prev => ({ ...prev, [localKey]: value }));
       
       if (timeouts[key]) {
         clearTimeout(timeouts[key]);
@@ -381,7 +392,14 @@ export default function PersonalCredit() {
         } else {
           saveCardMutation.mutate(cardData);
         }
-      }, 2500);
+        
+        // Clear local edit after save
+        setLocalCardEdits(prev => {
+          const newEdits = { ...prev };
+          delete newEdits[localKey];
+          return newEdits;
+        });
+      }, 500);
     };
   })();
 
