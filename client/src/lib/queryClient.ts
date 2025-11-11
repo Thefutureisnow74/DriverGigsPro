@@ -111,7 +111,7 @@ export async function apiRequest(
     method?: string;
     body?: unknown;
   }
-): Promise<Response> {
+): Promise<{ data: any; response: Response }> {
   const { method = "GET", body } = options || {};
   
   // Build SAME-ORIGIN URL so HTTPS page never calls HTTP localhost
@@ -155,10 +155,9 @@ export async function apiRequest(
   // 204 No Content is a valid success response with no body
   if (res.status === 204) {
     return {
-      ...res,
-      json: async () => ({}),
-      text: async () => ''
-    } as Response;
+      data: null,
+      response: res
+    };
   }
   
   if (!res.ok || !contentType.includes('application/json')) {
@@ -171,12 +170,12 @@ export async function apiRequest(
     throw new Error(`[${res.status}] Non-JSON or network error`);
   }
   
-  // Return a response-like object for compatibility
+  // Parse JSON centrally and return both data and response
+  const data = JSON.parse(text);
   return {
-    ...res,
-    json: async () => JSON.parse(text),
-    text: async () => text
-  } as Response;
+    data,
+    response: res
+  };
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";

@@ -60,7 +60,7 @@ export default function EditBusinessProfile() {
     async function loadPrimaryEntity() {
       if (!profileId) {
         try {
-          const primaryEntity = await apiRequest('/api/business-entities/me/primary');
+          const { data: primaryEntity } = await apiRequest('/api/business-entities/me/primary');
           setLocation(`/edit-business-profile/${primaryEntity.id}`);
         } catch (err) {
           console.error('Error loading primary entity:', err);
@@ -150,7 +150,7 @@ export default function EditBusinessProfile() {
         // On 403 or 404, fetch user's primary entity and redirect
         if (errorResponse?.status === 403 || errorResponse?.status === 404) {
           try {
-            const primaryEntity = await apiRequest('/api/business-entities/me/primary');
+            const { data: primaryEntity } = await apiRequest('/api/business-entities/me/primary');
             toast({
               title: "Redirected",
               description: "Loaded your business profile",
@@ -201,10 +201,11 @@ export default function EditBusinessProfile() {
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
       setIsSaving(true);
-      return apiRequest(`/api/business-entities/${profileId}`, {
+      const { data: savedData } = await apiRequest(`/api/business-entities/${profileId}`, {
         method: 'PUT',
         body: data,
       });
+      return savedData;
     },
     onSuccess: (savedData) => {
       setIsSaving(false);
@@ -236,7 +237,7 @@ export default function EditBusinessProfile() {
   // Custom document name save mutation
   const saveCustomNameMutation = useMutation({
     mutationFn: async ({ slotNumber, customName }: { slotNumber: number, customName: string }) => {
-      return apiRequest('/api/custom-document-names', {
+      const { data } = await apiRequest('/api/custom-document-names', {
         method: 'POST',
         body: {
           businessEntityId: profileId,
@@ -244,6 +245,7 @@ export default function EditBusinessProfile() {
           customName
         },
       });
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/custom-document-names/${profileId}`] });
@@ -271,18 +273,20 @@ export default function EditBusinessProfile() {
       );
 
       if (existingTradeline) {
-        return apiRequest(`/api/business-tradelines/${existingTradeline.id}`, {
+        const { data } = await apiRequest(`/api/business-tradelines/${existingTradeline.id}`, {
           method: 'PUT',
           body: tradelineData,
         });
+        return data;
       } else {
-        return apiRequest('/api/business-tradelines', {
+        const { data } = await apiRequest('/api/business-tradelines', {
           method: 'POST',
           body: {
             ...tradelineData,
             businessEntityId: parseInt(profileId as string),
           },
         });
+        return data;
       }
     },
     onSuccess: () => {
