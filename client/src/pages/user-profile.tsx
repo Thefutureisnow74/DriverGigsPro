@@ -2032,7 +2032,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('license') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2103,7 +2103,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('auto_insurance') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2175,7 +2175,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('commercial_auto_insurance') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2237,7 +2237,7 @@ export default function UserProfile() {
                       <div className="space-y-3">
                         {isDocumentUploaded('tsa_certification') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2324,7 +2324,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('twic_certification') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2430,7 +2430,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('dot_number_document') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2523,7 +2523,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('mc_number_document') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2736,7 +2736,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('hipaa_certification') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2812,7 +2812,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('osha_bloodborne') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2888,7 +2888,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('osha_fire_safety') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -2964,7 +2964,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('osha_hazcom') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3040,7 +3040,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('cpr_first_aid') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3116,7 +3116,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('hazmat_certification') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3197,7 +3197,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('iata_dot_certification') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3269,7 +3269,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('specimen_handling') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3341,7 +3341,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('biohazard_infectious') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3417,7 +3417,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('biohazard_transport_training') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3489,7 +3489,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('medical_waste_transport') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3564,7 +3564,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('specimen_handling_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3639,7 +3639,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('hazardous_drugs_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3714,7 +3714,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('hipaa_only_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3789,7 +3789,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('bbp_only_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3864,7 +3864,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('dental_transport_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -3945,7 +3945,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('chain_of_custody') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4017,7 +4017,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('dangerous_goods_dg') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4089,7 +4089,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('dangerous_goods_dg7') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4161,7 +4161,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('defensive_driving') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4233,7 +4233,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('osha_general_industry') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4305,7 +4305,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('cold_chain_management') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4386,7 +4386,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('phlebotomy_technician') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4458,7 +4458,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('customer_service_training') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4533,7 +4533,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('independent_contractor_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4608,7 +4608,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('courier_business_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4683,7 +4683,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('financial_masterclass_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4758,7 +4758,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('marketing_tips_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4833,7 +4833,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('admin_recommendations_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -4908,7 +4908,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('dispatchers_training_cert') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -5007,7 +5007,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('custom_cert_1') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
@@ -5096,7 +5096,7 @@ export default function UserProfile() {
                         />
                         {isDocumentUploaded('custom_cert_2') ? (
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 

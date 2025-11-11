@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX } from "@/lib/responsive-utils";
 import { 
   Building2, 
   Edit, 
@@ -490,48 +491,48 @@ export default function EditBusinessProfile() {
         {/* Main Content */}
         <div className="bg-white/70 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl">
           <Tabs defaultValue="company" className="w-full">
-            <TabsList className="grid w-full grid-cols-12 gap-2 p-2 bg-transparent data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700">
-              <TabsTrigger value="company" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+            <TabsList className={`${RESPONSIVE_FLEX.tabStrip} w-full p-2 bg-transparent`}>
+              <TabsTrigger value="company" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Company</span>
               </TabsTrigger>
-              <TabsTrigger value="agent" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="agent" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Registered</span>
                 <span>Agent</span>
               </TabsTrigger>
-              <TabsTrigger value="contact" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="contact" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Contact</span>
               </TabsTrigger>
-              <TabsTrigger value="mailweb" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="mailweb" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Mail/Web</span>
               </TabsTrigger>
-              <TabsTrigger value="finance" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="finance" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Banking and</span>
                 <span>Finance</span>
               </TabsTrigger>
-              <TabsTrigger value="credit" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="credit" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Business</span>
                 <span>Credit</span>
               </TabsTrigger>
-              <TabsTrigger value="tradelines" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="tradelines" className="text-xs flex flex-col items-center py-3 h-auto min-w-[100px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Business Loans</span>
                 <span>and Credit Cards</span>
               </TabsTrigger>
-              <TabsTrigger value="digital" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="digital" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Social</span>
                 <span>Media</span>
               </TabsTrigger>
-              <TabsTrigger value="business" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="business" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Business</span>
                 <span>Plan</span>
               </TabsTrigger>
-              <TabsTrigger value="codes" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="codes" className="text-xs flex flex-col items-center py-3 h-auto min-w-[100px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>NAICA Codes and</span>
                 <span>Bus. Certifications</span>
               </TabsTrigger>
-              <TabsTrigger value="tax" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="tax" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Tax</span>
               </TabsTrigger>
-              <TabsTrigger value="documents" className="text-xs flex flex-col items-center py-3 h-auto data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors">
+              <TabsTrigger value="documents" className="text-xs flex flex-col items-center py-3 h-auto min-w-[80px] data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 hover:bg-blue-50 transition-colors snap-start">
                 <span>Documents</span>
               </TabsTrigger>
             </TabsList>

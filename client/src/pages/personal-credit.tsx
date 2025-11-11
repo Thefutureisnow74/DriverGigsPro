@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { RESPONSIVE_GRIDS } from "@/lib/responsive-utils";
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { 
   CreditCard, 
@@ -771,7 +772,7 @@ export default function PersonalCredit() {
       </div>
 
       {/* Goals and Tradelines Row */}
-      <div className="grid lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Credit Goals */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
@@ -862,7 +863,7 @@ export default function PersonalCredit() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4">
+            <div className={RESPONSIVE_GRIDS.twoCol}>
               <div className="p-4 rounded-lg bg-blue-50">
                 <div className="text-2xl font-bold text-blue-900">{latestScores.length}</div>
                 <p className="text-sm text-blue-700">Credit Bureaus</p>
@@ -1388,7 +1389,7 @@ function CreditScoreForm({
         <DialogTitle>{initialData ? 'Edit Credit Score' : 'Add Credit Score'}</DialogTitle>
       </DialogHeader>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="bureauName">Credit Bureau</Label>
           <Select 
@@ -1420,7 +1421,7 @@ function CreditScoreForm({
         </div>
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="scoreDate">Score Date</Label>
           <Input
@@ -1531,7 +1532,7 @@ function CreditGoalForm({
         />
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="currentValue">Current Value</Label>
           <Input
@@ -1637,7 +1638,7 @@ function TradelineForm({
         <DialogTitle>{initialData ? 'Edit Tradeline' : 'Add Tradeline'}</DialogTitle>
       </DialogHeader>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="accountName">Account Name</Label>
           <Input
@@ -1668,7 +1669,7 @@ function TradelineForm({
         </div>
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="creditorName">Creditor Name</Label>
           <Input
@@ -1697,7 +1698,7 @@ function TradelineForm({
         </div>
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="creditLimit">Credit Limit</Label>
           <Input
@@ -1722,7 +1723,7 @@ function TradelineForm({
         </div>
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className={RESPONSIVE_GRIDS.twoCol}>
         <div>
           <Label htmlFor="minimumPayment">Minimum Payment</Label>
           <Input

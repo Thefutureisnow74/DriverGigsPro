@@ -748,7 +748,7 @@ export default function MyFleetNew() {
                 {/* Financial Information */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-blue-600">Financial Information</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="space-y-2">
                       <Label htmlFor="purchaseDate">Purchase Date</Label>
                       <Input id="purchaseDate" name="purchaseDate" type="date" defaultValue={VEHICLE_TEMPLATE.purchaseDate} />
@@ -895,7 +895,7 @@ export default function MyFleetNew() {
                 {/* Vehicle Specifications */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-green-600">Vehicle Specifications</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="space-y-2">
                       <Label htmlFor="vehicleWeight">Vehicle Weight (lbs)</Label>
                       <Input id="vehicleWeight" name="vehicleWeight" type="number" defaultValue={VEHICLE_TEMPLATE.vehicleWeight} />
@@ -1444,7 +1444,7 @@ export default function MyFleetNew() {
                   {/* Insurance Documents */}
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-700">Insurance Documents</h4>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className={RESPONSIVE_GRIDS.twoCol}>
                       <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
@@ -1483,7 +1483,7 @@ export default function MyFleetNew() {
                   {/* Registration & Title */}
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-700">Registration & Title Documents</h4>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className={RESPONSIVE_GRIDS.twoCol}>
                       <div className="border border-gray-200 rounded-lg p-4 hover:border-green-300 transition-colors">
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
@@ -1522,7 +1522,7 @@ export default function MyFleetNew() {
                   {/* Warranty Information */}
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-700">Warranty Information</h4>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className={RESPONSIVE_GRIDS.threeCol}>
                       <div className="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition-colors">
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
@@ -1578,7 +1578,7 @@ export default function MyFleetNew() {
                   {/* Additional Documents */}
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-700">Additional Documents</h4>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className={RESPONSIVE_GRIDS.twoCol}>
                       <div className="border border-gray-200 rounded-lg p-4 hover:border-gray-400 transition-colors">
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
@@ -1664,7 +1664,7 @@ export default function MyFleetNew() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3 flex-1">
-              <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className={`${RESPONSIVE_GRIDS.twoCol} text-sm`}>
                 <div className="min-h-[20px]">
                   <span className="font-medium">Year:</span> {vehicle.year || 'N/A'}
                 </div>
@@ -1769,7 +1769,7 @@ export default function MyFleetNew() {
               handleUpdateVehicle(new FormData(e.currentTarget));
             }} className="space-y-4">
               <input type="hidden" name="id" value={selectedVehicle.id} />
-              <div className="grid grid-cols-2 gap-4">
+              <div className={RESPONSIVE_GRIDS.twoCol}>
                 <div className="space-y-2">
                   <Label htmlFor="edit-nickname">Vehicle Nickname *</Label>
                   <Input id="edit-nickname" name="nickname" defaultValue={selectedVehicle.nickname} required />
@@ -1862,7 +1862,7 @@ export default function MyFleetNew() {
               {/* Financial Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-blue-600">Financial Information</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className={RESPONSIVE_GRIDS.twoCol}>
                   <div className="space-y-2">
                     <Label htmlFor="edit-purchaseDate">Purchase Date</Label>
                     <Input 
@@ -2060,7 +2060,7 @@ export default function MyFleetNew() {
               {/* Vehicle Specifications */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-green-600">Vehicle Specifications</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className={RESPONSIVE_GRIDS.twoCol}>
                   <div className="space-y-2">
                     <Label htmlFor="edit-vehicleWeight">Vehicle Weight (lbs)</Label>
                     <Input 
@@ -2727,7 +2727,7 @@ export default function MyFleetNew() {
                 {/* Insurance Documents */}
                 <div className="space-y-3">
                   <h4 className="font-medium text-gray-700">Insurance Documents</h4>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="border border-gray-200 rounded-lg p-3 hover:border-blue-300 transition-colors">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
@@ -2864,7 +2864,7 @@ export default function MyFleetNew() {
                 {/* Registration & Title */}
                 <div className="space-y-3">
                   <h4 className="font-medium text-gray-700">Registration & Title Documents</h4>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="border border-gray-200 rounded-lg p-3 hover:border-green-300 transition-colors">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
@@ -3001,7 +3001,7 @@ export default function MyFleetNew() {
                 {/* Warranty Information */}
                 <div className="space-y-3">
                   <h4 className="font-medium text-gray-700">Warranty Information</h4>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className={RESPONSIVE_GRIDS.threeCol}>
                     <div className="border border-gray-200 rounded-lg p-2 hover:border-orange-300 transition-colors">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-1">
@@ -3204,7 +3204,7 @@ export default function MyFleetNew() {
                 {/* Additional Documents */}
                 <div className="space-y-3">
                   <h4 className="font-medium text-gray-700">Additional Documents</h4>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className={RESPONSIVE_GRIDS.twoCol}>
                     <div className="border border-gray-200 rounded-lg p-3 hover:border-gray-400 transition-colors">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
