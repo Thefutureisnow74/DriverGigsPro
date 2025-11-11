@@ -599,8 +599,8 @@ export const dismissedRecommendations = pgTable("dismissed_recommendations", {
 export const jobSearchNotes = pgTable("job_search_notes", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull(),
-  applicationId: integer("application_id").notNull().references(() => applications.id, { onDelete: 'cascade' }),
-  companyId: integer("company_id").notNull().references(() => companies.id),
+  applicationId: integer("application_id").references(() => applications.id, { onDelete: 'cascade' }),
+  companyId: integer("company_id").references(() => companies.id),
   dateApplied: timestamp("date_applied"),
   contactDate: timestamp("contact_date"),
   interviewDate: timestamp("interview_date"),
