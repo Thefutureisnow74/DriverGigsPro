@@ -73,6 +73,7 @@ function AuthenticatedRouter() {
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
+      <Route path="/landing" component={Landing} />
       <Route path="/auth" component={Dashboard} />
       <Route path="/pricing" component={Pricing} />
 
@@ -138,15 +139,15 @@ function AuthenticatedRouter() {
 function PublicRouter() {
   return (
     <Switch>
-      <Route path="/" component={AuthPage} />
+      <Route path="/" component={Landing} />
+      <Route path="/landing" component={Landing} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/login" component={TraditionalLogin} />
-      <Route path="/landing" component={Landing} />
       <Route path="/password-reset" component={PasswordReset} />
       {/* Public shared progress route */}
       <Route path="/shared/:token" component={SharedProgress} />
       <Route path="/public-test" component={PublicTest} />
-      <Route component={AuthPage} />
+      <Route component={Landing} />
     </Switch>
   );
 }
