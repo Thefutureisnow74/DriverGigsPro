@@ -1,21 +1,65 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-async function fetchCsrfToken(): Promise<string> {
-  try {
-    const res = await fetch('/api/auth/csrf-token', {
-      credentials: 'include',
-    });
-    
-    if (!res.ok) {
-      throw new Error('Failed to fetch CSRF token');
-    }
-    
-    const data = await res.json();
-    return data.csrfToken;
-  } catch (error) {
-    console.error('[CSRF] Error fetching token:', error);
-    return '';
+// In-memory CSRF token cache to prevent rate limiting
+let csrfTokenCache: {
+  token: string;
+  expiry: number;
+  inFlightPromise: Promise<string> | null;
+} = {
+  token: '',
+  expiry: 0,
+  inFlightPromise: null
+};
+
+const CSRF_TOKEN_TTL = 5 * 60 * 1000; // 5 minutes
+
+async function fetchCsrfToken(forceRefresh = false): Promise<string> {
+  const now = Date.now();
+  
+  // Return cached token if still valid and not forcing refresh
+  if (!forceRefresh && csrfTokenCache.token && now < csrfTokenCache.expiry) {
+    return csrfTokenCache.token;
   }
+  
+  // Reuse in-flight promise to prevent concurrent requests
+  if (csrfTokenCache.inFlightPromise) {
+    return csrfTokenCache.inFlightPromise;
+  }
+  
+  // Fetch new token
+  csrfTokenCache.inFlightPromise = (async () => {
+    try {
+      const res = await fetch('/api/auth/csrf-token', {
+        credentials: 'include',
+      });
+      
+      if (!res.ok) {
+        throw new Error('Failed to fetch CSRF token');
+      }
+      
+      const data = await res.json();
+      const token = data.csrfToken;
+      
+      // Cache the token
+      csrfTokenCache.token = token;
+      csrfTokenCache.expiry = Date.now() + CSRF_TOKEN_TTL;
+      
+      return token;
+    } catch (error) {
+      console.error('[CSRF] Error fetching token:', error);
+      return '';
+    } finally {
+      csrfTokenCache.inFlightPromise = null;
+    }
+  })();
+  
+  return csrfTokenCache.inFlightPromise;
+}
+
+// Clear cached token (call on 403 errors)
+export function clearCsrfTokenCache() {
+  csrfTokenCache.token = '';
+  csrfTokenCache.expiry = 0;
 }
 
 // Helper function for file uploads with CSRF protection
@@ -23,7 +67,8 @@ export async function uploadFiles(
   url: string,
   files: FileList | File[],
   fieldName: string = 'files',
-  additionalData?: Record<string, string>
+  additionalData?: Record<string, string>,
+  retryOn403 = true
 ): Promise<Response> {
   console.log('[uploadFiles] Starting upload:', { 
     url, 
@@ -75,6 +120,13 @@ export async function uploadFiles(
     body: formData
   });
   
+  // Retry once on 403 with fresh token
+  if (!response.ok && response.status === 403 && retryOn403) {
+    console.log('[uploadFiles] Got 403, refreshing CSRF token and retrying...');
+    clearCsrfTokenCache();
+    return uploadFiles(url, files, fieldName, additionalData, false);
+  }
+  
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: 'Upload failed' }));
     throw new Error(error.message || 'Upload failed');
@@ -110,9 +162,10 @@ export async function apiRequest(
   options?: {
     method?: string;
     body?: unknown;
+    retryOn403?: boolean;
   }
 ): Promise<{ data: any; response: Response }> {
-  const { method = "GET", body } = options || {};
+  const { method = "GET", body, retryOn403 = true } = options || {};
   
   // Build SAME-ORIGIN URL so HTTPS page never calls HTTP localhost
   const fullUrl = path.startsWith('/api') ? path : `/api${path.startsWith('/') ? '' : '/'}${path}`;
@@ -147,6 +200,13 @@ export async function apiRequest(
     },
     body: body ? JSON.stringify(body) : undefined,
   });
+
+  // Retry once on 403 with fresh token
+  if (res.status === 403 && retryOn403 && method !== 'GET') {
+    console.log('[apiRequest] Got 403, refreshing CSRF token and retrying...');
+    clearCsrfTokenCache();
+    return apiRequest(path, { ...options, retryOn403: false });
+  }
 
   // Make HTML "200" from a catch-all obvious
   const contentType = res.headers.get('content-type') || '';
