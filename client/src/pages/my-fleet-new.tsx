@@ -16,6 +16,23 @@ import { useAuth } from "@/hooks/useAuth";
 import type { Vehicle, InsertVehicle, VehicleDocument } from "@shared/schema";
 import { RESPONSIVE_GRIDS, RESPONSIVE_FLEX, TOUCH_FRIENDLY, CONTAINER } from "@/lib/responsive-utils";
 
+// Maintenance Item Type
+interface MaintenanceItem {
+  id: number;
+  vehicleId: number;
+  itemName: string;
+  category: string;
+  description: string;
+  notes: string;
+  dueDate: string | null;
+  priority: string;
+  cost: string;
+  serviceProvider: string;
+  reminderEnabled: boolean;
+  reminderDays: number;
+  isCompleted: boolean;
+}
+
 // Empty vehicle template - no pre-filled data
 const VEHICLE_TEMPLATE = {
   nickname: "",
@@ -136,7 +153,7 @@ export default function MyFleetNew() {
   });
 
   // Fetch maintenance items for selected vehicle
-  const { data: maintenanceItemsData = [], isLoading: isLoadingMaintenanceItems } = useQuery({
+  const { data: maintenanceItemsData = [], isLoading: isLoadingMaintenanceItems } = useQuery<MaintenanceItem[]>({
     queryKey: [`/api/vehicles/${selectedVehicleForMaintenance}/maintenance-items`],
     enabled: !!selectedVehicleForMaintenance,
   });
