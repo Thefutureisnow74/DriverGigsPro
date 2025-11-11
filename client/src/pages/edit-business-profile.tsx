@@ -44,6 +44,7 @@ import {
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
 import { useLocation, useRoute } from "wouter";
 
@@ -223,13 +224,10 @@ export default function EditBusinessProfile() {
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
       setIsSaving(true);
-      const response = await fetch(`/api/business-entities/${profileId}`, {
+      return apiRequest(`/api/business-entities/${profileId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: data,
       });
-      if (!response.ok) throw new Error('Failed to save');
-      return response.json();
     },
     onSuccess: (savedData) => {
       setIsSaving(false);
