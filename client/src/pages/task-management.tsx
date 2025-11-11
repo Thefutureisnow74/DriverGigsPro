@@ -131,11 +131,11 @@ export default function TaskManagement() {
 
   const createBoardMutation = useMutation({
     mutationFn: async (boardData: any) => {
-      const response = await apiRequest("/api/task-boards", {
+      const { data } = await apiRequest("/api/task-boards", {
         method: "POST",
         body: boardData
       });
-      return response.json();
+      return data;
     },
     onSuccess: (newBoard) => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-boards"] });
@@ -158,11 +158,11 @@ export default function TaskManagement() {
 
   const createListMutation = useMutation({
     mutationFn: async (listData: any) => {
-      const response = await apiRequest("/api/task-lists", {
+      const { data } = await apiRequest("/api/task-lists", {
         method: "POST",
         body: listData
       });
-      return response.json();
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-boards", currentBoard?.id, "lists"] });
@@ -182,11 +182,11 @@ export default function TaskManagement() {
 
   const updateBoardMutation = useMutation({
     mutationFn: async ({ id, title }: { id: number; title: string }) => {
-      const response = await apiRequest(`/api/task-boards/${id}`, {
+      const { data } = await apiRequest(`/api/task-boards/${id}`, {
         method: "PUT",
         body: { title }
       });
-      return response.json();
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-boards"] });
@@ -209,10 +209,10 @@ export default function TaskManagement() {
 
   const deleteBoardMutation = useMutation({
     mutationFn: async (boardId: number) => {
-      const response = await apiRequest(`/api/task-boards/${boardId}`, {
+      const { data } = await apiRequest(`/api/task-boards/${boardId}`, {
         method: "DELETE"
       });
-      return response.json();
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/task-boards"] });
