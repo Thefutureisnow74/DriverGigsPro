@@ -141,7 +141,7 @@ function TaskCardComponent({ card, isDragging, onClick }: TaskCardProps) {
             isOverdue ? "text-red-500" : isDueSoon ? "text-blue-500" : priorityStyles.dateClass
           }`}>
             <Clock className="w-3 h-3" />
-            {format(new Date(card.dueDate), "MMM d")}
+            <span>{format(new Date(card.dueDate), "MMM d")}</span>
             {isOverdue && <span className="text-red-500 font-medium">Overdue</span>}
           </div>
         )}
@@ -170,7 +170,7 @@ function TaskCardComponent({ card, isDragging, onClick }: TaskCardProps) {
           </Badge>
           <div className="flex items-center gap-1 text-gray-400">
             {card.comments && Array.isArray(card.comments) && card.comments.length > 0 && (
-              <span className="text-xs">{card.comments.length}</span>
+              <span className="text-xs">{(card.comments as any[]).length}</span>
             )}
             {card.attachments && Array.isArray(card.attachments) && card.attachments.length > 0 && (
               <span className="text-xs">📎</span>
@@ -265,7 +265,7 @@ function TaskListComponent({ list, cards, onAddCard, onDeleteList, onCardClick }
     <Card
       ref={setNodeRef}
       style={style}
-      className="w-80 flex-shrink-0 bg-gray-100 border border-gray-200"
+      className="w-72 sm:w-80 flex-shrink-0 bg-gray-100 border border-gray-200"
       {...attributes}
     >
       <CardHeader className="pb-3">
@@ -474,13 +474,13 @@ export default function KanbanBoard({ lists, cards, boardId, onAddList }: Kanban
   };
 
   return (
-    <div className="h-full p-4">
+    <div className="h-full p-2 sm:p-4">
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-6 overflow-x-auto pb-4">
+        <div className="flex gap-3 sm:gap-6 overflow-x-auto pb-4 -mx-2 sm:mx-0 px-2 sm:px-0">
           <SortableContext items={lists.map(list => list.id)}>
             {lists.map(list => (
               <TaskListComponent
