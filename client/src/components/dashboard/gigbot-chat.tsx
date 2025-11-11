@@ -250,7 +250,7 @@ export default function GigBotChat() {
         method: 'POST',
         body: { message, sessionId: 'dashboard' }
       });
-      return await response.json();
+      return response;
     },
     onSuccess: (data) => {
       // Ensure we have a valid message
