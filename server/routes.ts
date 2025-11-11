@@ -8831,8 +8831,9 @@ Business Overview:
     try {
       const userId = req.user.id;
       const goalId = parseInt(req.params.id);
+      const { createdAt, updatedAt, userId: _, id: __, ...bodyData } = req.body;
       const updates = {
-        ...req.body,
+        ...bodyData,
         targetDate: req.body.targetDate ? new Date(req.body.targetDate) : undefined,
         completedAt: req.body.completedAt ? new Date(req.body.completedAt) : undefined
       };
@@ -8919,8 +8920,9 @@ Business Overview:
     try {
       const userId = req.user.id;
       const tradelineId = parseInt(req.params.id);
+      const { createdAt, updatedAt, userId: _, id: __, ...bodyData } = req.body;
       const updates = {
-        ...req.body,
+        ...bodyData,
         creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
         currentBalance: req.body.currentBalance !== undefined ? String(req.body.currentBalance) : undefined,
         minimumPayment: req.body.minimumPayment ? String(req.body.minimumPayment) : undefined,
@@ -9011,8 +9013,9 @@ Business Overview:
     try {
       const userId = req.user.id;
       const cardId = parseInt(req.params.id);
+      const { createdAt, updatedAt, userId: _, id: __, ...bodyData } = req.body;
       const updates = {
-        ...req.body,
+        ...bodyData,
         creditLimit: req.body.creditLimit ? String(req.body.creditLimit) : undefined,
         balanceDue: req.body.balanceDue !== undefined ? String(req.body.balanceDue) : undefined,
         payment: req.body.payment ? String(req.body.payment) : undefined,

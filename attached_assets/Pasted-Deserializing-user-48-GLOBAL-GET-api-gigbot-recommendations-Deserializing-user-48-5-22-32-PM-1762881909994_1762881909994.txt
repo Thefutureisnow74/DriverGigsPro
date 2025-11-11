@@ -1,0 +1,63 @@
+Deserializing user: 48
+[GLOBAL] GET /api/gigbot/recommendations
+Deserializing user: 48
+5:22:32 PM [express] GET /api/company-actions 304 in 153ms :: [{"id":24,"userId":48,"companyId":1271…
+5:22:32 PM [express] GET /api/user/profile 304 in 162ms :: {"username":"aashir","email":"buttaash@gm…
+5:22:32 PM [express] GET /api/reminders 304 in 190ms :: [{"id":57,"companyId":null,"companyName":nul…
+5:22:47 PM [express] GET /api/gigbot/recommendations 200 in 14770ms :: {"recommendations":[{"name":"…
+Deserializing user: 48
+[GLOBAL] GET /api/auth/csrf-token
+Deserializing user: 48
+[CSRF] Token generated and session saved { sessionId: 'tTCRBf8iRI7Z5P5Va_ijDAP1SNq01kcs', hasToken: true }
+5:23:11 PM [express] GET /api/auth/csrf-token 200 in 436ms :: {"csrfToken":"237adff923350541132626aa…
+Deserializing user: 48
+[GLOBAL] PUT /api/personal-credit/cards/1
+Deserializing user: 48
+Error updating credit card: TypeError: value.toISOString is not a function
+    at PgTimestamp.mapToDriverValue (/home/runner/workspace/node_modules/src/pg-core/columns/timestamp.ts:66:16)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:223:69)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:174:17)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:174:17)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:124:23)
+    at Object.startActiveSpan (/home/runner/workspace/node_modules/src/tracing.ts:27:11)
+    at SQL.toQuery (/home/runner/workspace/node_modules/src/sql/sql.ts:123:17)
+    at PgDialect.sqlToQuery (/home/runner/workspace/node_modules/src/pg-core/dialect.ts:591:14)
+    at QueryPromise._prepare (/home/runner/workspace/node_modules/src/pg-core/query-builders/update.ts:579:18)
+    at QueryPromise.execute (/home/runner/workspace/node_modules/src/pg-core/query-builders/update.ts:596:15)
+    at QueryPromise.then (/home/runner/workspace/node_modules/src/query-promise.ts:31:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+5:23:11 PM [express] PUT /api/personal-credit/cards/1 500 in 148ms :: {"message":"Failed to update c…
+Deserializing user: 48
+[GLOBAL] GET /api/auth/csrf-token
+Deserializing user: 48
+[CSRF] Token generated and session saved { sessionId: 'tTCRBf8iRI7Z5P5Va_ijDAP1SNq01kcs', hasToken: true }
+5:23:13 PM [express] GET /api/auth/csrf-token 200 in 160ms :: {"csrfToken":"db36ad56d44f917d09d1ac42…
+Deserializing user: 48
+[GLOBAL] PUT /api/personal-credit/cards/1
+Deserializing user: 48
+Error updating credit card: TypeError: value.toISOString is not a function
+    at PgTimestamp.mapToDriverValue (/home/runner/workspace/node_modules/src/pg-core/columns/timestamp.ts:66:16)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:223:69)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:174:17)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:174:17)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:124:23)
+    at Object.startActiveSpan (/home/runner/workspace/node_modules/src/tracing.ts:27:11)
+    at SQL.toQuery (/home/runner/workspace/node_modules/src/sql/sql.ts:123:17)
+    at PgDialect.sqlToQuery (/home/runner/workspace/node_modules/src/pg-core/dialect.ts:591:14)
+    at QueryPromise._prepare (/home/runner/workspace/node_modules/src/pg-core/query-builders/update.ts:579:18)
+    at QueryPromise.execute (/home/runner/workspace/node_modules/src/pg-core/query-builders/update.ts:596:15)
+    at QueryPromise.then (/home/runner/workspace/node_modules/src/query-promise.ts:31:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+5:23:13 PM [express] PUT /api/personal-credit/cards/1 500 in 138ms :: {"message":"Failed to update c…
