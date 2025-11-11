@@ -307,7 +307,7 @@ export default function TaskManagement() {
   }
 
   // Empty state - no boards but with consistent header
-  if (boards.length === 0 && !isCreatingBoard) {
+  if (boards.length === 0) {
     return (
       <div className="space-y-6">
         {/* Consistent Header - Even when no boards */}
@@ -337,6 +337,7 @@ export default function TaskManagement() {
                 onClick={() => setIsCreatingBoard(true)}
                 size="sm"
                 className="h-8 bg-blue-600 hover:bg-blue-700"
+                data-testid="button-new-board"
               >
                 <Plus className="h-4 w-4 mr-1" />
                 New Board
@@ -345,20 +346,23 @@ export default function TaskManagement() {
           </div>
         </div>
 
-        <div className="text-center py-12">
-          <Grid3X3 className="w-16 h-16 text-gray-300 mx-auto mb-6" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Welcome to Task Management</h2>
-          <p className="text-gray-600 mb-8 max-w-md mx-auto">
-            Get organized with Trello-style boards. Create your first board to start managing tasks and projects.
-          </p>
-          <Button
-            onClick={() => setIsCreatingBoard(true)}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Create Your First Board
-          </Button>
-        </div>
+        {!isCreatingBoard && (
+          <div className="text-center py-12">
+            <Grid3X3 className="w-16 h-16 text-gray-300 mx-auto mb-6" />
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Welcome to Task Management</h2>
+            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              Get organized with Trello-style boards. Create your first board to start managing tasks and projects.
+            </p>
+            <Button
+              onClick={() => setIsCreatingBoard(true)}
+              className="bg-blue-600 hover:bg-blue-700"
+              data-testid="button-create-first-board"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Create Your First Board
+            </Button>
+          </div>
+        )}
 
         {isCreatingBoard && (
           <Card className="max-w-md mx-auto">
@@ -372,12 +376,14 @@ export default function TaskManagement() {
                 placeholder="Enter board title"
                 onKeyPress={(e) => e.key === "Enter" && handleCreateBoard()}
                 autoFocus
+                data-testid="input-board-title"
               />
               <div className="flex gap-2">
                 <Button
                   onClick={handleCreateBoard}
                   disabled={!newBoardTitle.trim() || createBoardMutation.isPending}
                   className="flex-1"
+                  data-testid="button-submit-board"
                 >
                   Create Board
                 </Button>
@@ -387,6 +393,7 @@ export default function TaskManagement() {
                     setIsCreatingBoard(false);
                     setNewBoardTitle("");
                   }}
+                  data-testid="button-cancel-board"
                 >
                   Cancel
                 </Button>
