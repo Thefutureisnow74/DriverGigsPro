@@ -3907,11 +3907,11 @@ export default function EditBusinessProfile() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="naics">NAICS Code</Label>
+                    <Label htmlFor="naicsCode">NAICS Code</Label>
                     <Input
-                      id="naics"
-                      value={profile.naics || ''}
-                      onChange={(e) => handleFieldChange('naics', e.target.value)}
+                      id="naicsCode"
+                      value={profile.naicsCode || ''}
+                      onChange={(e) => handleFieldChange('naicsCode', e.target.value)}
                       placeholder=""
                     />
                   </div>

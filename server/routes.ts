@@ -3130,7 +3130,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Tradeline not found" });
       }
       
-      const updatedTradeline = await storage.updateBusinessTradeline(tradelineId, req.body);
+      // Convert date strings to Date objects
+      const cleanedData = { ...req.body };
+      const dateFields = ['dateOpened', 'maturityDate', 'reportDate'];
+      dateFields.forEach(field => {
+        if (cleanedData[field] && typeof cleanedData[field] === 'string' && cleanedData[field] !== '') {
+          cleanedData[field] = new Date(cleanedData[field]);
+        } else if (cleanedData[field] === '') {
+          cleanedData[field] = null;
+        }
+      });
+      
+      const updatedTradeline = await storage.updateBusinessTradeline(tradelineId, cleanedData);
       res.json(updatedTradeline);
     } catch (error) {
       console.error("Error updating business tradeline:", error);
