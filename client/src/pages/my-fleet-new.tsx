@@ -764,7 +764,7 @@ export default function MyFleetNew() {
                           placeholder="14,000.00" 
                           className="pl-6"
                           defaultValue={VEHICLE_TEMPLATE.purchasePrice ? parseFloat(VEHICLE_TEMPLATE.purchasePrice).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                          onChange={(e) => {
+                          onBlur={(e) => {
                             const value = e.target.value.replace(/[^\d.]/g, '');
                             if (value && !isNaN(parseFloat(value))) {
                               e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -784,7 +784,7 @@ export default function MyFleetNew() {
                           placeholder="12,000.00" 
                           className="pl-6"
                           defaultValue={VEHICLE_TEMPLATE.currentValue ? parseFloat(VEHICLE_TEMPLATE.currentValue).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                          onChange={(e) => {
+                          onBlur={(e) => {
                             const value = e.target.value.replace(/[^\d.]/g, '');
                             if (value && !isNaN(parseFloat(value))) {
                               e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -804,7 +804,7 @@ export default function MyFleetNew() {
                           placeholder="333.00" 
                           className="pl-6"
                           defaultValue={VEHICLE_TEMPLATE.monthlyPayment ? parseFloat(VEHICLE_TEMPLATE.monthlyPayment).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                          onChange={(e) => {
+                          onBlur={(e) => {
                             const value = e.target.value.replace(/[^\d.]/g, '');
                             if (value && !isNaN(parseFloat(value))) {
                               e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -836,7 +836,7 @@ export default function MyFleetNew() {
                           placeholder="4,500.00" 
                           className="pl-6"
                           defaultValue={VEHICLE_TEMPLATE.downPayment ? parseFloat(VEHICLE_TEMPLATE.downPayment).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                          onChange={(e) => {
+                          onBlur={(e) => {
                             const value = e.target.value.replace(/[^\d.]/g, '');
                             if (value && !isNaN(parseFloat(value))) {
                               e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -1883,7 +1883,7 @@ export default function MyFleetNew() {
                         placeholder="14,000.00" 
                         className="pl-6"
                         defaultValue={selectedVehicle.purchasePrice ? parseFloat(selectedVehicle.purchasePrice).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                        onChange={(e) => {
+                        onBlur={(e) => {
                           const value = e.target.value.replace(/[^\d.]/g, '');
                           if (value && !isNaN(parseFloat(value))) {
                             e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -1903,7 +1903,7 @@ export default function MyFleetNew() {
                         placeholder="12,000.00" 
                         className="pl-6"
                         defaultValue={selectedVehicle.currentValue ? parseFloat(selectedVehicle.currentValue).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                        onChange={(e) => {
+                        onBlur={(e) => {
                           const value = e.target.value.replace(/[^\d.]/g, '');
                           if (value && !isNaN(parseFloat(value))) {
                             e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -1923,7 +1923,7 @@ export default function MyFleetNew() {
                         placeholder="333.00" 
                         className="pl-6"
                         defaultValue={selectedVehicle.monthlyPayment ? parseFloat(selectedVehicle.monthlyPayment).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                        onChange={(e) => {
+                        onBlur={(e) => {
                           const value = e.target.value.replace(/[^\d.]/g, '');
                           if (value && !isNaN(parseFloat(value))) {
                             e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -1970,7 +1970,7 @@ export default function MyFleetNew() {
                         placeholder="4,500.00" 
                         className="pl-6"
                         defaultValue={selectedVehicle.downPayment ? parseFloat(selectedVehicle.downPayment).toLocaleString('en-US', {minimumFractionDigits: 2}) : ''} 
-                        onChange={(e) => {
+                        onBlur={(e) => {
                           const value = e.target.value.replace(/[^\d.]/g, '');
                           if (value && !isNaN(parseFloat(value))) {
                             e.target.value = parseFloat(value).toLocaleString('en-US', {minimumFractionDigits: 2});
