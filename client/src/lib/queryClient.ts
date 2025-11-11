@@ -1,14 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-let csrfTokenCache: string | null = null;
-
 async function fetchCsrfToken(): Promise<string> {
-  if (csrfTokenCache) {
-    console.log('[CSRF] Using cached token');
-    return csrfTokenCache;
-  }
-  
-  console.log('[CSRF] Fetching new token...');
   try {
     const res = await fetch('/api/auth/csrf-token', {
       credentials: 'include',
@@ -19,9 +11,7 @@ async function fetchCsrfToken(): Promise<string> {
     }
     
     const data = await res.json();
-    csrfTokenCache = data.csrfToken;
-    console.log('[CSRF] Token fetched successfully:', csrfTokenCache.substring(0, 10) + '...');
-    return csrfTokenCache;
+    return data.csrfToken;
   } catch (error) {
     console.error('[CSRF] Error fetching token:', error);
     return '';
