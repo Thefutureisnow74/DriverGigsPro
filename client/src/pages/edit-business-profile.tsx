@@ -44,7 +44,7 @@ import {
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, uploadFiles } from "@/lib/queryClient";
 import { ObjectUploader } from "@/components/ObjectUploader";
 import { useLocation, useRoute } from "wouter";
 
@@ -60,14 +60,8 @@ export default function EditBusinessProfile() {
     async function loadPrimaryEntity() {
       if (!profileId) {
         try {
-          const response = await fetch('/api/business-entities/me/primary');
-          if (response.ok) {
-            const primaryEntity = await response.json();
-            setLocation(`/edit-business-profile/${primaryEntity.id}`);
-          } else {
-            // Redirect to Business Document Storage if can't get primary entity
-            setLocation('/business-document-storage');
-          }
+          const primaryEntity = await apiRequest('/api/business-entities/me/primary');
+          setLocation(`/edit-business-profile/${primaryEntity.id}`);
         } catch (err) {
           console.error('Error loading primary entity:', err);
           setLocation('/business-document-storage');
@@ -156,25 +150,13 @@ export default function EditBusinessProfile() {
         // On 403 or 404, fetch user's primary entity and redirect
         if (errorResponse?.status === 403 || errorResponse?.status === 404) {
           try {
-            const response = await fetch('/api/business-entities/me/primary');
-            if (response.ok) {
-              const primaryEntity = await response.json();
-              toast({
-                title: "Redirected",
-                description: "Loaded your business profile",
-                duration: 3000,
-              });
-              setLocation(`/edit-business-profile/${primaryEntity.id}`);
-            } else {
-              // Redirect to Business Document Storage if primary fetch fails
-              toast({
-                title: "Access Denied",
-                description: "Redirecting to Business Document Storage...",
-                variant: "destructive",
-                duration: 3000,
-              });
-              setTimeout(() => setLocation('/business-document-storage'), 1000);
-            }
+            const primaryEntity = await apiRequest('/api/business-entities/me/primary');
+            toast({
+              title: "Redirected",
+              description: "Loaded your business profile",
+              duration: 3000,
+            });
+            setLocation(`/edit-business-profile/${primaryEntity.id}`);
           } catch (err) {
             console.error('Error fetching primary entity:', err);
             toast({
@@ -206,11 +188,6 @@ export default function EditBusinessProfile() {
   // Fetch business tradelines
   const { data: tradelines = [], isLoading: tradelinesLoading } = useQuery<any[]>({
     queryKey: [`/api/business-tradelines`, profileId],
-    queryFn: async () => {
-      const response = await fetch(`/api/business-tradelines?businessEntityId=${profileId}`);
-      if (!response.ok) throw new Error('Failed to fetch tradelines');
-      return response.json();
-    },
     enabled: !!profileId,
   });
 
@@ -259,17 +236,14 @@ export default function EditBusinessProfile() {
   // Custom document name save mutation
   const saveCustomNameMutation = useMutation({
     mutationFn: async ({ slotNumber, customName }: { slotNumber: number, customName: string }) => {
-      const response = await fetch('/api/custom-document-names', {
+      return apiRequest('/api/custom-document-names', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: {
           businessEntityId: profileId,
           slotNumber,
           customName
-        }),
+        },
       });
-      if (!response.ok) throw new Error('Failed to save custom name');
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/custom-document-names/${profileId}`] });
@@ -297,24 +271,18 @@ export default function EditBusinessProfile() {
       );
 
       if (existingTradeline) {
-        const response = await fetch(`/api/business-tradelines/${existingTradeline.id}`, {
+        return apiRequest(`/api/business-tradelines/${existingTradeline.id}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(tradelineData),
+          body: tradelineData,
         });
-        if (!response.ok) throw new Error('Failed to update tradeline');
-        return response.json();
       } else {
-        const response = await fetch('/api/business-tradelines', {
+        return apiRequest('/api/business-tradelines', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: {
             ...tradelineData,
             businessEntityId: parseInt(profileId as string),
-          }),
+          },
         });
-        if (!response.ok) throw new Error('Failed to create tradeline');
-        return response.json();
       }
     },
     onSuccess: () => {
@@ -5915,14 +5883,8 @@ export default function EditBusinessProfile() {
                             const file = e.target.files?.[0];
                             if (!file) return;
                             
-                            const formData = new FormData();
-                            formData.append('logo', file);
-                            
                             try {
-                              const response = await fetch(`/api/business-entities/${profile.id}/logo`, {
-                                method: 'POST',
-                                body: formData,
-                              });
+                              const response = await uploadFiles(`/api/business-entities/${profile.id}/logo`, [file], 'logo');
                               
                               if (response.ok) {
                                 const data = await response.json();
@@ -5970,22 +5932,14 @@ export default function EditBusinessProfile() {
                           onClick={async () => {
                             if (confirm('Are you sure you want to delete the logo?')) {
                               try {
-                                const response = await fetch(`/api/business-entities/${profile.id}/logo`, {
+                                await apiRequest(`/api/business-entities/${profile.id}/logo`, {
                                   method: 'DELETE'
                                 });
-                                if (response.ok) {
-                                  handleFieldChange('logoUrl', '');
-                                  toast({
-                                    title: "Logo deleted",
-                                    description: "Your business logo has been removed",
-                                  });
-                                } else {
-                                  toast({
-                                    title: "Delete failed",
-                                    description: "Could not delete logo",
-                                    variant: "destructive"
-                                  });
-                                }
+                                handleFieldChange('logoUrl', '');
+                                toast({
+                                  title: "Logo deleted",
+                                  description: "Your business logo has been removed",
+                                });
                               } catch (error) {
                                 toast({
                                   title: "Delete error",
@@ -6014,14 +5968,8 @@ export default function EditBusinessProfile() {
                             const file = e.target.files?.[0];
                             if (!file) return;
                             
-                            const formData = new FormData();
-                            formData.append('logo', file);
-                            
                             try {
-                              const response = await fetch(`/api/business-entities/${profile.id}/logo`, {
-                                method: 'POST',
-                                body: formData,
-                              });
+                              const response = await uploadFiles(`/api/business-entities/${profile.id}/logo`, [file], 'logo');
                               
                               if (response.ok) {
                                 const data = await response.json();
