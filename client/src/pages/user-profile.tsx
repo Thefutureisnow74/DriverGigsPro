@@ -15,6 +15,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient, uploadFiles } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { TOUCH_FRIENDLY } from "@/lib/responsive-utils";
 import type { User as UserType } from "@shared/schema";
 
 interface ProfileData {
@@ -1243,21 +1244,21 @@ export default function UserProfile() {
     : currentUser?.email?.split('@')[0] || 'User';
 
   return (
-    <div className="space-y-6 p-6 max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <User className="h-8 w-8 text-blue-600" />
+      <div className="flex items-center gap-3 sm:gap-4">
+        <User className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
         <div>
-          <h1 className="text-3xl font-bold">User Profile</h1>
-          <p className="text-gray-600">Manage your personal information and account settings</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">User Profile</h1>
+          <p className="text-sm sm:text-base text-gray-600">Manage your personal information and account settings</p>
         </div>
       </div>
 
       {/* Profile Overview Card */}
       <Card>
         <CardHeader className="pb-4">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <User className="h-5 w-5" />
               Profile Overview
             </CardTitle>
@@ -1265,6 +1266,7 @@ export default function UserProfile() {
               variant={isEditing ? "outline" : "default"}
               size="sm"
               onClick={() => setIsEditing(!isEditing)}
+              className={`w-full sm:w-auto ${TOUCH_FRIENDLY.button}`}
             >
               <Edit3 className="h-4 w-4 mr-2" />
               {isEditing ? "Cancel" : "Edit Profile"}
@@ -1272,7 +1274,7 @@ export default function UserProfile() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-start gap-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
             {/* Profile Image */}
             <div className="flex flex-col items-center gap-3">
               <Avatar className="w-24 h-24">
