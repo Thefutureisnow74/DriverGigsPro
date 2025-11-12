@@ -41,11 +41,11 @@ export default function ModernTopBar() {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm">
+    <div className="sticky top-0 z-50 w-full max-w-full bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm overflow-hidden">
       <div className="px-4 lg:px-8 py-3 lg:py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {/* Left section - Weather Forecast + Time */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
             <WeatherForecast />
             <div className="bg-white/80 border border-slate-200/50 px-3 py-2 rounded-lg shadow-sm backdrop-blur-sm">
               <div className="text-sm font-bold text-slate-900">{formatTime(currentTime)}</div>
