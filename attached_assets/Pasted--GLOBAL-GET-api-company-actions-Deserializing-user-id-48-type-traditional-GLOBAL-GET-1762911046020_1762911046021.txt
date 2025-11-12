@@ -1,0 +1,100 @@
+[GLOBAL] GET /api/company-actions
+Deserializing user: { id: 48, type: 'traditional' }
+[GLOBAL] GET /uploads/1762902253681-Muhammad_Aashir.png
+Deserializing user: { id: 48, type: 'traditional' }
+1:30:02 AM [express] GET /api/company-actions 304 in 149ms :: [{"id":24,"userId":48,"companyId":1271…
+Deserializing user: { id: 48, type: 'traditional' }
+[GLOBAL] GET /api/companies
+Deserializing user: { id: 48, type: 'traditional' }
+Fetching companies...
+Getting all companies
+1:30:02 AM [express] GET /api/user/stats 200 in 233ms :: {"id":296,"userId":48,"activeJobs":1,"weekl…
+[GLOBAL] GET /api/gigbot/recommendations
+Deserializing user: { id: 48, type: 'traditional' }
+Found companies: 741
+1:30:03 AM [express] GET /api/companies 304 in 336ms :: [{"id":1267,"name":"1-800-Got-Junk?","vehicl…
+Deserializing user: { id: 48, type: 'traditional' }
+[GLOBAL] GET /favicon.ico
+Deserializing user: { id: 48, type: 'traditional' }
+Deserializing user: { id: 48, type: 'traditional' }
+[GLOBAL] GET /api/demand?lat=31.1230464&lng=72.6695936&city=Gojra
+Deserializing user: { id: 48, type: 'traditional' }
+1:30:03 AM [express] GET /api/demand 200 in 134ms :: {"hotspots":[{"id":2,"name":"Downtown/City Cent…
+Error generating AI recommendations: RateLimitError: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+    at Function.generate (/home/runner/workspace/node_modules/openai/src/core/error.ts:96:14)
+    at OpenAI.makeStatusError (/home/runner/workspace/node_modules/openai/src/client.ts:453:28)
+    at OpenAI.makeRequest (/home/runner/workspace/node_modules/openai/src/client.ts:676:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async OpenAIGigRecommendationService.generatePersonalizedRecommendations (/home/runner/workspace/server/openai-service.ts:62:24)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:8403:31) {
+  status: 429,
+  headers: Headers {
+    date: 'Wed, 12 Nov 2025 01:30:04 GMT',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '337',
+    connection: 'keep-alive',
+    vary: 'Origin',
+    'x-request-id': 'req_05840e73a43f48bf9f1077e1d944e103',
+    'x-envoy-upstream-service-time': '18',
+    'x-openai-proxy-wasm': 'v0.1',
+    'cf-cache-status': 'DYNAMIC',
+    'set-cookie': '__cf_bm=dZ0QDGTnn7oRrKn4AepmEThrn18HxK3JeO36zff3BVQ-1762911004-1.0.1.1-jaQbpnTu0_jRlfDs6JGdOilxcQ36gByPUPlRVtJEoHPmE7isYWVLhthoAfaT1NeuFQuGt0VqYhkamufm5KtpKE03QHu4GB8_43vP77OV_44; path=/; expires=Wed, 12-Nov-25 02:00:04 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=ANcXd85i5ZWk4bb7S0PJsyaO369YiEjXi4CB5dy3GTA-1762911004747-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    server: 'cloudflare',
+    'cf-ray': '99d243134f9b5869-ATL',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_05840e73a43f48bf9f1077e1d944e103',
+  error: {
+    message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',
+    type: 'insufficient_quota',
+    param: null,
+    code: 'insufficient_quota'
+  },
+  code: 'insufficient_quota',
+  param: null,
+  type: 'insufficient_quota'
+}
+1:30:04 AM [express] GET /api/gigbot/recommendations 304 in 2104ms :: {"recommendations":[{"name":"D…
+Deserializing user: { id: 48, type: 'traditional' }
+[GLOBAL] POST /api/gigbot/chat
+Deserializing user: { id: 48, type: 'traditional' }
+Error in processMessage: RateLimitError: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+    at Function.generate (/home/runner/workspace/node_modules/openai/src/core/error.ts:96:14)
+    at OpenAI.makeStatusError (/home/runner/workspace/node_modules/openai/src/client.ts:453:28)
+    at OpenAI.makeRequest (/home/runner/workspace/node_modules/openai/src/client.ts:676:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async GigBotService.processMessage (/home/runner/workspace/server/services/gigbot-service.ts:670:26)
+    at async <anonymous> (/home/runner/workspace/server/routes.ts:8339:24) {
+  status: 429,
+  headers: Headers {
+    date: 'Wed, 12 Nov 2025 01:30:10 GMT',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '337',
+    connection: 'keep-alive',
+    vary: 'Origin',
+    'x-request-id': 'req_25338c73c45342ca8deebe3fb73d5080',
+    'x-envoy-upstream-service-time': '164',
+    'x-openai-proxy-wasm': 'v0.1',
+    'cf-cache-status': 'DYNAMIC',
+    'set-cookie': '__cf_bm=J0uOYlLn0I79ynyTgaCG8ER7KTx1hzivwbMAPZScOZc-1762911010-1.0.1.1-ngGIkLqM3DxY.cxz83HxoyKTuclwCsMG61CjceNm14TGjwqCDVSDNV9dsSSLV0DPXoARenkhIcJxlCu2XvByLw2BS6Q5XXcCiKh7WJn1De4; path=/; expires=Wed, 12-Nov-25 02:00:10 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=omoVq4rQW4_tya_PTFsftdTg7BSjkEiyaA0MCAUO1r4-1762911010877-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    server: 'cloudflare',
+    'cf-ray': '99d243388db5450f-ATL',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_25338c73c45342ca8deebe3fb73d5080',
+  error: {
+    message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',
+    type: 'insufficient_quota',
+    param: null,
+    code: 'insufficient_quota'
+  },
+  code: 'insufficient_quota',
+  param: null,
+  type: 'insufficient_quota'
+}
+1:30:10 AM [express] POST /api/gigbot/chat 200 in 2035ms :: {"message":"I'm experiencing technical d…
+Deserializing user: { id: 48, type: 'traditional' }
