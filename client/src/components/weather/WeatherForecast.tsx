@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { 
   Cloud, 
   CloudRain, 
@@ -300,7 +299,6 @@ export default function WeatherForecast() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [selectedDay, setSelectedDay] = useState<WeatherDay | null>(null);
   const [showWeatherModal, setShowWeatherModal] = useState(false);
-  const isMobile = useIsMobile();
 
   const handleDayClick = (day: WeatherDay) => {
     setSelectedDay(day);
@@ -414,7 +412,7 @@ export default function WeatherForecast() {
 
       {/* 7-Day Forecast */}
       <div className="flex items-center space-x-1 lg:space-x-2">
-        {weatherData.forecast.slice(0, isMobile ? 3 : 5).map((day, index) => (
+        {weatherData.forecast.slice(0, 5).map((day, index) => (
           <div 
             key={day.date}
             onClick={() => handleDayClick(day)}
