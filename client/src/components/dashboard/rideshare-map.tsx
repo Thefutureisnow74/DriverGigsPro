@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useDemandHotspots } from "@/hooks/useDemandHotspots";
 import type { HotSpot, Event } from "@shared/types/demand";
-import { TOUCH_FRIENDLY, RESPONSIVE_HEIGHT } from "@/lib/responsive-utils";
 import { 
   MapPin, 
   Users, 
@@ -370,7 +369,8 @@ function InteractiveHeatMap({ hotspots, onHotspotClick, selectedHotspot, mapBoun
         ref={canvasRef}
         width={800}
         height={500}
-        className={`w-full ${RESPONSIVE_HEIGHT.map} border border-slate-200 rounded-lg cursor-pointer bg-gradient-to-br from-slate-50 to-blue-50`}
+        className="w-full border border-slate-200 rounded-lg cursor-pointer bg-gradient-to-br from-slate-50 to-blue-50"
+        style={{ height: '500px', maxHeight: '500px' }}
         onClick={handleCanvasClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setHoveredHotspot(null)}
@@ -483,30 +483,30 @@ export default function RideshareMap() {
   return (
     <Card className="border border-slate-200 shadow-sm bg-white">
       <CardHeader className="pb-4 border-b border-slate-100">
-        <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-0 sm:justify-between">
-          <div className="flex items-center gap-3 sm:space-x-4">
-            <div className="p-2 sm:p-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-sm">
-              <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        <CardTitle className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-sm">
+              <MapPin className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-lg sm:text-xl font-black text-slate-800">Live Demand Map</h2>
-              <p className="text-xs sm:text-sm text-slate-500 font-medium">Real-time rideshare hotspots & events</p>
+              <h2 className="text-xl font-black text-slate-800">Live Demand Map</h2>
+              <p className="text-sm text-slate-500 font-medium">Real-time rideshare hotspots & events</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
+          <div className="flex items-center space-x-2">
             <Button
               size="sm"
               variant="outline"
               onClick={() => refresh()}
               disabled={isRefreshing || isLoading}
-              className={`border-green-200 text-green-700 hover:bg-green-50 text-xs sm:text-sm ${TOUCH_FRIENDLY.button}`}
+              className="border-green-200 text-green-700 hover:bg-green-50"
               data-testid="button-refresh-demand"
             >
               <RefreshCw className={`w-3 h-3 mr-1 ${isRefreshing || isLoading ? 'animate-spin' : ''}`} />
               {isRefreshing || isLoading ? 'Updating...' : 'Refresh'}
             </Button>
-            <Badge variant="outline" className="border-green-200 text-green-700 text-xs">
+            <Badge variant="outline" className="border-green-200 text-green-700">
               <Activity className="w-3 h-3 mr-1" />
               {demandData?.dataSource === 'cached' ? 'Cached' : 'Live Data'}
             </Badge>
@@ -523,29 +523,29 @@ export default function RideshareMap() {
         {/* Interactive Map */}
         <div className="relative rounded-2xl overflow-hidden border border-slate-200 mb-6">
           {/* Map Header */}
-          <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-3 sm:px-6 py-3 sm:py-4 border-b border-slate-200">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:justify-between">
-              <h3 className="text-sm sm:text-lg font-semibold text-slate-800">
+          <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-6 py-4 border-b border-slate-200">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-slate-800">
                 {userLocation ? `${userLocation.city} Area - 100 Mile Radius` : 'Live Demand Heat Map'}
               </h3>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+              <div className="flex items-center space-x-4">
                 {/* Legend */}
-                <div className="flex items-center gap-2 sm:gap-3 text-xs flex-wrap">
-                  <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+                <div className="flex items-center space-x-3 text-xs">
+                  <div className="flex items-center space-x-1">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                     <span>High (80%+)</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-orange-500 rounded-full"></div>
-                    <span>Med (60-79%)</span>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                    <span>Medium (60-79%)</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     <span>Low (&lt;60%)</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-600">
-                  <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                <div className="flex items-center space-x-2 text-sm text-slate-600">
+                  <Clock className="w-4 h-4" />
                   Updated: {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>

@@ -47,23 +47,3 @@ export const OVERFLOW = {
   // Safe wrapper for wide content (charts, tables)
   safeWide: "w-full max-w-full overflow-x-auto",
 };
-
-// Responsive height utilities
-export const RESPONSIVE_HEIGHT = {
-  // Maps and canvas elements
-  map: "h-[300px] sm:h-[400px] md:h-[500px]",
-  mapSmall: "h-[250px] sm:h-[300px]",
-  // Images and media
-  hero: "h-[200px] sm:h-[300px] md:h-[400px]",
-  thumbnail: "h-[100px] sm:h-[150px]",
-  // Containers
-  card: "min-h-[120px]",
-  modal: "max-h-[80vh]",
-};
-
-// Mobile spacing utilities
-export const MOBILE_SPACING = {
-  section: "space-y-4 md:space-y-6",
-  card: "p-4 sm:p-6",
-  tight: "p-3 sm:p-4",
-};

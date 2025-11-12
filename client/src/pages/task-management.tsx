@@ -410,10 +410,10 @@ export default function TaskManagement() {
       {/* Header - Always visible when boards exist */}
       {boards.length > 0 && (
         <div className="space-y-4">
-          {/* Compact Single Header Bar - Mobile Responsive */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center bg-gray-50 px-3 sm:px-4 py-3 rounded-lg border">
+          {/* Compact Single Header Bar */}
+          <div className="flex justify-between items-center bg-gray-50 px-4 py-3 rounded-lg border">
           {/* Left Side - View Toggle with Board Dropdown */}
-          <div className="flex items-center gap-1 bg-gray-100 rounded-md p-1 overflow-x-auto">
+          <div className="flex items-center gap-1 bg-gray-100 rounded-md p-1">
             {/* Board Dropdown integrated with Board button */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -469,28 +469,26 @@ export default function TaskManagement() {
             )}
           </div>
 
-          {/* Right Side - Action Buttons - Mobile Responsive */}
-          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          {/* Right Side - Action Buttons */}
+          <div className="flex items-center gap-2">
             <Button
               onClick={handleCreateList}
               variant="outline"
               size="sm"
               disabled={!currentBoard || activeView !== "board" || boardLists.length >= 3}
-              className="h-8 bg-white text-xs sm:text-sm flex-1 sm:flex-none min-w-[100px]"
+              className="h-8 bg-white"
               title={!currentBoard ? "No board selected" : activeView !== "board" ? "Switch to board view" : boardLists.length >= 3 ? "Maximum 3 lists per board" : "Add a new list"}
             >
-              <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-              <span className="hidden sm:inline">Add List</span>
-              <span className="sm:hidden">List</span>
+              <Plus className="h-4 w-4 mr-1" />
+              Add List
             </Button>
             <Button
               onClick={() => setIsCreatingBoard(true)}
               size="sm"
-              className="h-8 bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm flex-1 sm:flex-none min-w-[100px]"
+              className="h-8 bg-blue-600 hover:bg-blue-700"
             >
-              <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-              <span className="hidden sm:inline">New Board</span>
-              <span className="sm:hidden">Board</span>
+              <Plus className="h-4 w-4 mr-1" />
+              New Board
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -562,8 +560,8 @@ export default function TaskManagement() {
         </Card>
       )}
 
-      {/* Main Content - Mobile Responsive */}
-      <div className="min-h-[400px] sm:min-h-[600px]">
+      {/* Main Content */}
+      <div className="min-h-[600px]">
         {(listsLoading || cardsLoading) ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
