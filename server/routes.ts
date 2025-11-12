@@ -3330,7 +3330,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         'osha_bloodborne', 'cpr_first_aid', 'hazmat_certification',
         'iata_dot_certification', 'specimen_handling', 'biohazard_infectious',
         'medical_waste_transport', 'chain_of_custody', 'defensive_driving',
-        'osha_general_industry', 'cold_chain_management', 'phlebotomy_technician',
+        'osha_general_industry', 'osha_fire_safety', 'cold_chain_management', 'phlebotomy_technician',
         'customer_service_training', 'dangerous_goods_dg', 'dangerous_goods_dg7',
         'custom_cert_1', 'custom_cert_2',
         // Integrity Delivers medical certifications
